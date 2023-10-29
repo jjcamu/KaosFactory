@@ -14,7 +14,7 @@ var config = {
         default:"arcade", // tipo de fisica que va a utilizar 
         arcade: {
             gravity: { y :0},// gravedad en el eje 'Y' igual a cero, para que los objetos no se "caigan"
-            debug: true // en true: propiedad que me ayuda en el desarrollo del juego (me muestra los hitboxes,
+            debug: false // en true: propiedad que me ayuda en el desarrollo del juego (me muestra los hitboxes,
                         // la direccion en la que se aplica una fuerza, etc)
         }
     },
