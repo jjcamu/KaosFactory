@@ -1,0 +1,38 @@
+
+Para probar el juego en el celular:
+
+-Abro cmd y escribo ipconfig.
+
+- copio la Dirección IPv4  
+
+- copio tambien el puerto del servidor de mi juego. 
+
+por ejemplo : Dirección IPv4..... 192.168.2.4  (es la identificacion de mi computadora en la red)
+            puerto del servidor ..... 5500 (es el puerto en el que estoy corriendo mi juego en el localhost)
+
+- abro un navegador en el celular, en modo incognito
+
+- en la url escribo 192.168.2.4:5500 , y listo!
+
+
+Para crear los spritesheets :
+
+- creo una animacion en flash
+
+- exporto la pelicula como animacion gif con fondo blanco
+
+- en asesprite la convierto en sprite sheet , que no supere los 8000 pixels de ancho o de alto, (por las 
+  limitaciones del WEBGL) y le quito el fondo blanco, quedando transparente.
+
+
+Otra manera para lograr mejor calidad :
+
+- creo una nueva animacion en flash
+
+- desde un nuevo documento de flash, importo esa nueva animacion, y desde la biblioteca (presionando
+  boton derecho del mouse), exporto la hoja de sprites con fondo blanco
+
+- en asesprite le quito el fondo blanco para que quede transparente
+
+Importante: para quitar el fondo blanco en asesprite, usar la varita magica , y en el menu 'select'
+elegir 'color range'
