@@ -1,9 +1,14 @@
+//Desde este script , se configura phaser, se invocan las escenas cargadas, y se crea el objeto phaser (se inicia el juego)
+
+//importo las escenas creadas
+import escena1 from './escenas/escena1.js'
 
 
 //defino la configuracion del juego
 
 var config = {
-    type:Phaser.AUTO, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
+    type:Phaser.CANVAS, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
+    //en mi notebook, funciona mejor Phaser.CANVAS
     scale: {
         mode:Phaser.Scale.FIT, // escalar automaticamente adaptandose a la pantalla
         autoCenter:Phaser.Scale.CENTER_BOTH, // centrar automaticamente en la pantalla
@@ -14,32 +19,23 @@ var config = {
         default:"arcade", // tipo de fisica que va a utilizar 
         arcade: {
             gravity: { y :0},// gravedad en el eje 'Y' igual a cero, para que los objetos no se "caigan"
-            debug: false // en true: propiedad que me ayuda en el desarrollo del juego (me muestra los hitboxes,
+            debug: true // en true: propiedad que me ayuda en el desarrollo del juego (me muestra los hitboxes,
                         // la direccion en la que se aplica una fuerza, etc)
         }
+    },
+    input: {
+        activePointers: 3  //para que el celu reconozca mas de un touch simultaneo
     },
 
 
 
-    scene: [escena1]  //array con todas las escenas del juego (el nombre de la escena debe coincidir con
-    // el archivo .js que la contiene)
+    scene: [escena1]  //añado las escenas importadas, por medio de un array con todas las escenas
+
 
 }
 
 
-//variables globales a utilizar en todos los niveles:
 
-var jugador; //acá guardare el sprite de mi jugador
-
-var fondo;
-
-var paredes;
-
-var escala; //para escalar las imagenes, sprites y hitbox del juego
-
-var controlJoystick; //acá el control del joystick
-
-var controlTeclado;
 
 
 

@@ -15,24 +15,31 @@ por ejemplo : Dirección IPv4..... 192.168.2.4  (es la identificacion de mi comp
 - en la url escribo 192.168.2.4:5500 , y listo!
 
 
-Para crear los spritesheets :
+
+
+
+Para crear los spritesheets (con buena calidad de imagen) :
+
+- creo una nueva animacion en flash
+
+- desde un nuevo documento de flash, importo esa nueva animacion, y desde la biblioteca (presionando
+  boton derecho del mouse), exporto la hoja de sprites con fondo blanco.
+
+- junto con el spritesheet , se exporta un archivo con metadatos. Ahi se encuentra informacion sobre el ancho y el alto
+  de cada fotograma que compone el spritesheet. Esto es muy importante saberlo, a la hora de cargar el
+  el spritesheet en phaser (en la funcion preload()) 
+
+- en photoshop 7.0 le quito el fondo blanco para que quede transparente.
+(utilizo tolerancia 50, y destildo 'anti aliased' , destildo 'contiguous' y destildo 'use all layers')
+
+
+
+Otra forma de crear spritesheets,  mas facil, pero de menor calidad :
+
 
 - creo una animacion en flash
 
 - exporto la pelicula como animacion gif con fondo blanco
 
-- en asesprite la convierto en sprite sheet , que no supere los 8000 pixels de ancho o de alto, (por las 
+- en libresprite la convierto en sprite sheet , (que no supere los 8000 pixels de ancho o de alto, por las 
   limitaciones del WEBGL) y le quito el fondo blanco, quedando transparente.
-
-
-Otra manera para lograr mejor calidad :
-
-- creo una nueva animacion en flash
-
-- desde un nuevo documento de flash, importo esa nueva animacion, y desde la biblioteca (presionando
-  boton derecho del mouse), exporto la hoja de sprites con fondo blanco
-
-- en asesprite le quito el fondo blanco para que quede transparente
-
-Importante: para quitar el fondo blanco en asesprite, usar la varita magica , y en el menu 'select'
-elegir 'color range'
