@@ -7,7 +7,7 @@ export default class Paredes extends Phaser.Physics.Arcade.StaticGroup {
         this.pared_arriba = this.create(0, 0);
         this.pared_arriba.body.setSize(5214, 583, 0, 0);
 
-        this.pared_abajo = this.create(0, 946);
+        this.pared_abajo = this.create(360, 910);
         this.pared_abajo.body.setSize(5214, 22, 0, 0);
 
         this.estante1 = this.create(1820,0);
@@ -16,8 +16,13 @@ export default class Paredes extends Phaser.Physics.Arcade.StaticGroup {
         this.estante2 = this.create(4330,0);
         this.estante2.body.setSize(787 , 635, 0, 0);
 
+        
+        this.paredInicio = this.create(20,533);
+        this.paredInicio.body.setSize(250 , 400, 0, 0);
 
 
+        this.paredFinal = this.create(5340,430);
+        this.paredFinal.body.setSize(100 , 500, 0, 0);
        
     
     }

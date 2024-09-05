@@ -4,12 +4,12 @@ export default class Botones extends Phaser.GameObjects.Group {
 
         this.botonA = this.create(xA, yA, spriteA)
             .setScale(2.86)
-            .setDepth(1)
+            .setDepth(3)
             .setScrollFactor(0) 
 
         this.botonB = this.create(xB, yB, spriteB)
             .setScale(2.86)
-            .setDepth(1)
+            .setDepth(3)
             .setScrollFactor(0) 
        
         this.cargarAnimaciones(this.botonA, this.botonB);   

@@ -57,10 +57,14 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             .setScale(2.2)
         this.puertaNegocio.body
             .setImmovable(true)
-            .setSize(this.puertaNegocio.width * 2.2 , this.puertaNegocio.height * 2.2 )
-            .setOffset(-70,-100)
-       
-        this.cargarAnimaciones(this.bolsaBasura, this.porton, this.leche, this.sombra);   
+            .setSize(this.puertaNegocio.width , this.puertaNegocio.height + 5 )
+
+
+        
+
+
+
+        this.cargarAnimaciones(this.bolsaBasura, this.porton, this.leche, this.sombra );   
         this.cargarListener(this.bolsaBasura, this.porton);
        
     
@@ -82,16 +86,18 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         });
         leche.anims.create({
             key: "leche",  //nombre de la animacion
-            frames: porton.anims.generateFrameNumbers("leche"), //nombre del spritesheet
+            frames: leche.anims.generateFrameNumbers("leche"), //nombre del spritesheet
             frameRate:10, 
             repeat:-1 
         });
         sombra.anims.create({
             key: "sombra",  //nombre de la animacion
-            frames: porton.anims.generateFrameNumbers("sombra"), //nombre del spritesheet
+            frames: sombra.anims.generateFrameNumbers("sombra"), //nombre del spritesheet
             frameRate:10, 
             repeat:-1 
         });
+
+
 
 
 
@@ -119,7 +125,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             if ((hitbox.name == 'hitboxPinia' && this.jugador.state == 'pinia') || 
                 (hitbox.name == 'hitboxPatada' && this.jugador.state == 'patada') ){
 
-                    
+
 
                     if (objetoGolpeado.texture.key == 'bolsaBasura')  {this.items.bolsaBasura.anims.play("explosion", true); }
 
@@ -163,6 +169,92 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         
         }
         
+
+    }
+
+    
+    cartelDesayuno(escena){
+
+        this.centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
+        //a la posicion de la camara en el escenario (en el mundo del juego), le sumo el ancho de la camara 
+        //(osea lo que estoy viendo en pantalla) , dividido en 2, para que quede en el centro del eje x.
+        this.centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
+
+        this.flecha = this.create(3944, 219 , 'flecha') .setAngle(-90). setScale(0.3)
+        this.cartel1 = this.create(this.centrarX, this.centrarY , 'cartel1') . setScale(1.9).setDepth(3)
+        this.botonAceptar = this.create(this.centrarX, this.centrarY + 170 , 'aceptar') .setScale(1.9).setDepth(3)
+
+
+        this.flecha.anims.create({
+            key: "flecha",  //nombre de la animacion
+            frames: this.flecha.anims.generateFrameNumbers("flecha"), 
+            frameRate:10, 
+            repeat:-1 
+
+        });
+
+        this.flecha.anims.play('flecha', true)
+
+        this.botonAceptar.setInteractive().on("pointerdown",function() {  
+            
+            escena.physics.resume();
+            escena.items.flecha.destroy();
+            escena.items.cartel1.destroy();
+            escena.items.botonAceptar.destroy();
+
+
+        
+        
+        })
+
+        escena.juegoPausado = true
+
+        escena.physics.pause()  // pausar el movimiento de los gameObjects de la escena
+        //escena.jugador.body.moves = false;
+
+    }
+
+    compruebaLLaveNegocio(puerta, jugador){
+
+
+        if (this.llaveNegocio == true){ // si el jugador posee la llave del negocio, podra ingresar a la escena 4 (negocio)
+
+
+            this.scene.start('escena4', { vidas: this.jugador.vidas , jugadorElegido: this.jugadorElegido})
+
+        }else{  //si no, se muestra un cartel
+        
+            this.items.centrarX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+            this.items.centrarY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+
+            if (this.jugadorElegido == 'diego' ){ //si el jugador elegido es Diego, la llave del negocio la tendrá Nico.
+                //Osea mostraré el 'cartel3'
+
+                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel3') . setScale(1.9).setDepth(3)
+
+            }else{
+
+                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel2') . setScale(1.9).setDepth(3)
+
+            }
+
+
+            this.items.botonAceptar2 = this.items.create(this.items.centrarX, this.items.centrarY + 170 , 'aceptar') .setScale(1.9).setDepth(3)
+
+            this.items.botonAceptar2.setInteractive().on("pointerdown",function() {  
+                
+                this.scene.physics.resume();
+                this.scene.items.cartel2.destroy();
+                this.scene.items.botonAceptar2.destroy();
+
+            })
+
+            this.physics.pause()
+
+
+
+        }
+
 
     }
 

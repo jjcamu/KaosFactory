@@ -1,4 +1,4 @@
-
+﻿
 Para probar el juego en el celular:
 
 -Abro cmd y escribo ipconfig.
@@ -43,3 +43,14 @@ Otra forma de crear spritesheets,  mas facil, pero de menor calidad :
 
 - en libresprite la convierto en sprite sheet , (que no supere los 8000 pixels de ancho o de alto, por las 
   limitaciones del WEBGL) y le quito el fondo blanco, quedando transparente.
+
+
+//--------------------------------------------------------------------------------------------------------
+
+
+
+
+- recordar que en celular funciona mejor 'Phaser.AUTO' en el main.js
+
+- el ancho o el alto de los sprites o de los spritesheets, no debe superar los 3000 px. 
+  Sino Phaser.AUTO o Phaser.WEBGL renderizaran un rectangulo negro.
