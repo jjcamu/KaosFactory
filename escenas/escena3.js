@@ -66,8 +66,25 @@ export default class escena3 extends Phaser.Scene {
         this.load.image('carreta', 'imagenes/nivel2/carro.png');
 
         
-        this.load.image('mesa1', 'imagenes/nivel3/mesa1.png');
+        //this.load.image('mesa1', 'imagenes/nivel3/mesa1.png');
         this.load.image('mesa2', 'imagenes/nivel3/mesa2.png');
+        this.load.image('mesa3', 'imagenes/nivel3/mesa3.png');
+        this.load.image('mezcladora', 'imagenes/nivel3/mezcladora.png');
+        this.load.image('amasadora', 'imagenes/nivel3/amasadora.png');
+        this.load.image('cinta', 'imagenes/nivel3/cinta.png');
+        this.load.image('enfriadora', 'imagenes/nivel3/enfriadora.png');
+        this.load.image('enroladora', 'imagenes/nivel3/enroladora.png');
+        this.load.image('envasadora', 'imagenes/nivel3/envasadora.png');
+        this.load.image('maquina1', 'imagenes/nivel3/maquina1.png');
+        this.load.image('maquina2', 'imagenes/nivel3/maquina2.png');
+        this.load.image('molde', 'imagenes/nivel3/molde.png');
+        this.load.image('moledora', 'imagenes/nivel3/moledora.png');
+        this.load.image('pailaCobre', 'imagenes/nivel3/pailaCobre.png');
+        this.load.image('tablero', 'imagenes/nivel3/tablero.png');
+        this.load.image('tachoBasura', 'imagenes/nivel3/tachoBasura.png');
+        this.load.image('tarimaAzucar', 'imagenes/nivel3/tarimaAzucar.png');
+        this.load.image('tarimaEsencias', 'imagenes/nivel3/tarimaEsencias.png');
+
 
 
         //spritesheet del enemigo
@@ -80,10 +97,10 @@ export default class escena3 extends Phaser.Scene {
         this.load.spritesheet('llave', 'animaciones/nivel3/llave500x500.png', { frameWidth: 500, frameHeight: 500 });
         this.load.spritesheet('sombra', 'animaciones/nivel3/sombra0001-1-Sheet.png', { frameWidth: 72, frameHeight: 38 });
 
+        this.load.spritesheet('mate', 'animaciones/nivel3/mate-sheet500x800.png', { frameWidth: 500, frameHeight: 800 });
+        this.load.spritesheet('caramelos', 'animaciones/nivel3/caramelos-sheet400x500.png', { frameWidth: 400, frameHeight: 500 });
 
-
-
-
+        this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
     }
 
     create(){
@@ -113,6 +130,10 @@ export default class escena3 extends Phaser.Scene {
             pinia : [0,2] ,
             patada : [3,10] 
         }
+
+        this.physics.world.setFPS(120);//establezco cuadros por segundo a 120 .
+        //Esto, y ademas establecer un factor de rebote de 1 en el enemigo, sirve para asegurarme que el cuerpo del enemigo 
+        //no atraviese las paredes (las areas de colision)
 
 
 
@@ -149,7 +170,7 @@ export default class escena3 extends Phaser.Scene {
         if (!(this.jugadorElegido == 'ariel' || this.jugadorElegido == 'juan'))  {
             //si el jugador elegido NO es Ariel ni Juan , entonces agrego el enemigo Juan al escenario.
 
-            this.enemigoJuan = new Enemigo(this, 2710, 1570, 'juan', 1); // las coordenadas son las del centro del sprite
+            this.enemigoJuan = new Enemigo(this, 2710, 1400, 'juan', 1); // las coordenadas son las del centro del sprite
 
         }
 
@@ -159,7 +180,7 @@ export default class escena3 extends Phaser.Scene {
 
             if (this.jugadorElegido != 'nico'){
 
-                this.enemigoNico = new Enemigo(this, 3500, 770, 'nico', 3);
+                this.enemigoNico = new Enemigo(this, 3160, 927, 'nico', 3);
             }
 
         }else{  // si el jugador elegido es Ulises, entonces No agrego al enemigo Ulises, 
@@ -172,7 +193,7 @@ export default class escena3 extends Phaser.Scene {
 
         if (this.jugadorElegido != 'diego'){
 
-            this.enemigoDiego = new Enemigo(this, 3720, 610, 'diego', 3);
+            this.enemigoDiego = new Enemigo(this, 3759, 560, 'diego', 3);
 
         }
 
@@ -202,10 +223,10 @@ export default class escena3 extends Phaser.Scene {
         ////// colisiones
         
        //colision con los elementos del escenario
-        this.physics.add.collider(this.items3,  [this.jugador, this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego] );
+        this.physics.add.collider(this.items3,  [this.jugador, this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego, this.items3.tachoBasura] );
  
         //con las paredes
-        this.physics.add.collider(this.paredes3,  [this.jugador, this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego] );
+        this.physics.add.collider(this.paredes3,  [this.jugador, this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego, this.items3.tachoBasura] );
 
         //entre los personajes
         this.physics.add.collider(this.jugador, [this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego ] );
@@ -214,8 +235,29 @@ export default class escena3 extends Phaser.Scene {
         this.physics.add.collider(this.enemigoNico,  [this.enemigoJuan , this.enemigoUlises, this.jugador, this.enemigoDiego] );
         this.physics.add.collider(this.enemigoDiego ,  [this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.jugador ] );
 
-        //choque con la carreta
+        //choque de la carreta con el jugador
         this.physics.add.overlap(this.jugador.body, this.carreta.body, this.items3.choqueCarreta, null, this);
+
+
+        //choque de la carreta con las paredes o las maquinas
+        this.physics.add.overlap(this.carreta.body, [this.items3, this.paredes3] ,  (carreta, paredes) => {
+            carreta.body.setEnable(false); 
+            carreta.setVisible(false);
+            // muestro la animacion de explosion .  
+            this.explosion = this.add.sprite(carreta.x ,carreta.y  , 'explosion').setScale(1.8);
+            this.explosion.anims.play("explosion");
+       
+        });
+
+
+        // toma mate
+        this.physics.add.overlap( this.items3.mate , [this.jugador.hitboxPinia, this.jugador.hitboxCuerpo], this.items3.tomaMate, null, this)
+        
+        // come caramelos
+        this.physics.add.overlap( this.items3.caramelos , [this.jugador.hitboxPinia, this.jugador.hitboxCuerpo], this.items3.comeCaramelos, null, this)
+
+
+
 
 
 
@@ -242,7 +284,7 @@ export default class escena3 extends Phaser.Scene {
 
 
         // actualizacion del comportamiento de los enemigos
-         this.enemigoJuan.actualizar(this.jugador, this.compJuan)
+        this.enemigoJuan.actualizar(this.jugador, this.compJuan)
 
         this.enemigoUlises.actualizar(this.jugador, this.compUlises)
 
@@ -257,19 +299,41 @@ export default class escena3 extends Phaser.Scene {
         
 
 
+/*         //colision con las paredes diagonales  ------------------------------------------------------------------------------
+
+            this.items3.colisionParedDiagonal([this.jugador, this.enemigoJuan, this.enemigoUlises, this.enemigoNico, this.enemigoDiego], this.items3.poligono1)
+
+            this.items3.colisionParedDiagonal([this.jugador, this.enemigoJuan, this.enemigoUlises, this.enemigoNico, this.enemigoDiego], this.items3.poligono2)
+
+         */
+
+
+        //compruebo si hay enemigos del otro lado de la pared
+
+            if (this.physics.overlap(this.areaDesactiva ,[this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego ], 
+                
+                (area, enemigo) => {
+                
+                if (this.jugador.y > 1022 ){
+
+                    enemigo.setVelocity(0); 
+                    enemigo.active=false
+
+                }else{
+                    enemigo.active=true
+                }
+
+            
+            }))
 
 
 
-        //colision con las paredes diagonales  ------------------------------------------------------------------------------
 
-        this.items3.colisionParedDiagonal([this.jugador, this.enemigoJuan, this.enemigoUlises, this.enemigoNico, this.enemigoDiego], this.items3.poligono1)
-
-        this.items3.colisionParedDiagonal([this.jugador, this.enemigoJuan, this.enemigoUlises, this.enemigoNico, this.enemigoDiego], this.items3.poligono2)
 
 
         // lanzamiento de carreta --------------------------------------------------------
 
-        if (this.jugador.x > 1680 && this.banderaCarreta == true ) { //ingresa a este condicional solo una vez
+        if (this.jugador.x > 1680 && this.jugador.y < 1080 && this.banderaCarreta == true ) { //ingresa a este condicional solo una vez
 
             this.items3.lanzaCarreta(this)   
  
@@ -321,6 +385,9 @@ export default class escena3 extends Phaser.Scene {
 
         this.actualizarProfundidad(this.jugador, [this.enemigoJuan, this.enemigoUlises, this.enemigoNico, this.enemigoDiego, 
         this.items3.paredC, this.items3.paredEnvasado2, this.items3.vidrio1, this.items3.vidrio1b, this.items3.vidrio3, this.carreta,
+        this.items3.mesa3, this.items3.amasadora, this.items3.tarimaAzucar , this.items3.cinta, this.items3.enfriadora, this.items3.molde
+        , this.items3.enroladora, this.items3.envasadora, this.items3.maquina1, this.items3.maquina2, this.items3.tarimaEsencias,
+        this.items3.tachoBasura
     ])
 
 
@@ -338,7 +405,7 @@ export default class escena3 extends Phaser.Scene {
 
         //vuelve a la escena 2 ------------------------------------------------------------------------    
 
-        if (this.jugador.x < 650   ){
+        if (this.jugador.x < 450   ){
 
             this.scene.start('escena2',  { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido, llaveNegocio: this.llaveNegocio })
 

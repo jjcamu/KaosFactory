@@ -162,17 +162,14 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
         }
 
 
-/*         console.log(this)
 
-        if (escena.escenaAnterior){
-            console.log(escena.escenaAnterior)
-            escena.scene.stop(escena.escenaAnterior);
+        if (escena.escenaAnterior){  //si existe una escena anterior
+
+            escena.scene.stop(escena.escenaAnterior);  // la freno (creo que me ayuda a liberar memoria)
 
         }
  
-        console.log(escena.scene.key) */
 
-        
 
         //
     }

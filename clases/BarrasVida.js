@@ -6,23 +6,23 @@ export default class BarrasVida extends Phaser.GameObjects.Group {
                 
         this.nombreJugador = this.create(50, 50)
             .setOrigin(0, 0)
-            .setScale(2)
+            .setScale(3)
             .setDepth(3)
             .setScrollFactor(0) 
 
         this.nombreEnemigos = this.create(1450, 50)
             .setOrigin(0, 0)
-            .setScale(2)
+            .setScale(3)
             .setDepth(3)
             .setScrollFactor(0) 
 
-        this.barraJugador = this.create(50, 120, 'barra')
+        this.barraJugador = this.create(50, 140, 'barra')
             .setOrigin(0, 0)
             .setScale(1,2)
             .setDepth(3)
             .setScrollFactor(0) 
         
-        this.barraEnemigos = this.create(1450, 120, 'barra')
+        this.barraEnemigos = this.create(1450, 140, 'barra')
             .setOrigin(0, 0)
             .setScale(1,2)
             .setDepth(3)

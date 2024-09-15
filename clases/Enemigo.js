@@ -17,6 +17,10 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
         this.setOffset(100,200)
         this.body.setSize(this.width - 170, 40, 0, 0);
 
+        this.body.setBounce(1); //establezco un factor de rebote , esto lo hago para asegurarme que el cuerpo del enemigo 
+        //no atraviese las paredes (las areas de colision)
+        //Esto, y ademas estableciendo en el escenario un FPS de 120, ayuda a prevenir que el enemigo atraviese las paredes.
+
         this.velocidad = 300;
 
         this.state = 'nada'
@@ -302,9 +306,9 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
 
         }else {   // si la animacion de 'muerto' llegó al frame 97, que es el ultimo frame de la animacion, osea la animacion terminó.
             this.anims.stop();   //detengo la animacion
-            this.setImmovable(true);  //el sprite del enemigo se vuelve inmovil, no puede empujarse
-            this.setVelocityX(0); // detengo el movimiento 
-
+            this.body.setImmovable(true);  //el sprite del enemigo se vuelve inmovil, no puede empujarse
+            this.body.setVelocityX(0); // detengo el movimiento 
+            this.body.setEnable(false)
         }
     
     
@@ -366,7 +370,7 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
         function moverCamara(escena){
 
 
-            escena.cameras.main.setPosition(escena.cameras.main.x - 5, escena.cameras.main.y - 5)
+            escena.cameras.main.setPosition(escena.cameras.main.x - 8, escena.cameras.main.y - 8)
 
             escena.time.delayedCall(100, volverPosicionOriginal, [escena]); //timer que llamará a la funcion en 100 milisegundos
 
@@ -374,7 +378,7 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
 
         function volverPosicionOriginal(escena){
 
-            escena.cameras.main.setPosition(escena.cameras.main.x +5 , escena.cameras.main.y +5)
+            escena.cameras.main.setPosition(escena.cameras.main.x +8 , escena.cameras.main.y +8)
 
         }
 

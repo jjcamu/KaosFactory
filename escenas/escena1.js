@@ -42,7 +42,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
             this.jugadorX = 400
             this.jugadorY = 600
 
-            this.vidasJugador = 250 //vidas al inicio del juego
+            this.vidasJugador = 100 //vidas al inicio del juego
 
             this.llaveNegocio = false
         }
@@ -86,7 +86,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.load.image('heladeraAbierta', 'imagenes/nivel1/fabrica1_heladera_abierta.png')
         this.load.image('cartel1', 'imagenes/nivel1/nuevo-1.jpg')
         this.load.image('cartel2', 'imagenes/nivel1/nuevo-2.jpg')
-        this.load.image('cartel3', 'imagenes/nivel1/nuevo-2.jpg')
+        this.load.image('cartel3', 'imagenes/nivel1/nuevo-3.jpg')
         this.load.image('aceptar', 'imagenes/Untitled-2 copy.png')
 
     
@@ -94,6 +94,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.load.spritesheet('explosion', 'animaciones/nivel1/explosion_012-3-Sheet70x70.png', { frameWidth: 70, frameHeight: 70 });
         this.load.spritesheet('portonRoto', 'animaciones/nivel1/porton_roto0001-Sheet400x300.png', { frameWidth: 400, frameHeight: 300 });
         this.load.spritesheet('leche', 'animaciones/nivel1/leche-1-Sheet.png', { frameWidth: 213, frameHeight: 500 });
+        this.load.spritesheet('galletitas', 'animaciones/nivel1/galletitas365x500.png', { frameWidth: 365, frameHeight: 500 });
         this.load.spritesheet('sombra', 'animaciones/nivel1/sombra0001-1-Sheet.png', { frameWidth: 72, frameHeight: 38 });
         this.load.spritesheet('flecha', 'animaciones/flecha-1-sheet800x500.png', { frameWidth: 800, frameHeight: 500 });
 
@@ -106,6 +107,10 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
     }
 
     create(){
+
+        this.physics.world.setFPS(120);//establezco cuadros por segundo a 120 .
+        //Esto, y ademas establecer un factor de rebote de 1 en el enemigo, sirve para asegurarme que el cuerpo del enemigo 
+        //no atraviese las paredes (las areas de colision)
 
 
         ////// imagen de fondo del escenario
@@ -150,7 +155,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
 
 
-        if (this.escenaAnterior == 'escena2'){  
+        if (this.escenaAnterior == 'escena2' && this.llaveNegocio == true){  
             
             this.enemigoFlor = new Repositor(this, 3900, 600, 'flor', 2);
 
@@ -211,6 +216,10 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.physics.add.overlap(this.jugador, this.items.sombra , this.items.tomaLechita, null, this)
         //en el ultimo parametro , le estoy pasando a la funcion 'tomaLechita()' el contexto this (en este caso la escena),
         //para poder utilizarlo en la funcion.
+
+        // come galletitas
+        this.physics.add.overlap( this.items.galletitas , [this.jugador.hitboxPinia, this.jugador.hitboxCuerpo], this.items.comeGalletitas, null, this)
+
        
 
         this.juegoPausado = false;
@@ -249,7 +258,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         /// aparicion de los repositores  -----------------------------------------------------------------------------------
 
-        if ( this.escenaAnterior == 'escena2'  && this.jugador.x < 4270){
+        if ( this.escenaAnterior == 'escena2'  && this.jugador.x < 4270 && this.llaveNegocio == true){
 
 
             this.enemigoFlor.actualizarRepositor(this)

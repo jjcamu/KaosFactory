@@ -39,19 +39,6 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             .setDepth(-1)
             .setVisible(false)
 
-        this.leche = this.create(3967, 700, 'leche')
-            .setScale(0.5)
-            .setVisible(false)
-        this.leche.body
-            .setSize(this.leche.width , this.leche.height - 300 )
-            .setOffset(0,400)
-        this.leche.state = 'sin beber'
-
-        this.sombra = this.create(3967, 848, 'sombra')
-            .setScale(1.7)
-            .setVisible(false)
-
-
 
         this.puertaNegocio = this.create(3640, 370, 'puertaNegocio')
             .setScale(2.2)
@@ -60,18 +47,59 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             .setSize(this.puertaNegocio.width , this.puertaNegocio.height + 5 )
 
 
+        this.leche = this.create(3967, 700, 'leche')
+            .setScale(0.5)
+            .setVisible(false)
+        this.leche.body
+            .setSize(this.leche.width, this.leche.height - 300)
+            .setOffset(0, 400)
+        this.leche.state = 'sin beber'
+
+        this.sombra = this.create(3967, 848, 'sombra')
+            .setScale(1.7)
+            .setVisible(false)
+
+        this.galletitas = this.create(4380, 260, 'galletitas')
+            .setScale(0.4)
+        this.galletitas.body
+            .setSize(this.galletitas.width + 200, this.galletitas.height + 200)
+
+        this.sombra2 = this.create(4385, 400, 'sombra')
+            .setScale(1.7)
+      
+
+
+        if (escena.escenaAnterior == 'escena2'){  // esto lo hago para que los alimentos que dan vida, no vuelvan a aparecer 
+                    //cada vez que ingreso a la escena. Y evitar que el jugador haga trampa.
+
+
+            this.heladera.body.setEnable(false)  //inhabilito el body, con lo cual no habrá interaccion con el jugador 
+                                                //(se deshabilita el overlap())
+            this.galletitas.body.setEnable(false)
+            this.galletitas.setVisible(false) //inhabilito las galletitas, y las hago invisibles
+
+            this.sombra2.setVisible(false)
+
+            this.porton.body.setEnable(false)
+            this.porton.setVisible(false)
+        }
+
+
+
+
+
         
 
 
 
-        this.cargarAnimaciones(this.bolsaBasura, this.porton, this.leche, this.sombra );   
+        this.cargarAnimaciones(escena, this.bolsaBasura, this.porton, this.leche, this.sombra, this.galletitas, this.sombra2 );   
         this.cargarListener(this.bolsaBasura, this.porton);
        
     
     }
 
 
-    cargarAnimaciones(bolsaBasura, porton, leche, sombra){
+    cargarAnimaciones(escena, bolsaBasura, porton, leche, sombra, galletitas, sombra2){
         bolsaBasura.anims.create({
             key: "explosion",  //nombre de la animacion
             frames: bolsaBasura.anims.generateFrameNumbers("explosion"), //nombre del spritesheet
@@ -84,20 +112,37 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             frameRate:10, 
             repeat:0 
         });
+
+
         leche.anims.create({
             key: "leche",  //nombre de la animacion
             frames: leche.anims.generateFrameNumbers("leche"), //nombre del spritesheet
-            frameRate:10, 
-            repeat:-1 
+            frameRate: 10,
+            repeat: -1
         });
         sombra.anims.create({
             key: "sombra",  //nombre de la animacion
             frames: sombra.anims.generateFrameNumbers("sombra"), //nombre del spritesheet
-            frameRate:10, 
-            repeat:-1 
+            frameRate: 10,
+            repeat: -1
+        });
+        galletitas.anims.create({
+            key: "galletitas",  //nombre de la animacion
+            frames: galletitas.anims.generateFrameNumbers("galletitas"), //nombre del spritesheet
+            frameRate: 10,
+            repeat: -1
+        });
+        sombra2.anims.create({
+            key: "sombra2",  //nombre de la animacion
+            frames: sombra.anims.generateFrameNumbers("sombra"), //nombre del spritesheet
+            frameRate: 10,
+            repeat: -1
         });
 
 
+        galletitas.anims.play('galletitas', true)
+
+        sombra2.anims.play('sombra2', true)
 
 
 
@@ -166,8 +211,19 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         this.items.leche.setVisible(false);
         sombra.setVisible(false);
         this.items.leche.state = 'bebida'
-        
+        jugador.vidas = jugador.vidas + 50
+
         }
+        
+
+    }
+
+    comeGalletitas( galletitas, hitbox){
+
+
+        galletitas.destroy()
+        this.items.sombra2.destroy()
+        this.jugador.vidas = this.jugador.vidas + 50
         
 
     }
@@ -180,9 +236,9 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         //(osea lo que estoy viendo en pantalla) , dividido en 2, para que quede en el centro del eje x.
         this.centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
 
-        this.flecha = this.create(3944, 219 , 'flecha') .setAngle(-90). setScale(0.3)
-        this.cartel1 = this.create(this.centrarX, this.centrarY , 'cartel1') . setScale(1.9).setDepth(3)
-        this.botonAceptar = this.create(this.centrarX, this.centrarY + 170 , 'aceptar') .setScale(1.9).setDepth(3)
+        this.flecha = this.create(3944, 300 , 'flecha') .setAngle(-90). setScale(0.3)
+        this.cartel1 = this.create(this.centrarX, this.centrarY , 'cartel1') . setScale(2.3).setDepth(3)
+        this.botonAceptar = this.create(this.centrarX, this.centrarY + 170 , 'aceptar') .setScale(2.3).setDepth(3)
 
 
         this.flecha.anims.create({
@@ -220,7 +276,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         if (this.llaveNegocio == true){ // si el jugador posee la llave del negocio, podra ingresar a la escena 4 (negocio)
 
 
-            this.scene.start('escena4', { vidas: this.jugador.vidas , jugadorElegido: this.jugadorElegido})
+            this.scene.start('escena4', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key, jugadorElegido: this.jugadorElegido})
 
         }else{  //si no, se muestra un cartel
         
@@ -230,11 +286,11 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             if (this.jugadorElegido == 'diego' ){ //si el jugador elegido es Diego, la llave del negocio la tendrá Nico.
                 //Osea mostraré el 'cartel3'
 
-                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel3') . setScale(1.9).setDepth(3)
+                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel3') . setScale(2.3).setDepth(3)
 
             }else{
 
-                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel2') . setScale(1.9).setDepth(3)
+                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel2') . setScale(2.3).setDepth(3)
 
             }
 

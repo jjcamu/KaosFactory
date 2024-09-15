@@ -65,10 +65,13 @@ export default class escena2 extends Phaser.Scene {
         // sprites del escenario
         this.load.image('globo1', 'imagenes/nivel2/globo12.png');
         this.load.image('globo2', 'imagenes/nivel2/globo22.png');
-        this.load.image('globo3', 'imagenes/nivel2/globo12.png');
-        this.load.image('globo4', 'imagenes/nivel2/globo22.png');
+        this.load.image('globo3', 'imagenes/nivel2/globo3.png');
+        this.load.image('globo4', 'imagenes/nivel2/globo4.png');
+        this.load.image('globo5', 'imagenes/nivel2/globo5.png');
+        this.load.image('globo6', 'imagenes/nivel2/globo6.png');
         this.load.image('tanque', 'imagenes/nivel2/tanque_glucosa.png');
         this.load.image('moto', 'imagenes/nivel2/guerrero.png');
+        this.load.image('bici', 'imagenes/nivel2/bici2.png');
         this.load.image('carreta', 'imagenes/nivel2/carro.png');
         this.load.image('tarima', 'imagenes/nivel2/tarima.png');
         this.load.image('tacho3', 'imagenes/nivel2/tacho3.png');
@@ -85,14 +88,16 @@ export default class escena2 extends Phaser.Scene {
         this.load.image('oscuridad', 'imagenes/nivel2/oscuridad.png');
 
 
-        //spritesheet del enemigo
+        //spritesheets
 
         
-
+        this.load.spritesheet('explosion2', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
         this.load.spritesheet('ariel', 'animaciones/ariel/ariel293x272.png', { frameWidth: 293, frameHeight: 272 });
         this.load.spritesheet('facu', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
         this.load.spritesheet('pedo', 'animaciones/nivel2/pedo0001-sheet.png', { frameWidth: 550, frameHeight: 400 });
         this.load.spritesheet('gotaFuego', 'animaciones/nivel2/fuego59x128-sheet.png', { frameWidth: 59, frameHeight: 128 });
+        this.load.spritesheet('pollo', 'animaciones/nivel2/SpritePollo400x500.png', { frameWidth: 400, frameHeight: 500 });
+        this.load.spritesheet('sombra', 'animaciones/nivel1/sombra0001-1-Sheet.png', { frameWidth: 72, frameHeight: 38 });
 
         this.load.spritesheet('hernan', 'animaciones/diego/diego293x272.png', { frameWidth: 293, frameHeight: 272 });
 
@@ -117,6 +122,10 @@ export default class escena2 extends Phaser.Scene {
             patada : [6,10] 
         }
 
+        this.physics.world.setFPS(120);//establezco cuadros por segundo a 120 .
+        //Esto, y ademas establecer un factor de rebote de 1 en el enemigo, sirve para asegurarme que el cuerpo del enemigo 
+        //no atraviese las paredes (las areas de colision)
+
 
         ////// imagen de fondo del escenario
 
@@ -133,6 +142,13 @@ export default class escena2 extends Phaser.Scene {
         ////// items (sprites) con los que puede interactuar el jugador
 
         this.items2 = new Items2 (this.physics.world, this);
+
+
+        ///// array de items rompibles
+
+        this.itemsRompibles = [this.items2.carreta, this.items2.moto, this.items2.tacho1a,
+            this.items2.tacho1b,this.items2.tacho2a,this.items2.tacho2b,this.items2.tacho3a,this.items2.tacho3b, this.items2.tacho3c, 
+            this.items2.bici, this.items2.matafuego]
 
 
         ////// enemigos
@@ -188,14 +204,14 @@ export default class escena2 extends Phaser.Scene {
         ////// colisiones
 
 
-        this.physics.add.collider(this.paredes2, [this.jugador, this.enemigo1, this.items2.carreta, this.items2.moto] );
+        this.physics.add.collider(this.paredes2, [this.jugador, this.enemigo1, this.items2.carreta, this.items2.moto, this.items2.bici,
+            this.items2.zorra ] );
 
         this.physics.add.collider(this.jugador, [this.enemigo1, this.items2.carreta, this.items2.moto, this.items2.tacho1a,
             this.items2.tacho1b,this.items2.tacho2a,this.items2.tacho2b,this.items2.tacho3a,this.items2.tacho3b, this.items2.tacho3c,
-            this.items2.zorra,this.items2.herramientas,this.items2.columna]  );
+            this.items2.zorra,this.items2.herramientas,this.items2.columna, this.items2.bici]  );
 
-
-        
+            
 
         this.limite = 0;  ////// limite del contador (timer) 
 
@@ -244,7 +260,7 @@ export default class escena2 extends Phaser.Scene {
         // para manejar la profundidad (eje Z) con respecto a los demas sprites
         this.actualizarProfundidad(this.jugador, [this.enemigo1, this.items2.carreta, this.items2.moto, this.items2.tacho1a,
             this.items2.tacho1b,this.items2.tacho2a,this.items2.tacho2b,this.items2.tacho3a,this.items2.tacho3b, this.items2.tacho3c,
-            this.items2.zorra,this.items2.herramientas,this.items2.columna,this.items2.cortina1,this.items2.cortina2] ) 
+            this.items2.zorra,this.items2.herramientas,this.items2.columna,this.items2.cortina1,this.items2.cortina2, this.items2.bici] ) 
 
 
 
@@ -335,7 +351,13 @@ export default class escena2 extends Phaser.Scene {
 
                 this.enemigo1 = new Enemigo(this, 200, 1200, 'facu', 2);
 
+                // al modificar al 'enemigo1' , tengo que volver a integrarlo al grupo, y a las colisiones.
+                // este bloque de codigo se ejecuta una sola vez gracias a 'banderaFacu'
                 this.enemigos = this.physics.add.group([this.enemigo1]) 
+
+                this.physics.add.collider(this.jugador, [this.enemigo1])
+
+                this.physics.add.collider(this.paredes2, [this.enemigo1])
 
                 this.banderaDialogoFacu = true //habilito el dialogo con Facu
 
@@ -361,6 +383,13 @@ export default class escena2 extends Phaser.Scene {
                 this.banderaVolver = true
             }
 
+        }
+
+        //si agarro el pollo
+
+        if (this.pollo){
+
+            this.physics.world.overlap(this.jugador.hitboxCuerpo.body ,this.sombra,  (jugador, sombra) => {sombra.destroy();  this.jugador.vidas = this.jugador.vidas + 50; this.pollo.destroy()});
         }
 
 

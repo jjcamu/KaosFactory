@@ -50,7 +50,17 @@ Otra forma de crear spritesheets,  mas facil, pero de menor calidad :
 
 
 
-- recordar que en celular funciona mejor 'Phaser.AUTO' en el main.js
+- recordar que en celular supuestamente funciona mejor 'Phaser.AUTO' en el main.js
+
+- peroooo, al ir desarrollando y agrandando el juego, solo funciona Phaser.CANVAS, tanto en notebook como en celu, y tanto en Netlify como en APK, un poco trabado
+por momentos el flujo del juego.
+
+- url del juego en Netlify : https://facass-juanchosoft-276e91.netlify.app/
+- url para la gestion del juego : https://app.netlify.com/sites/facass-juanchosoft-276e91/overview
 
 - el ancho o el alto de los sprites o de los spritesheets, no debe superar los 3000 px. 
   Sino Phaser.AUTO o Phaser.WEBGL renderizaran un rectangulo negro.
+
+
+
+

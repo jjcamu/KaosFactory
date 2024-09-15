@@ -35,8 +35,11 @@ export default class Hernan extends Enemigo {
 
         this.cargarAnimacionesHernan(spriteSheet);   //cargo las animaciones que solo corresponder a hernan
 
+        this.vidas = 300  //sobreescribo las vidas de Hernan, para que tenga mas vidas que el enemigo comun
 
     }
+
+
 
 
     cargarAnimacionesHernan(spriteSheet) {
@@ -117,6 +120,29 @@ export default class Hernan extends Enemigo {
 
         }
 
+
+
+        if (escena.physics.overlap(this.gotasDeFuego, escena.jugador.hitboxCuerpo, (jugador,gota) => {gota.destroy()})){
+            // si alguna gota de fuego toca al jugador, se destruye la gota y ademas..
+
+
+            escena.jugador.vidas =  escena.jugador.vidas - 40 ;
+
+            if (escena.jugador.vidas <= 0) {  //si las vidas llegaron a cero
+                escena.jugador.vidas = 0  // para que 'escena.jugador.vidas' no sea un valor negativo
+                escena.jugador.state = 'muerto'
+            }else{
+                escena.jugador.anims.play('heridoBajo',true); 
+                //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
+            }
+    
+            escena.barrasVida.barraJugador.displayWidth = escena.jugador.vidas;
+        }
+
+        if (escena.physics.overlap(this.gotasDeFuego, [escena.paredes2.pared_abajo, escena.paredes2.pared_abajo2 ], (pared, gota) => {gota.destroy()})){}
+        // destruyo la gota al colisionar con las paredes inferiores del escenario (para ahorrar memoria)
+
+
     }
 
     lluviaDeFuego(escena) {
@@ -139,6 +165,10 @@ export default class Hernan extends Enemigo {
     
                 gotaFuego.anims.play("gotaFuego", true); 
                 gotaFuego.setVelocityY(400).setScale(2).setDepth(2);
+                gotaFuego.setSize(gotaFuego.width/3,gotaFuego.height/4).setOffset(gotaFuego.width/4, 40)
+
+
+
             }
 
             

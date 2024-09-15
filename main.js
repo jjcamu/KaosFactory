@@ -17,19 +17,19 @@ var config = {
 
 
 
-    type:Phaser.WEBGL, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
+    type:Phaser.CANVAS, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
     //en mi notebook, funciona mejor Phaser.CANVAS   //existen Phaser.CANVAS, Phaser.WEBGL y Phaser.AUTO
     scale: {
         mode:Phaser.Scale.FIT, // escalar automaticamente adaptandose a la pantalla
         autoCenter:Phaser.Scale.CENTER_BOTH, // centrar automaticamente en la pantalla
-        width:1920, // ancho de pantalla
-        height:900,// alto de pantalla
+        width:1920, // ancho de pantalla  1920
+        height:900,// alto de pantalla    900
     },
     physics : {
         default:"arcade", // tipo de fisica que va a utilizar 
         arcade: {
             gravity: { y :0},// gravedad en el eje 'Y' igual a cero, para que los objetos no se "caigan"
-            debug: true // en true: propiedad que me ayuda en el desarrollo del juego (me muestra los hitboxes,
+            debug: false // en true: propiedad que me ayuda en el desarrollo del juego (me muestra los hitboxes,
                         // la direccion en la que se aplica una fuerza, etc)
         }
     },

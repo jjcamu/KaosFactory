@@ -21,19 +21,21 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(0)
         this.body.setSize(this.width - 170, 40, 0, 0);
 
-        this.velocidad = 500;
+        this.velocidad = 450;
 
         this.enemigoGolpeador = '';
 
         this.fuerzaDePatada =15;
-        this.fuerzaDePinia = 10;
+        this.fuerzaDePinia = 12;
 
-        this.vidas = 50;  //250
+        this.vidas = 100;  //250
 
         this.scene.barrasVida.nombreJugador.anims.pause(this.scene.barrasVida.nombreJugador.anims.anims.entries.nombresPeleadores.frames[this.indice]);
 
 
         this.banderaGameOver = true
+
+        this.banderaDestruirObjeto = true // para que no dañe reiteradas veces en 1 solo golpe
     }
 
     crearHitboxes(escena){
@@ -280,6 +282,12 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         //// GOLPE DEL JUGADOR (impacto del golpe en el enemigo)
 
+        if (this.state == 'patada' || this.state == 'pinia' ){
+
+            if (this.banderaDestruirObjeto == true) {this.destruirObjeto()}  
+            //compruebo si existe un objeto destruible, y lo daño o destruyo
+
+
         if (enemigos != null ){
 
 
@@ -296,6 +304,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                     // al impacto de la patada.
 
                         this.quitarVidas(child, this.fuerzaDePatada); 
+
+  
 
 
                     } else if (this.scene.physics.overlap(this.hitboxPinia, child.hitboxCuerpo) == true &&
@@ -341,9 +351,15 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         }
 
+                    
+        }
+
+
         //actualizo el ancho de la barra de energia del jugador, en funcion de sus vidas
         this.scene.barrasVida.barraJugador.displayWidth = this.vidas;
         
+        if (this.vidas > 300) {this.vidas = 300} //no permito que el jugador acumule mas de 300 vidas
+
 
 
     }else {  // si el jugador esta muerto (osea this.state == 'muerto')
@@ -441,7 +457,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         function moverCamara(escena){
 
 
-            escena.cameras.main.setPosition(escena.cameras.main.x - 5, escena.cameras.main.y - 5)
+            escena.cameras.main.setPosition(escena.cameras.main.x - 8, escena.cameras.main.y - 8)
             //mueve la posicion de la camara, pero no afecta a la posicion 'real' de la camara, es como un 'offset' de la camara
 
             escena.time.delayedCall(100, volverPosicionOriginal, [escena]); //timer que llamará a la funcion en 100 milisegundos
@@ -450,11 +466,104 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         function volverPosicionOriginal(escena){
 
-            escena.cameras.main.setPosition(escena.cameras.main.x +5 , escena.cameras.main.y +5)
+            escena.cameras.main.setPosition(escena.cameras.main.x +8 , escena.cameras.main.y +8)
 
         }
 
 
+    }
+
+    destruirObjeto(){
+
+        
+
+        let objetoADestruir
+
+        if ((this.scene.physics.overlap(this.hitboxPatada, this.scene.itemsRompibles, (a,b) => {objetoADestruir = b}) == true &&
+        this.state == 'patada' && (this.anims.getFrameName() == 31 || this.anims.getFrameName() == 32)) ||
+            // si hay superposicion entre el hitbox de la patada, y el cuerpo de alguno de los objetos rompibles, almaceno ese objeto
+            // que se encuentra superpuesto en 'objetoADestruir'. Y si ademas, el jugador se encuentra en estado 'patada' y en los
+            // frames de la animacion de patada 31 o 32 (impacto de la patada)  ó ....
+        (this.scene.physics.overlap(this.hitboxPinia, this.scene.itemsRompibles, (a,b) => {objetoADestruir = b}) == true &&
+        this.state == 'pinia' && (this.anims.getFrameName() == 45 || this.anims.getFrameName() == 46))) {
+            // repito el condicional anterior pero con el hitbox , la animacion y el estado de la pinia...
+
+            //console.dir(objetoADestruir)
+
+            if (objetoADestruir.visible == true){
+
+                this.banderaDestruirObjeto = false
+
+                objetoADestruir.state = objetoADestruir.state - 0.5 //reduzco la integridad del objeto
+
+                if (objetoADestruir.state <= 0){  //si el objeto quedo destruido  
+
+
+                    // muestro la animacion de explosion . Lo hago de esta manera porque sino la animacion se ve pequenia :(  
+                    this.explosion = this.scene.add.sprite(objetoADestruir.x + objetoADestruir.displayWidth/2 ,objetoADestruir.y + objetoADestruir.displayHeight/2 , 'explosion2').setScale(1.5);
+                    this.explosion.anims.play("explosion2");
+
+
+                    objetoADestruir.setVisible(false) //desaparece el objeto destruido
+                    objetoADestruir.body.setEnable(false) // para no seguir colisionando con el objeto destruido
+
+                    this.banderaDestruirObjeto = true
+
+                    if (objetoADestruir.name == 'tienePollo' && (this.scene.escenaAnterior == "escena1" || (this.scene.escenaAnterior == "escena3" && this.scene.llaveNegocio == true)) ) { 
+                        //si destruí el tacho que tiene pollo, y ademas vengo del escenario 1, ó del escenario 3 y con la llave...
+
+                        // muestro el pollo  
+                        this.scene.pollo = this.scene.add.sprite(4850 ,950 , 'pollo').setScale(0.4);
+                        this.scene.pollo.anims.play("pollo");
+                        this.scene.sombra = this.scene.physics.add.sprite(4850,1050, 'sombra').setScale(1.7).setOffset(0,20);
+                        this.scene.sombra.anims.play("sombra");
+                        
+                    }
+                    if (objetoADestruir.name == 'haceDanio' ){ //si destruyo el matafuego
+
+
+                        this.vidas =  this.vidas - 100 ;
+
+                        if (this.vidas <= 0) {  //si las vidas llegaron a cero
+                            this.vidas = 0  // para que 'this.vidas' no sea un valor negativo
+                            this.state = 'muerto'
+                        }else{
+                            this.anims.play('heridoBajo',true); 
+                            //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
+                        }
+                
+                        this.scene.barrasVida.barraJugador.displayWidth = this.vidas;
+                          
+                
+
+
+                    }
+
+                }else{
+
+                    //efecto de movimiento que genero en el objeto golpeado
+                    objetoADestruir.setPosition(objetoADestruir.x - 5, objetoADestruir.y - 5)
+
+                    this.scene.time.delayedCall(50, volverPosicionOriginal, [this]); 
+
+
+                }
+            }
+
+        }
+        function volverPosicionOriginal(that){
+
+            objetoADestruir.setPosition(objetoADestruir.x +5 , objetoADestruir.y +5)
+
+            that.banderaDestruirObjeto = true
+
+            console.log(that)
+
+            console.log(that.banderaDestruirObjeto)
+
+        }
+
+    
     }
 
 

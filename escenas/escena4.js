@@ -104,7 +104,10 @@ export default class escena4 extends Phaser.Scene {
 
 
 
-
+        this.physics.world.setFPS(120);//establezco cuadros por segundo a 120 .
+        //Esto, y ademas establecer un factor de rebote de 1 en el enemigo, sirve para asegurarme que el cuerpo del enemigo 
+        //no atraviese las paredes (las areas de colision)
+  
 
 
         ////// imagen de fondo del escenario
