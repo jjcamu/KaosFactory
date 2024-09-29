@@ -45,6 +45,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
         this.tacho1a.setSize(this.tacho1a.width,50).setOffset(0,140)
         this.tacho1a.body.setImmovable(true)
         this.tacho1a.setState(3)
+        this.tacho1a.name = 'juju'
 
         this.tacho1b = this.create(4638, 709, 'tacho1').setOrigin(0,0).setScale(1.3)
         this.tacho1b.setSize(this.tacho1b.width,50).setOffset(0,140)
@@ -113,6 +114,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
             repeat: -1
         });
 
+        this.escala = 0.5
     }
 
 
@@ -121,8 +123,8 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
     crearPedo(escena){
         
 
-        this.pedo = this.pedos.create(900, 800 , 'pedo')
-        this.pedo.body.setSize(100, 100, 100, 100);
+        this.pedo = this.pedos.create(900 * this.escala, 800 * this.escala , 'pedo'). setScale(1 * this.escala)
+        this.pedo.body.setSize(100 * this.escala, 100 * this.escala, 100 * this.escala, 100 * this.escala);
 
         if (this.pedo){
 
@@ -136,7 +138,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
             this.pedo.anims.play('pedo', true)
 
-            escena.physics.moveTo(this.pedo, 2200,2000, 200); // mueve el gameobject hacia el punto (x,y)
+            escena.physics.moveTo(this.pedo, 2200 * this.escala,2000 * this.escala, 200 * this.escala); // mueve el gameobject hacia el punto (x,y)
             // a la velocidad 200. Se lo llama al metodo una sola vez.
 
         }
@@ -184,7 +186,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
 
 
-        if (distancia <= 400  ) {  
+        if (distancia <= 400 * this.escala ) {  
 
             escena.enemigo1.anims.play("paradoEnemigo", true); // coloco esta instruccion acá , para que sea llamada mientras
             // dure el dialogo, porque sino se ejecuta la animacion de 'caminar' del enemigo.
@@ -196,7 +198,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
                 escena.physics.pause() // pauso las fisicas para impedir que se mueva el jugador y el enemigo
 
                 // añado a la escena el primer globito del dialogo
-                escena.spriteGlobo1 =escena.add.image(escena.enemigo1.x - 950, escena.enemigo1.y - 400, 'globo1').setOrigin(0, 0).setScale(1.5).setDepth(3)
+                escena.spriteGlobo1 =escena.add.image(escena.enemigo1.x - 950 * this.escala, escena.enemigo1.y - 400 * this.escala, 'globo1').setOrigin(0, 0).setScale(1.5 * this.escala).setDepth(3)
 
                 escena.time.delayedCall(4000, globo2, [escena]);  //añado un timer, el cual llamara a la funcion 'globo2' dentro 
                 // de 4 segundos. Los argumentos se ingresan a la funcion 'globo2' por medio de un array. En este caso ingreso al array
@@ -217,7 +219,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
             escena.spriteGlobo1.destroy()  //elimino el primer globito del dialogo
 
             //agrego el segundo globito
-            escena.spriteGlobo2 = escena.add.image(escena.jugador.x , escena.jugador.y - 500, 'globo2').setOrigin(0, 0).setScale(1.5).setDepth(3)
+            escena.spriteGlobo2 = escena.add.image(escena.jugador.x , escena.jugador.y - 500 * escena.items2.escala, 'globo2').setOrigin(0, 0).setScale(1.5 * escena.items2.escala).setDepth(3)
 
             escena.time.delayedCall(4000, finDialogo, [escena]); //timer que llamará a la funcion 'finDialogo' dentro de 4 seg.
 
@@ -249,7 +251,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
             escena.cameras.main.stopFollow(escena.jugador) //la camara deja de seguir al jugador
 
-            escena.cameras.main.pan(2540, 580, 1000); //muevo la camara a la posicion 2540, 580 en 1000ms (lugar donde aparece hernan)
+            escena.cameras.main.pan(2540 * this.escala, 580 * this.escala, 1000); //muevo la camara a la posicion 2540, 580 en 1000ms (lugar donde aparece hernan)
 
             escena.banderaCamara = false
         }
@@ -259,11 +261,11 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
         function caminarHernan(escena){
 
-            if (escena.enemigo1.x < 2580){
+            if (escena.enemigo1.x < 2580 * escena.items2.escala){
 
                 escena.enemigo1.anims.play("caminarEnemigo", true); 
 
-                escena.physics.moveTo(escena.enemigo1, 2590,  224, 150); // camina hernan hacia el costado
+                escena.physics.moveTo(escena.enemigo1, 2590 * escena.items2.escala,  224 * escena.items2.escala, 150 * escena.items2.escala); // camina hernan hacia el costado
 
             }else{
 
@@ -290,15 +292,15 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
             escena.enemigo1.anims.pause(escena.enemigo1.anims.anims.entries.caminarEnemigo.frames[0]);
             //pauso la animacion en un frame determinado (es un frame que da la impresion de salto)
             
-            if (escena.enemigo1.y > 190 && escena.banderaHernan3 == true){
+            if (escena.enemigo1.y > 190 * escena.items2.escala && escena.banderaHernan3 == true){
 
-                escena.enemigo1.setVelocityY(-300) //sube
+                escena.enemigo1.setVelocityY(-300 * escena.items2.escala) //sube
             }
-            else if (escena.enemigo1.y < 1300){
+            else if (escena.enemigo1.y < 1300 * escena.items2.escala){
 
                 escena.banderaHernan3 = false
 
-                escena.enemigo1.setVelocityY(600) // y despues baja
+                escena.enemigo1.setVelocityY(600 * escena.items2.escala) // y despues baja
 
             }else{
 
@@ -309,14 +311,14 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
             }
 
-            if (escena.enemigo1.y > 350 && escena.banderaHernan4 == true ){
+            if (escena.enemigo1.y > 350 * escena.items2.escala && escena.banderaHernan4 == true ){
 
 
 
 
                 if (escena.banderaCamara2) {
                     
-                    escena.cameras.main.pan(2540, 1100, 700)
+                    escena.cameras.main.pan(2540 * escena.items2.escala, 1100 * escena.items2.escala, 700)
                 
                     escena.banderaCamara2 = false
 
@@ -339,7 +341,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
         function dialogoHernan(escena){
 
-            escena.spriteGlobo1 =escena.add.image(escena.enemigo1.x  - 850, escena.enemigo1.y  - 500, 'globo3').setOrigin(0, 0).setScale(1.5).setDepth(3)
+            escena.spriteGlobo1 =escena.add.image(escena.enemigo1.x  - 850 * escena.items2.escala, escena.enemigo1.y  - 500 * escena.items2.escala, 'globo3').setOrigin(0, 0).setScale(1.5 * escena.items2.escala).setDepth(3)
 
             escena.time.delayedCall(4000, moverCamara, [escena]);
 
@@ -359,7 +361,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
             
 
             //agrego el segundo globito
-            escena.spriteGlobo2 = escena.add.image(escena.jugador.x + 20  , escena.jugador.y - 500 , 'globo4').setOrigin(0, 0).setScale(1.5).setDepth(3)
+            escena.spriteGlobo2 = escena.add.image(escena.jugador.x + 20 * escena.items2.escala , escena.jugador.y - 500 * escena.items2.escala, 'globo4').setOrigin(0, 0).setScale(1.5 * escena.items2.escala).setDepth(3)
 
             escena.time.delayedCall(4000, finalizar, [escena]); //timer que llamará a la funcion 'finDialogo' dentro de 4 seg.
 
@@ -399,7 +401,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
 
 
-    if (distancia <= 300  ) {  
+    if (distancia <= 300 * escena.items2.escala ) {  
 
         escena.enemigo1.anims.play("paradoEnemigo", true); // coloco esta instruccion acá , para que sea llamada mientras
         // dure el dialogo, porque sino se ejecuta la animacion de 'caminar' del enemigo.
@@ -437,7 +439,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
     function globo5(escena){
 
         // añado a la escena el primer globito del dialogo
-        escena.spriteGlobo1 =escena.add.image(escena.enemigo1.x , escena.enemigo1.y - 450, 'globo5').setOrigin(0, 0).setScale(1.5).setDepth(3)
+        escena.spriteGlobo1 =escena.add.image(escena.enemigo1.x , escena.enemigo1.y - 450 * escena.items2.escala, 'globo5').setOrigin(0, 0).setScale(1.5 * escena.items2.escala).setDepth(3)
 
         escena.time.delayedCall(4000, moverCamara3, [escena]);  
     }
@@ -457,7 +459,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
         
 
         //agrego el segundo globito
-        escena.spriteGlobo2 = escena.add.image(escena.jugador.x , escena.jugador.y - 500, 'globo6').setOrigin(0, 0).setScale(1.5).setDepth(3)
+        escena.spriteGlobo2 = escena.add.image(escena.jugador.x , escena.jugador.y - 500 * escena.items2.escala, 'globo6').setOrigin(0, 0).setScale(1.5 * escena.items2.escala).setDepth(3)
 
         escena.time.delayedCall(4000, finDialogo, [escena]); //timer que llamará a la funcion 'finDialogo' dentro de 4 seg.
 

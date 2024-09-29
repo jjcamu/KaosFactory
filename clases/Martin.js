@@ -72,12 +72,17 @@ export default class Martin extends Enemigo {
 
         function lanzarSobre(that){
 
+            if ( that.sobreLanzado == true){
 
-            that.sobreLanzado = true // lanza sobre cada x segundos
-            
+                that.sobreLanzado = false // lanza sobre cada x segundos
+                
+            }else {
+                that.sobreLanzado = true
+            }
+
         }
-
     }
+
 
     actualizarMartin(escena){ //esta se llama desde el update()
 
@@ -105,6 +110,35 @@ export default class Martin extends Enemigo {
     
             }
 
+
+            //colision de los sobres con el jugador
+            if (escena.physics.overlap(this.sobres, escena.jugador.hitboxCuerpo, (jugador,sobre) => {
+                
+                this.explosion = escena.add.sprite(sobre.x ,sobre.y  , 'explosion').setScale(1.8 * this.escala);
+                this.explosion.anims.play("explosion");
+                sobre.destroy()
+
+            
+            
+            })){
+
+                escena.jugador.vidas =  escena.jugador.vidas - 15 ;
+    
+                if (escena.jugador.vidas <= 0) {  //si las vidas llegaron a cero
+                    escena.jugador.vidas = 0  // para que 'escena.jugador.vidas' no sea un valor negativo
+                    escena.jugador.state = 'muerto'
+                }else{
+                    escena.jugador.anims.play('heridoAlto',true); 
+                    //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
+                }
+        
+                escena.barrasVida.barraJugador.displayWidth = escena.jugador.vidas;
+            }
+    
+            if (escena.physics.overlap(this.sobres, escena.paredes4 , (sobre, pared) => {sobre.destroy()})){}
+
+
+
         }else{  //si Martin 'muere', no llamo a su animacion de 'morir', sino que se inician los dialogos finales del juego.
 
 
@@ -123,14 +157,17 @@ export default class Martin extends Enemigo {
     
                 this.sobreLanzado = false
     
-                var sobre= this.sobres.get(this.x, this.y); // creo el objeto sprite
+                var sobre= this.sobres.get(this.x, this.y + 40); // creo el objeto sprite
     
                 if (sobre) {
+
+                    sobre.setScale( 0.4 * escena.escala).setDepth(2)
+                    sobre.setSize(sobre.width/3,sobre.height/3)//.setOffset(gotaFuego.width/4, 40)
         
                     sobre.anims.create({  //creo la animacion
                         key: "sobre",  //nombre de la animacion
                         frames: sobre.anims.generateFrameNumbers("sobre"), //nombre del spritesheet
-                        frameRate:20, 
+                        frameRate:15, 
                         repeat:-1 
         
                     });
@@ -138,8 +175,10 @@ export default class Martin extends Enemigo {
                     //reproduzco la animacion
                     sobre.anims.play("sobre", true); //nombre de la animacion a reproducir
 
+                   
 
-                    escena.physics.moveTo(sobre, escena.jugador.x, escena.jugador.y, 200); // mueve el gameobject hacia la posicion
+
+                    escena.physics.moveTo(sobre, escena.jugador.x, escena.jugador.y, 150 ); // mueve el gameobject hacia la posicion
                     //del jugador a la velocidad 200. Se lo llama al metodo una sola vez.
 
                     

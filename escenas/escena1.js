@@ -52,6 +52,8 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         this.jugadorElegido = data.jugadorElegido  // guardo el jugador elegido en la pantalla de seleccion de la escena anterior
 
+        this.escala = 0.5
+
 
     }
 
@@ -78,6 +80,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         //'this' hace referencia a la escena (objeto Scene)
     
         //sprites del escenario
+        this.load.image('cartelInicial', 'imagenes/nivel1/cartelInicioJuego.png')
         this.load.image('bolsaBasura', 'imagenes/nivel1/fabrica1_bolsabasura.png');
         this.load.image('costadoPorton', 'imagenes/nivel1/fabrica1_costadoporton.png');
         this.load.image('heladera', 'imagenes/nivel1/fabrica1_heladera.png');
@@ -102,7 +105,8 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.load.spritesheet('flor', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
         this.load.spritesheet('fede', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
 
-        this.load.spritesheet('caja', 'animaciones/nivel1/leche-1-Sheet.png', { frameWidth: 213, frameHeight: 500 });   
+        this.load.spritesheet('caja', 'animaciones/nivel1/caja340x340.png', { frameWidth: 340, frameHeight: 340 });
+        this.load.image('sombra', 'imagenes/nivel1/sombra.png')
 
     }
 
@@ -153,7 +157,11 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.enemigoJuan = new Enemigo(this, 0, -200, 'juan', 1)
         this.enemigos = this.physics.add.group([this.enemigoJuan]) 
 
+        this.enemigoFlor = new Enemigo(this, 0, -200, 'juan', 1)
 
+        this.enemigoOso = new Enemigo(this, 0, -200, 'juan', 1)
+
+        this.enemigoFede = new Enemigo(this, 0, -200, 'juan', 1)
 
         if (this.escenaAnterior == 'escena2' && this.llaveNegocio == true){  
             
@@ -172,7 +180,8 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         
         
             this.enemigos = this.physics.add.group([this.enemigoFlor, this.enemigoOso, this.enemigoFede]) 
-            
+     
+
         
                 
         }
@@ -183,7 +192,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         this.jugador.vidas = this.vidasJugador
 
-
+        this.banderaNegocio = true
 
 
         ////// colisiones
@@ -224,6 +233,47 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         this.juegoPausado = false;
 
+        this.banderaPasar = false // para que el personaje no pueda pasar al escenario 4 sin haber matado a los enemigos repositores
+
+        this.banderaPuedenArrojarCajas = false
+
+        this.banderaCartel = true
+
+        this.caja = this.physics.add.sprite(0, 0)  //sprite vacio, para que la actualizacion de profundidad no me de error
+        this.sombra = this.physics.add.sprite(0, 0)
+
+
+
+//Escalo todo los gameObjects de la escena. Esto lo tuve que hacer para aumentar el rendimiento del juego.
+//Reduje la resolucion del juego , y por lo tanto debo tambien reducir las dimensiones y areas de colision de cada elemento del juego.
+//Mi error fue hacer el juego desde el principio con una resolucion innecesariamente alta.
+
+        this.children.list.forEach(GameObject => {
+
+
+            if (GameObject instanceof Phaser.GameObjects.Sprite  ||  GameObject instanceof Phaser.GameObjects.Image  ){
+                
+                GameObject.displayWidth =  GameObject.displayWidth * this.escala
+                GameObject.displayHeight =  GameObject.displayHeight * this.escala
+
+
+            GameObject.x =  GameObject.x * this.escala
+            GameObject.y =  GameObject.y * this.escala
+
+            if (GameObject.body){
+
+
+                GameObject.body.x =  GameObject.body.x * this.escala
+                GameObject.body.y =  GameObject.body.y * this.escala
+
+                GameObject.body.width =  GameObject.body.width * this.escala
+                GameObject.body.height =  GameObject.body.height * this.escala
+            
+
+            }
+
+        }
+        })
         
 
     }
@@ -232,14 +282,25 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         this.jugador.actualizar(this.controlJoystick, this.controlTeclado, this.enemigos) 
 
-        //para dar efecto de profundidad, voy variando la propiedad 'depth' de los sprites del escenario segun la posicion 
-        //de mi jugador
-        this.items.actualizarProfundidad(this.jugador)
+        //cartel inicial
 
-        //console.log(this.jugador.anims.getFrameName() )
+        if (this.jugador.x > 300  && this.escenaAnterior != 'escena2'){
+
+            if  (this.banderaCartel == true){
 
 
-        if ((this.jugador.x > 3150) && (this.juegoPausado == false) && (this.escenaAnterior != 'escena2')){
+                this.items.cartelInicial(this)
+      
+                this.banderaCartel = false
+
+            }
+        }
+
+
+
+        // cartel desayuno
+
+        if ((this.jugador.x > 3150 * this.escala) && (this.juegoPausado == false) && (this.escenaAnterior != 'escena2')){
             // si el juego no esta pausado y si la escena anterior no era la escena 2..
             
 
@@ -247,7 +308,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         }
 
-        if (this.jugador.x > 5220 ){
+        if (this.jugador.x > 5220 * this.escala ){
             
 
             this.scene.start('escena2', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido , llaveNegocio: this.llaveNegocio })
@@ -258,18 +319,55 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         /// aparicion de los repositores  -----------------------------------------------------------------------------------
 
-        if ( this.escenaAnterior == 'escena2'  && this.jugador.x < 4270 && this.llaveNegocio == true){
+        if ( this.escenaAnterior == 'escena2'  && this.llaveNegocio == true){
+            
+            if (this.jugador.x < 4270 * this.escala){ this.banderaPuedenArrojarCajas = true}
 
 
-            this.enemigoFlor.actualizarRepositor(this)
-            this.enemigoOso.actualizarRepositor(this)
-            this.enemigoFede.actualizarRepositor(this)
+            if (this.banderaPuedenArrojarCajas == true){
 
+                this.enemigoFlor.actualizarRepositor(this)
+                this.enemigoOso.actualizarRepositor(this)
+                this.enemigoFede.actualizarRepositor(this)
+
+
+
+            }
+
+            if (this.enemigoFlor.state == "muerto" && this.enemigoOso.state == "muerto" && this.enemigoFede.state == "muerto"){
+                // si todos los repositores de este escenario murieron
+    
+                this.banderaPasar = true  // se puede pasar al escenario 4
+            }
 
 
         }
 
 
+
+        // cajas
+
+        if (this.enemigoFlor.cajas || this.enemigoOso.cajas || this.enemigoFede.cajas){ 
+
+
+            if (this.physics.overlap(this.jugador.body, [this.enemigoFlor.cajas, this.enemigoOso.cajas, this.enemigoFede.cajas],  (jugador, caja) => {caja.destroy()}) == true){ this.items.golpeaCaja(this)}
+            if (this.physics.overlap(this.jugador.body, [this.enemigoFlor.sombras, this.enemigoOso.sombras, this.enemigoFede.sombras],  (jugador, sombra) => {sombra.destroy()}) == true){ }
+
+/*             if (this.physics.overlap(this.paredes, [this.enemigoFlor.cajas, this.enemigoOso.cajas, this.enemigoFede.cajas],  (pared, caja) => {caja.destroy()}) == true){ }
+            if (this.physics.overlap(this.paredes, [this.enemigoFlor.sombras, this.enemigoOso.sombras, this.enemigoFede.sombras],  (pared, sombra) => {sombra.destroy()}) == true){ }
+ */
+
+        }
+
+
+
+
+
+        this.actualizarProfundidad(this.jugador, [this.items.costadoPorton, this.items.leche,  this.enemigoFlor,
+            this.enemigoOso, this.enemigoFede, this.caja , this.sombra,  this.items.puertaNegocio])
+
+
+//this.enemigoFlor.cajas, this.enemigoOso.cajas, this.enemigoFede.cajas
         if(this.game.input.activePointer.isDown){
             console.log(this.input.mousePointer.worldX);
             console.log(this.input.mousePointer.worldY);
@@ -281,6 +379,58 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
     }
 
+
+        //para dar efecto de profundidad, voy variando la propiedad 'depth' de los sprites del escenario segun la posicion de mi jugador
+
+        actualizarProfundidad(jugador, todosLosSprites){
+
+
+            todosLosSprites.forEach((sprite) => {   // recorro todos los sprites
+
+                if (sprite.body) {
+                //si un sprite fue eliminado del escenario ,como ser una caja por haber impactado con el jugador o con las paredes.. 
+                //no se procesará.
+    
+    
+                if (jugador.body.y > sprite.body.y){ 
+    
+                    sprite.setDepth(-1);
+                    // si estoy debajo del sprite, entonces estoy 'delante' del sprite, por eso coloco al sprite detrás
+                
+                
+                } 
+                else if (jugador.body.y < sprite.body.y) // en caso contrario
+                
+                { 
+                    
+                    sprite.setDepth(1); // el sprite se colocará delante
+    
+                        todosLosSprites.forEach((spriteB) => {  // peroooo debido a que el sprite que se coloque delante del jugador, 
+                        //se colocará tambien por delante de los demas sprites, incluso por delante de los que se encuentran mas abajo
+                        // en la pantalla (eso no deberia ocurrir), comparo este ultimo sprite (el que coloqué por delante del jugador),
+                    //con los demas sprites, para colocarlo detrás de los sprites que se encuentren mas abajo en la pantalla que éste.
+    
+                        if (spriteB.body && sprite.body ) {
+                            if (spriteB.body.y > sprite.body.y){ 
+    
+                                spriteB.setDepth(1);
+    
+                            }
+                        }
+    
+    
+                        })
+                
+                
+                
+                }
+    
+    
+            }
+    
+            })
+    
+        }
 
 
 

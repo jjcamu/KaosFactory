@@ -23,7 +23,9 @@ export default class Repositor extends Enemigo {
         this.cajas = escena.physics.add.group({defaultKey: "caja"}) // creo un grupo de sprites con fisica, conformado
         // por imagenes de 'caja'    
 
-        this.cajaHabilitada = false
+        this.sombras = escena.physics.add.group({defaultKey: "sombra"}) // la sombra de cada caja
+
+        this.cajaHabilitada = true
 
         this.cargarAnimacionesRepositor(spriteSheet);   //cargo las animaciones que solo corresponden a los repositores
 
@@ -43,10 +45,12 @@ export default class Repositor extends Enemigo {
 
 }
 
+//--------------- cada 3 segundos se escoje un numero aleatorio
+
     cargarTimerRepositor(escena){  //esta funcion se llama desde el create() de la escena
   
         this.timerRepositor = escena.time.addEvent({
-            delay: 2000,                // cada 3 segundos se llamará a la funcion 'mostrarAleatorio' 
+            delay: 2000,                // cada 2 segundos se llamará a la funcion 'mostrarAleatorio' 
             callback: mostrarAleatorio,
             args: [this],  //envio como argumento de la funcion, el objeto 'repositor'
             repeat: -1
@@ -61,87 +65,95 @@ export default class Repositor extends Enemigo {
             
         }
 
-        this.timerCaja = escena.time.addEvent({
-            delay: 800,                
-            callback: lanzarCaja,
-            args: [this],
-            repeat: -1
-        });
 
-        function lanzarCaja(that){
-
-
-            that.cajaLanzada = true // lanza caja cada x segundos
-            
-        }
 
     }
 
     actualizarRepositor(escena){ //esta se llama desde el update()
 
 
-
-            if (this.numeroAleatorio < 40 && (this.state != 'muerto' || this.state != 'heridoAlto' || this.state != 'heridoBajo') ){
+            
+            if (this.numeroAleatorio < 40 
+                && this.state != 'muerto' && this.state != 'heridoAlto' && this.state != 'heridoBajo' ){
                 // si se cumple el Aleatorio, y si además, el repositor no esta muerto ni siendo golpeado, entonces arroja la caja.
-    
 
-                //if (this.anims.currentAnim.key != 'lanzaCaja') {this.anims.stop()}
-    
+
                 this.anims.play("lanzaCaja", true); // animacion del repositor lanzando una caja
-    
-    
-                this.crearCaja(true, escena)
-    
-    
-    
+
+                this.setVelocity(0)
+
+                if (this.cajaHabilitada == true) { 
+                    
+                    this.cajaHabilitada = false
+                    this.crearCaja(escena);
+                
+                }
+
+
             }else {
-    
-                this.crearCaja(false, escena)
-    
-    
+
+                this.cajaHabilitada = true
+
                 super.actualizar(escena.jugador, this.compRepo)
     
             }
     
         }
     
-        crearCaja(activado, escena) {
-    
-            if (this.cajaLanzada && activado == true){  // lanza la caja cada x segundos, siempre y cuando activado sea true
-    
-                this.cajaLanzada = false
-    
-                var caja= this.cajas.get(this.x, this.y); // creo el objeto sprite
-    
-                if (caja) {
-        
-                    caja.anims.create({  //creo la animacion
-                        key: "caja",  //nombre de la animacion
-                        frames: caja.anims.generateFrameNumbers("caja"), //nombre del spritesheet
-                        frameRate:20, 
-                        repeat:-1 
-        
-                    });
 
-                    //reproduzco la animacion
-                    caja.anims.play("caja", true); //nombre de la animacion a reproducir
 
-                    if (escena.jugador.x > this.x){
-                        caja.setVelocityX(400).setScale(0.5).setDepth(2);
-                    }else{
-                        caja.setVelocityX(-400).setScale(0.5).setDepth(2);
-                    }
-                    
-                }
-    
-                
-    
-    
-    
+    crearCaja(escena) {
+
+
+        escena.caja = this.cajas.get(this.x + 50, this.y ); // creo el objeto sprite en una variable de la escena
+
+        escena.sombra  = this.sombras.get(this.x + 50, this.y + 65); // creo la sombra de cada caja
+
+        if (escena.caja) {
+
+
+
+            escena.caja.anims.create({  //creo la animacion
+                key: "caja",  //nombre de la animacion
+                frames: escena.caja.anims.generateFrameNumbers("caja"), //nombre del spritesheet
+                frameRate: 10,
+                repeat: -1
+
+            });
+
+            //reproduzco la animacion
+            escena.caja.anims.play("caja", true); //nombre de la animacion a reproducir 
+
+            escena.caja.setSize(escena.caja.width,escena.caja.height/3).setOffset(0,400)
+            escena.sombra.setSize(escena.sombra.width + 20,escena.sombra.height/3 + 20).setOffset(-10,10)
+
+            //escena.caja.name = 'caja' // para poder identificar al sprite 'caja' en el metodo que actualiza las profundidades
+
+            if (escena.jugador.x > this.x) {
+                escena.caja.setVelocityX(400 * escena.escala).setScale(0.5 * escena.escala).setDepth(2);
+
+                if (escena.sombra) { escena.sombra.setVelocityX(400 * escena.escala).setScale(1.8 * escena.escala).setDepth(2);  }
+
+            } else {
+                escena.caja.setVelocityX(-400 * escena.escala).setScale(0.5 * escena.escala).setDepth(2);
+
+                if (escena.sombra) { escena.sombra.setVelocityX(-400 * escena.escala).setScale(1.8 * escena.escala).setDepth(2);  }
             }
-    
-    
+
         }
+
+        
+
+
+
+
+
+
+
+    }
+    
+    
+        
     
     
         

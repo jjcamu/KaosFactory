@@ -21,14 +21,16 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
         //no atraviese las paredes (las areas de colision)
         //Esto, y ademas estableciendo en el escenario un FPS de 120, ayuda a prevenir que el enemigo atraviese las paredes.
 
-        this.velocidad = 300;
-
         this.state = 'nada'
 
         this.vidas = 250;
 
-        this.fuerzaDePatada = 10;
-        this.fuerzaDePinia = 5;
+        this.fuerzaDePatada = 5;
+        this.fuerzaDePinia = 3;
+
+        this.escala = 0.5
+
+        this.velocidad = 300 * this.escala;
 
     }
 
@@ -141,7 +143,7 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
 
         let distancia = Phaser.Math.Distance.BetweenPoints(this, jugador)
 
-        if (distancia <= 500) {  // mido la distancia entre el enemigo y el jugador
+        if (distancia <= 500 * this.escala) {  // mido la distancia entre el enemigo y el jugador
 
             if (this.state == 'heridoBajo' || this.state == 'heridoAlto'){
 
@@ -151,7 +153,7 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
 
                 let posicion = this.x - jugador.x
             
-                if (posicion > 0){ this.setVelocityX(400)} else {this.setVelocityX(-400)}
+                if (posicion > 0){ this.setVelocityX(400 * this.escala)} else {this.setVelocityX(-400 * this.escala)}
 
 
             }else{  // si el enemigo no esta siendo golpeado..
@@ -258,10 +260,10 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
             this.hitboxCuerpo.setPosition(this.x, this.y)
         }else{
 
-            this.hitboxPinia.setPosition(this.x - 200, this.y)
-            this.hitboxPatada.setPosition(this.x - 200, this.y)
+            this.hitboxPinia.setPosition(this.x - 200 * this.escala , this.y)
+            this.hitboxPatada.setPosition(this.x - 200 * this.escala, this.y)
 
-            this.hitboxCuerpo.setPosition(this.x -35 , this.y)
+            this.hitboxCuerpo.setPosition(this.x -35 * this.escala , this.y)
 
 
 
@@ -370,7 +372,7 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
         function moverCamara(escena){
 
 
-            escena.cameras.main.setPosition(escena.cameras.main.x - 8, escena.cameras.main.y - 8)
+            escena.cameras.main.setPosition(escena.cameras.main.x - 8 * escena.escala, escena.cameras.main.y - 8 * escena.escala)
 
             escena.time.delayedCall(100, volverPosicionOriginal, [escena]); //timer que llamará a la funcion en 100 milisegundos
 
@@ -378,7 +380,7 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
 
         function volverPosicionOriginal(escena){
 
-            escena.cameras.main.setPosition(escena.cameras.main.x +8 , escena.cameras.main.y +8)
+            escena.cameras.main.setPosition(escena.cameras.main.x +8 * escena.escala , escena.cameras.main.y +8 * escena.escala)
 
         }
 

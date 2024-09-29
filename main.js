@@ -12,19 +12,20 @@ import escena4 from './escenas/escena4.js'
 var config = {
 
     // OPCIONAL
-    title: 'Factory Assault',
-    version: '0.1',
+    title: 'Kaos Factory',
+    version: '1.0',
 
 
 
-    type:Phaser.WEBGL, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
+    type:Phaser.CANVAS, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
     //en mi notebook, funciona mejor Phaser.CANVAS   //existen Phaser.CANVAS, Phaser.WEBGL y Phaser.AUTO
     scale: {
-        mode:Phaser.Scale.FIT, // escalar automaticamente adaptandose a la pantalla
+        mode:Phaser.Scale. FIT , // escalar automaticamente adaptandose a la pantalla  (FIT)
         autoCenter:Phaser.Scale.CENTER_BOTH, // centrar automaticamente en la pantalla
-        width:1920, // ancho de pantalla  1920
-        height:900,// alto de pantalla    900
+        width:960, // ancho de pantalla  1920  960   
+        height:450,// alto de pantalla    900  450  
     },
+
     physics : {
         default:"arcade", // tipo de fisica que va a utilizar 
         arcade: {
@@ -42,7 +43,6 @@ var config = {
 
 
 }
-
 
 
 

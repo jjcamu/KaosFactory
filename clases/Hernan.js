@@ -164,7 +164,7 @@ export default class Hernan extends Enemigo {
                 });
     
                 gotaFuego.anims.play("gotaFuego", true); 
-                gotaFuego.setVelocityY(400).setScale(2).setDepth(2);
+                gotaFuego.setVelocityY(400 * escena.escala).setScale(2 * escena.escala).setDepth(2);
                 gotaFuego.setSize(gotaFuego.width/3,gotaFuego.height/4).setOffset(gotaFuego.width/4, 40)
 
 

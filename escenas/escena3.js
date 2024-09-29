@@ -33,6 +33,8 @@ export default class escena3 extends Phaser.Scene {
         this.jugadorElegido = data.jugadorElegido  
 
         this.llaveNegocio = data.llaveNegocio
+
+        this.escala = 0.5
     }
 
     preload(){
@@ -244,7 +246,7 @@ export default class escena3 extends Phaser.Scene {
             carreta.body.setEnable(false); 
             carreta.setVisible(false);
             // muestro la animacion de explosion .  
-            this.explosion = this.add.sprite(carreta.x ,carreta.y  , 'explosion').setScale(1.8);
+            this.explosion = this.add.sprite(carreta.x ,carreta.y  , 'explosion').setScale(1.8 * this.escala);
             this.explosion.anims.play("explosion");
        
         });
@@ -268,6 +270,37 @@ export default class escena3 extends Phaser.Scene {
         this.banderaDiegoCelu = true
 
         this.banderaLlave = true
+
+
+
+
+
+        this.children.list.forEach(GameObject => {
+
+
+            if (GameObject instanceof Phaser.GameObjects.Sprite  ||  GameObject instanceof Phaser.GameObjects.Image  ){
+                
+                GameObject.displayWidth =  GameObject.displayWidth * this.escala
+                GameObject.displayHeight =  GameObject.displayHeight * this.escala
+
+
+            GameObject.x =  GameObject.x * this.escala
+            GameObject.y =  GameObject.y * this.escala
+
+            if (GameObject.body){
+
+
+                GameObject.body.x =  GameObject.body.x * this.escala
+                GameObject.body.y =  GameObject.body.y * this.escala
+
+                GameObject.body.width =  GameObject.body.width * this.escala
+                GameObject.body.height =  GameObject.body.height * this.escala
+            
+
+            }
+
+        }
+        })
 
     }
 
@@ -308,13 +341,16 @@ export default class escena3 extends Phaser.Scene {
          */
 
 
+        //el siguiente bloque de codigo es para que no haya intercambio de golpes entre enemigos y jugador, si se encuentra
+        //la pared de por medio. (la pared de la sala de envasado).
+
         //compruebo si hay enemigos del otro lado de la pared
 
             if (this.physics.overlap(this.areaDesactiva ,[this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego ], 
                 
                 (area, enemigo) => {
                 
-                if (this.jugador.y > 1022 ){
+                if (this.jugador.y > 1022  * this.escala){
 
                     enemigo.setVelocity(0); 
                     enemigo.active=false
@@ -333,7 +369,7 @@ export default class escena3 extends Phaser.Scene {
 
         // lanzamiento de carreta --------------------------------------------------------
 
-        if (this.jugador.x > 1680 && this.jugador.y < 1080 && this.banderaCarreta == true ) { //ingresa a este condicional solo una vez
+        if (this.jugador.x > 1680 * this.escala && this.jugador.y < 1080  * this.escala && this.banderaCarreta == true ) { //ingresa a este condicional solo una vez
 
             this.items3.lanzaCarreta(this)   
  
@@ -341,7 +377,7 @@ export default class escena3 extends Phaser.Scene {
 
         // diego mirando el celu --------------------------------------------------------
 
-        if (this.jugador.x < 3480 && this.banderaDiegoCelu == true) { //diego esta con el celu
+        if (this.jugador.x < 3480  * this.escala && this.banderaDiegoCelu == true) { //diego esta con el celu
 
             this.enemigoDiego.anims.play("diegoCelu", true);  
             this.enemigoDiego.setFlipX(true)
@@ -372,7 +408,7 @@ export default class escena3 extends Phaser.Scene {
 
         if (this.llaveNegocio == true){
 
-            this.add.image(1800, 250, 'llaveNegocio').setScale(0.5).setDepth(3).setScrollFactor(0) 
+            this.add.image(1800  * this.escala, 250  * this.escala, 'llaveNegocio').setScale(0.5  * this.escala).setDepth(3).setScrollFactor(0) 
             // 'setScrollFactor(0) ' es para que la imagen quede anclada en la pantalla, y siga al jugador
         }
 
@@ -405,7 +441,7 @@ export default class escena3 extends Phaser.Scene {
 
         //vuelve a la escena 2 ------------------------------------------------------------------------    
 
-        if (this.jugador.x < 450   ){
+        if (this.jugador.x < 450  * this.escala   ){
 
             this.scene.start('escena2',  { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido, llaveNegocio: this.llaveNegocio })
 

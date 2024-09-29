@@ -13,13 +13,15 @@ export default class escena2 extends Phaser.Scene {
 
         super('escena2');
 
+
+
     }
 
     init (data){  //desde la funcion init() puedo obtener los argumentos ingresados desde la escena anterior
         //Osea, de esta forma puedo pasar datos entre escenas.
 
-        this.jugadorX = 200
-        this.jugadorY = 1050
+        this.jugadorX = 200  //200
+        this.jugadorY = 1050 //1050
         this.vidasJugador = 250  // por si arranco el juego desde este nivel
 
 
@@ -36,16 +38,20 @@ export default class escena2 extends Phaser.Scene {
 
 
         
-        
         this.escenaAnterior = data.escenaAnterior 
         this.jugadorElegido = data.jugadorElegido  
 
         this.llaveNegocio = data.llaveNegocio
+        
+        
         //this.llaveNegocio = true
+
+
+        this.escala = 0.5
     }
 
     preload(){
-
+       // this.scale.resize(2)
         this.recursos = new CargarRecursos ();  //==========================================>>>>
 
         this.recursos.cargarRecursosComunes(this)  //========================================>>>> ESTO LO PUSE PARA ARRANCAR DEL NIVEL2
@@ -130,7 +136,7 @@ export default class escena2 extends Phaser.Scene {
         ////// imagen de fondo del escenario
 
 
-        this.fondo = this.add.image(0, 0, 'fondo2').setOrigin(0, 0).setScale(2, 1.7).setDepth(-2);
+        this.fondo = this.add.image(0, 0, 'fondo2').setOrigin(0, 0).setScale(2 , 1.7 ).setDepth(-2);
 
 
         ////// paredes del escenario
@@ -243,6 +249,38 @@ export default class escena2 extends Phaser.Scene {
 
         this.banderaPasar = true // similar a banderaVolver
 
+
+        //let todosLosGameObjects = this.children.list.filter(x => x instanceof Phaser.GameObjects.GameObject);
+
+
+
+        this.children.list.forEach(GameObject => {
+
+
+            if (GameObject instanceof Phaser.GameObjects.Sprite  ||  GameObject instanceof Phaser.GameObjects.Image  ){
+                
+                GameObject.displayWidth =  GameObject.displayWidth * this.escala
+                GameObject.displayHeight =  GameObject.displayHeight * this.escala
+
+
+            GameObject.x =  GameObject.x * this.escala
+            GameObject.y =  GameObject.y * this.escala
+
+            if (GameObject.body){
+
+
+                GameObject.body.x =  GameObject.body.x * this.escala
+                GameObject.body.y =  GameObject.body.y * this.escala
+
+                GameObject.body.width =  GameObject.body.width * this.escala
+                GameObject.body.height =  GameObject.body.height * this.escala
+            
+
+            }
+
+        }
+        })
+
     }
 
     update (time, delta){ // ingreso el parametro 'time' , ya que voy a utilizarlo
@@ -268,7 +306,7 @@ export default class escena2 extends Phaser.Scene {
 
         //// pedo --------------------------------------------------------------------------------------------------
 
-        if ((this.jugador.x > 350) && (time > this.limite) ) {
+        if ((this.jugador.x > 350 * this.escala) && (time > this.limite) ) {
         // si el tiempo del sistema (time) excede el 'limite' , se ingresa al bloque 'if' y se crea un pedo.
         // solo se ingresará nuevamente al bloque, cuando se exceda nuevamente el limite.
         // Este condicional trabaja como un 'timer'.
@@ -294,7 +332,7 @@ export default class escena2 extends Phaser.Scene {
 
 
         //// manejo del flujo del juego para el dialogo con Ariel  -----------------------------------------------------------
-        if (this.jugador.x > 4000 && this.banderaDialogo == true  && this.escenaAnterior == 'escena1') {
+        if (this.jugador.x > 4000 * this.escala && this.banderaDialogo == true  && this.escenaAnterior == 'escena1') {
 
            this.banderaPasar = false  // esta bandera obliga al jugador a matar a ariel si se desea pasar al escenario3
           
@@ -321,7 +359,7 @@ export default class escena2 extends Phaser.Scene {
         if ( this.escenaAnterior == 'escena3'){
 
 
-            if (this.jugador.x < 3000 && this.banderaHernan == true){
+            if (this.jugador.x < 3000 * this.escala && this.banderaHernan == true){
 
                 this.banderaVolver = false // esta bandera obliga al jugador a matar a hernan y a facu si se desea ir al
                 //escenario1 habiendo superado del escenario3
@@ -345,11 +383,28 @@ export default class escena2 extends Phaser.Scene {
 
             }
 
-            if (this.jugador.x < 890 && this.banderaFacu == true && this.enemigo1.state == "muerto"){
+            if (this.jugador.x < 890 * this.escala && this.banderaFacu == true && this.enemigo1.state == "muerto"){
                 //cuando muere hernan aparece facu
 
 
-                this.enemigo1 = new Enemigo(this, 200, 1200, 'facu', 2);
+                this.enemigo1 = new Enemigo(this, 200 * this.escala, 1200 * this.escala, 'facu', 2);
+
+
+                // escalo a facu
+
+                this.enemigo1.displayWidth =  this.enemigo1.displayWidth * this.escala
+                this.enemigo1.displayHeight =  this.enemigo1.displayHeight * this.escala
+
+                 this.enemigo1.body.width =  this.enemigo1.body.width * this.escala
+                this.enemigo1.body.height =  this.enemigo1.body.height * this.escala 
+
+                this.enemigo1.hitboxPinia.body.setSize(140 * this.escala,100 * this.escala).setOffset(50 * this.escala,-80 * this.escala)
+        
+                this.enemigo1.hitboxPatada.body.setSize(140 * this.escala,150 * this.escala).setOffset(50 * this.escala,10 * this.escala)
+        
+                this.enemigo1.hitboxCuerpo.body.setSize(100 * this.escala,300 * this.escala).setOffset(-15 * this.escala,-150 * this.escala)
+ 
+                
 
                 // al modificar al 'enemigo1' , tengo que volver a integrarlo al grupo, y a las colisiones.
                 // este bloque de codigo se ejecuta una sola vez gracias a 'banderaFacu'
@@ -397,14 +452,14 @@ export default class escena2 extends Phaser.Scene {
         //// pasa a siguiente escena  -----------------------------------------------------------------------------------------
 
 
-        if (this.jugador.x > 6470 && this.jugador.y < 1085  &&  this.banderaPasar == true  ){
+        if (this.jugador.x > 6470 * this.escala && this.jugador.y < 1085 * this.escala  &&  this.banderaPasar == true  ){
             
 
             this.scene.start('escena3', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido , llaveNegocio: this.llaveNegocio })    
 
         }
 
-        if (this.jugador.x < 35 && this.banderaVolver == true  ){
+        if (this.jugador.x < 35 * this.escala  && this.banderaVolver == true  ){
 
             this.scene.start('escena1', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido , llaveNegocio: this.llaveNegocio })
 

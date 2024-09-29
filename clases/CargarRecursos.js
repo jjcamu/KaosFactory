@@ -29,7 +29,7 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
         escena.load.image('llaveNegocio', 'imagenes/llave.png');
 
         // cartel de GameOver
-        escena.load.image('gameOverPerdiste', 'imagenes/nivel2/carro.png');
+        escena.load.image('gameOverPerdiste', 'imagenes/gameover.png');
         
 
 

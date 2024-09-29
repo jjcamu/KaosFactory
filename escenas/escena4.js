@@ -32,6 +32,8 @@ export default class escena4 extends Phaser.Scene {
         }
 
         this.jugadorElegido = data.jugadorElegido  
+
+        this.escala = 0.5
     }
 
     preload(){
@@ -58,29 +60,34 @@ export default class escena4 extends Phaser.Scene {
         this.load.image('silla', 'imagenes/nivel4/silla.png');
         this.load.image('sillon', 'imagenes/nivel4/sillon.png');
 
-        this.load.image('globo1a', 'imagenes/nivel2/globo22.png');
-        this.load.image('globo2a', 'imagenes/nivel2/globo12.png');
-        this.load.image('globo3a', 'imagenes/nivel2/globo22.png');
-        this.load.image('globo4a', 'imagenes/nivel2/globo12.png');
+        this.load.image('globo1a', 'imagenes/nivel4/globo1.png');
+        this.load.image('globo2a', 'imagenes/nivel4/globo2.png');
+        this.load.image('globo3a', 'imagenes/nivel4/globo3.png');
+        this.load.image('globo4a', 'imagenes/nivel4/globo4.png');
 
-        this.load.image('cartelInicial', 'imagenes/nivel1/nuevo-2.jpg')
-        this.load.image('cartelFinal', 'imagenes/nivel1/nuevo-2.jpg')
+        this.load.image('cartelInicial', 'imagenes/nivel4/cartelInicial.png')
+        this.load.image('cartelFinal', 'imagenes/nivel4/cartelFinal.png')
 
-        this.load.image('pantallaFinal', 'imagenes/nivel1/nuevo-2.jpg')
-        this.load.image('gameOver', 'imagenes/nivel1/nuevo-2.jpg')
-        this.load.image('cartelAdministrativo', 'imagenes/nivel1/nuevo-2.jpg')
+        this.load.image('pantallaFinal', 'imagenes/nivel4/pantallaFinal.png')
+        this.load.image('cartelAdministrativo', 'imagenes/nivel4/cartelOficina.png')
 
         this.load.image('aceptar', 'imagenes/Untitled-2 copy.png')
 
+        this.load.image('copa', 'imagenes/nivel4/copa.png');
+        this.load.image('titulo1', 'imagenes/nivel4/titulo1.png');
+        this.load.image('titulo2', 'imagenes/nivel4/titulo2.png');
+        this.load.image('titulo3', 'imagenes/nivel4/titulo3.png');
+        this.load.image('confeti', 'imagenes/nivel4/confeti.png');
 
-        //spritesheet del enemigo
+
+        //spritesheets
  
         this.load.spritesheet('ulla', 'animaciones/ariel/ariel293x272.png', { frameWidth: 293, frameHeight: 272 });
         this.load.spritesheet('esteban', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
         this.load.spritesheet('martin', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
 
-        this.load.spritesheet('sobre', 'animaciones/nivel1/leche-1-Sheet.png', { frameWidth: 213, frameHeight: 500 });  
-
+        this.load.spritesheet('sobre', 'animaciones/nivel4/sobre-sheet500x500.png', { frameWidth: 500, frameHeight: 500 });  
+        this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
 
 
 
@@ -184,6 +191,37 @@ export default class escena4 extends Phaser.Scene {
 
         this.banderaCartel = true  //para que no se imprima el cartel en pantalla indefinidamente
 
+        this.banderaConfeti = false
+
+
+
+        this.children.list.forEach(GameObject => {
+
+
+            if (GameObject instanceof Phaser.GameObjects.Sprite  ||  GameObject instanceof Phaser.GameObjects.Image  ){
+                
+                GameObject.displayWidth =  GameObject.displayWidth * this.escala
+                GameObject.displayHeight =  GameObject.displayHeight * this.escala
+
+
+            GameObject.x =  GameObject.x * this.escala
+            GameObject.y =  GameObject.y * this.escala
+
+            if (GameObject.body){
+
+
+                GameObject.body.x =  GameObject.body.x * this.escala
+                GameObject.body.y =  GameObject.body.y * this.escala
+
+                GameObject.body.width =  GameObject.body.width * this.escala
+                GameObject.body.height =  GameObject.body.height * this.escala
+            
+
+            }
+
+        }
+        })
+
     }
 
     update (){ // ingreso el parametro 'time' , ya que voy a utilizarlo
@@ -199,9 +237,10 @@ export default class escena4 extends Phaser.Scene {
 
 
         //// dialogo inicial con martin  -----------------------------------------------------------
-        if (this.jugador.y < 800 && this.banderaDialogo == true  ) {
+        if (this.jugador.y < 800 * this.escala && this.banderaDialogo == true  ) {
 
            this.items4.dialogoInicial(this)   
+
 
         } else if (this.banderaDialogo == false){
 
@@ -216,7 +255,7 @@ export default class escena4 extends Phaser.Scene {
 
         // zona empleados administrativos
 
-        if (this.jugador.x >= 1700){
+        if (this.jugador.x >= 1700 * this.escala){
 
             if  (this.banderaCartel == true){
 
@@ -229,7 +268,6 @@ export default class escena4 extends Phaser.Scene {
         }else{
             this.banderaCartel = true
         }
-
 
 
 

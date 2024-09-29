@@ -21,14 +21,13 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(0)
         this.body.setSize(this.width - 170, 40, 0, 0);
 
-        this.velocidad = 450;
 
         this.enemigoGolpeador = '';
 
         this.fuerzaDePatada =15;
         this.fuerzaDePinia = 12;
 
-        this.vidas = 100;  //250
+        this.vidas = 100;  
 
         this.scene.barrasVida.nombreJugador.anims.pause(this.scene.barrasVida.nombreJugador.anims.anims.entries.nombresPeleadores.frames[this.indice]);
 
@@ -36,6 +35,11 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.banderaGameOver = true
 
         this.banderaDestruirObjeto = true // para que no dañe reiteradas veces en 1 solo golpe
+
+        this.escala = 0.5
+
+        this.velocidad = 450 * this.escala;
+
     }
 
     crearHitboxes(escena){
@@ -272,10 +276,10 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.hitboxCuerpo.setPosition(this.x, this.y)
         }else{
 
-            this.hitboxPinia.setPosition(this.x - 200, this.y)
-            this.hitboxPatada.setPosition(this.x - 200, this.y)
+            this.hitboxPinia.setPosition(this.x - 200 * this.escala , this.y)
+            this.hitboxPatada.setPosition(this.x - 200 * this.escala, this.y)
 
-            this.hitboxCuerpo.setPosition(this.x -35 , this.y)
+            this.hitboxCuerpo.setPosition(this.x - 35 * this.escala , this.y)
 
 
         }
@@ -338,7 +342,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
                     let posicion = this.x - enemigo.x
             
-                    if (posicion > 0){ this.setVelocityX(400)} else {this.setVelocityX(-400)}
+                    if (posicion > 0){ this.setVelocityX(400 * this.escala)} else {this.setVelocityX(-400 * this.escala)}
 
                 }
 
@@ -358,7 +362,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         //actualizo el ancho de la barra de energia del jugador, en funcion de sus vidas
         this.scene.barrasVida.barraJugador.displayWidth = this.vidas;
         
-        if (this.vidas > 300) {this.vidas = 300} //no permito que el jugador acumule mas de 300 vidas
+        if (this.vidas > 350) {this.vidas = 350} //no permito que el jugador acumule mas de 350 vidas
 
 
 
@@ -405,9 +409,9 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
             this.centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
 
-            this.gameOver = escena.add.image(this.centrarX, this.centrarY, 'gameOverPerdiste').setScale(1.5).setDepth(4)
+            this.gameOver = escena.add.image(this.centrarX, this.centrarY, 'gameOverPerdiste').setScale(1).setDepth(4)
 
-            escena.time.delayedCall(3000, reiniciaJuego, [escena]);
+            escena.time.delayedCall(4000, reiniciaJuego, [escena]);
 
             function reiniciaJuego (escena){ //reinicio el juego desde la intro
         
@@ -457,7 +461,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         function moverCamara(escena){
 
 
-            escena.cameras.main.setPosition(escena.cameras.main.x - 8, escena.cameras.main.y - 8)
+            escena.cameras.main.setPosition(escena.cameras.main.x - 8 * escena.jugador.escala, escena.cameras.main.y - 8 * escena.jugador.escala)
             //mueve la posicion de la camara, pero no afecta a la posicion 'real' de la camara, es como un 'offset' de la camara
 
             escena.time.delayedCall(100, volverPosicionOriginal, [escena]); //timer que llamará a la funcion en 100 milisegundos
@@ -466,7 +470,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         function volverPosicionOriginal(escena){
 
-            escena.cameras.main.setPosition(escena.cameras.main.x +8 , escena.cameras.main.y +8)
+            escena.cameras.main.setPosition(escena.cameras.main.x +8 * escena.jugador.escala, escena.cameras.main.y +8 * escena.jugador.escala)
 
         }
 
@@ -500,7 +504,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
 
                     // muestro la animacion de explosion . Lo hago de esta manera porque sino la animacion se ve pequenia :(  
-                    this.explosion = this.scene.add.sprite(objetoADestruir.x + objetoADestruir.displayWidth/2 ,objetoADestruir.y + objetoADestruir.displayHeight/2 , 'explosion2').setScale(1.5);
+                    this.explosion = this.scene.add.sprite(objetoADestruir.x + objetoADestruir.displayWidth/2 ,objetoADestruir.y + objetoADestruir.displayHeight/2 , 'explosion2').setScale(1.5 * this.escala);
                     this.explosion.anims.play("explosion2");
 
 
@@ -513,9 +517,9 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                         //si destruí el tacho que tiene pollo, y ademas vengo del escenario 1, ó del escenario 3 y con la llave...
 
                         // muestro el pollo  
-                        this.scene.pollo = this.scene.add.sprite(4850 ,950 , 'pollo').setScale(0.4);
+                        this.scene.pollo = this.scene.add.sprite(4850 * this.escala,950 * this.escala , 'pollo').setScale(0.4 * this.escala);
                         this.scene.pollo.anims.play("pollo");
-                        this.scene.sombra = this.scene.physics.add.sprite(4850,1050, 'sombra').setScale(1.7).setOffset(0,20);
+                        this.scene.sombra = this.scene.physics.add.sprite(4850 * this.escala,1050 * this.escala, 'sombra').setScale(1.7 * this.escala).setOffset(0,20);
                         this.scene.sombra.anims.play("sombra");
                         
                     }
@@ -542,7 +546,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                 }else{
 
                     //efecto de movimiento que genero en el objeto golpeado
-                    objetoADestruir.setPosition(objetoADestruir.x - 5, objetoADestruir.y - 5)
+                    objetoADestruir.setPosition(objetoADestruir.x - 8 * this.escala, objetoADestruir.y - 8 * this.escala)
 
                     this.scene.time.delayedCall(50, volverPosicionOriginal, [this]); 
 
@@ -553,13 +557,10 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         }
         function volverPosicionOriginal(that){
 
-            objetoADestruir.setPosition(objetoADestruir.x +5 , objetoADestruir.y +5)
+            objetoADestruir.setPosition(objetoADestruir.x +8 * that.escala, objetoADestruir.y +8 * that.escala)
 
             that.banderaDestruirObjeto = true
 
-            console.log(that)
-
-            console.log(that.banderaDestruirObjeto)
 
         }
 

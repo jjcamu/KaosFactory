@@ -18,11 +18,21 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
         this.silla2 = this.create(1390, 708, 'silla').setOrigin(0,0).setScale(1.5,1.5).setSize(80,20).setOffset(10,110)
         this.silla2.body.setImmovable(true)
 
-        
+        this.scene.anims.create({
+            key: "explosion",  //nombre de la animacion
+            frames: this.scene.anims.generateFrameNumbers("explosion"), //nombre del spritesheet
+            //frameRate:150, 
+            repeat:0 ,
+            duration: 700,
+            hideOnComplete: true
+        })
 
-
+        this.escala = 0.5
  
+/*         this.posY = 0
+        this.banderaConfeti2 = true */
 
+        this.confetis = escena.physics.add.group({defaultKey: 'confeti'})
 
     }
 
@@ -38,7 +48,7 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
             escena.physics.pause() // pauso las fisicas para impedir que se mueva el jugador y el enemigo
 
             // añado a la escena el primer globito del dialogo
-            escena.spriteGlobo1 =escena.add.image(escena.jugador.x  + 40, escena.jugador.y - 430, 'globo1a').setOrigin(0, 0).setDepth(3)
+            escena.spriteGlobo1 =escena.add.image(escena.jugador.x  + 40 * escena.items4.escala , escena.jugador.y - 430 * escena.items4.escala, 'globo1a').setOrigin(0, 0).setDepth(3).setScale(1.5 * escena.items4.escala)
 
             escena.time.delayedCall(4000, moverCamara, [escena]);  //añado un timer, el cual llamara a la funcion 'globo2' dentro 
             // de 4 segundos. Los argumentos se ingresan a la funcion 'globo2' por medio de un array. En este caso ingreso al array
@@ -68,7 +78,7 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
             
 
             //agrego el segundo globito
-            escena.spriteGlobo2 = escena.add.image(escena.enemigoMartin.x - 600 , escena.enemigoMartin.y - 450 , 'globo2a').setOrigin(0, 0).setDepth(3)
+            escena.spriteGlobo2 = escena.add.image(escena.enemigoMartin.x - 800 * escena.items4.escala , escena.enemigoMartin.y - 450 * escena.items4.escala, 'globo2a').setOrigin(0, 0).setDepth(3).setScale(1.5 * escena.items4.escala)
 
             escena.time.delayedCall(4000, finDialogo, [escena]); //timer que llamará a la funcion 'finDialogo' dentro de 4 seg.
 
@@ -88,8 +98,8 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
             let centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
             let centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
     
-            escena.items4.cartelInicial = escena.items4.create(centrarX, centrarY , 'cartelInicial') . setScale(1.9).setDepth(3)
-            escena.items4.botonAceptar = escena.items4.create(centrarX, centrarY + 170 , 'aceptar') .setScale(1.9).setDepth(3)
+            escena.items4.cartelInicial = escena.items4.create(centrarX, centrarY , 'cartelInicial') . setScale(1.9 * escena.items4.escala).setDepth(3)
+            escena.items4.botonAceptar = escena.items4.create(centrarX, centrarY + 170 * escena.items4.escala , 'aceptar') .setScale(1.9 * escena.items4.escala).setDepth(3)
     
             escena.items4.botonAceptar.setInteractive().on("pointerdown",function() {  
                 
@@ -118,14 +128,19 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
         escena.physics.pause() // pauso las fisicas para impedir que se mueva el jugador y el enemigo
 
+        escena.cameras.main.stopFollow(escena.jugador) //la camara deja de seguir al jugador
+
+        escena.cameras.main.pan(escena.enemigoMartin.x, escena.enemigoMartin.y, 1000); //muevo la camara a la posicion
+
+
         if (escena.banderaDialogo2) {  //pongo este condicional para que se ingrese solo una vez al bloque
 
 
 
             // añado a la escena el globo de dialogo
-            escena.spriteGlobo3 = escena.add.image(escena.enemigoMartin.x + 40 , escena.enemigoMartin.y - 430, 'globo3a').setOrigin(0, 0).setDepth(3)
+            escena.spriteGlobo3 = escena.add.image(escena.enemigoMartin.x - 50, escena.enemigoMartin.y - 500 * escena.items4.escala, 'globo3a').setOrigin(0, 0).setDepth(3).setScale(1.8 * escena.items4.escala)
     
-            escena.time.delayedCall(4000, globo4, [escena]); 
+            escena.time.delayedCall(6000, globo4, [escena]); 
 
             escena.banderaDialogo2 = false
 
@@ -133,12 +148,14 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
         }
 
+
+
         function globo4(escena) { // se llamara a esta funcion SOLO UNA VEZ
 
             escena.spriteGlobo3.destroy()  //elimino el primer globito del dialogo
 
             //agrego el segundo globito
-            escena.spriteGlobo4 = escena.add.image(escena.jugador.x - 600 , escena.jugador.y - 450 , 'globo2a').setOrigin(0, 0).setDepth(3)
+            escena.spriteGlobo4 = escena.add.image(escena.jugador.x - 840 * escena.items4.escala , escena.jugador.y - 420 * escena.items4.escala , 'globo4a').setOrigin(0, 0).setDepth(3).setScale(1.5 * escena.items4.escala)
 
             escena.time.delayedCall(4000, finDialogo2, [escena]); //timer que llamará a la funcion 'finDialogo' dentro de 4 seg.
 
@@ -159,8 +176,8 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
             let centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
             let centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
     
-            escena.items4.cartel = escena.items4.create(centrarX, centrarY , 'cartelFinal') . setScale(1.9).setDepth(3)
-            escena.items4.botonAceptar = escena.items4.create(centrarX, centrarY + 170 , 'aceptar') .setScale(1.9).setDepth(3)
+            escena.items4.cartel = escena.items4.create(centrarX, centrarY , 'cartelFinal') . setScale(1.9 * escena.items4.escala).setDepth(3)
+            escena.items4.botonAceptar = escena.items4.create(centrarX, centrarY + 170 * escena.items4.escala, 'aceptar') .setScale(1.9 * escena.items4.escala).setDepth(3)
     
             escena.items4.botonAceptar.setInteractive().on("pointerdown",function() {  
                 
@@ -169,9 +186,9 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
                 escena.items4.botonAceptar.destroy();
 
                 //se carga la pantalla final con la marcha
-                escena.items4.cartel2 = escena.items4.create(centrarX, centrarY , 'pantallaFinal') . setScale(4).setDepth(3)
 
-                escena.time.delayedCall(8000, juegoFinalizado, [escena]); //se llama la pantalla de juego finalizado
+                escena.items4.pantallaFinal(escena, centrarX, centrarY)
+
     
             })
     
@@ -181,36 +198,97 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
         }
 
-        function juegoFinalizado (escena){
-
-            escena.items4.cartel2.destroy();
-
-            let centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
-            let centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
-
-            escena.items4.gameOver = escena.items4.create(centrarX, centrarY , 'gameOver') . setScale(3).setDepth(3)
-            // cartel que muestre 'Señor operario: El juego ha finalizado, vuelva a su trabajo.'
 
 
-            escena.time.delayedCall(4000, reiniciaJuego, [escena]); //funcion para reiniciar el juego
+
+
+    }
+
+
+
+    pantallaFinal(escena, centrarX, centrarY){
+
+        escena.items4.create(centrarX, centrarY , 'pantallaFinal').setDepth(3)
+
+        escena.time.addEvent({
+            delay: 3000,                
+            callback: this.crearConfeti,
+            args: [escena, centrarX, centrarY],
+            repeat: -1
+        });
+
+        escena.time.delayedCall(2000, () => {escena.add.sprite(centrarX, centrarY -148 , 'copa').setDepth(4)}, [escena]); //135 - 68 
+
+        escena.time.delayedCall(3000, () => {escena.add.sprite(centrarX, centrarY - 75 , 'titulo1').setDepth(4)}, [escena]);
+
+        escena.time.delayedCall(7000, () => {escena.add.sprite(centrarX, centrarY - 5 , 'titulo2').setDepth(4)}, [escena]);
+
+        escena.time.delayedCall(13000, () => {escena.add.sprite(centrarX, centrarY + 30 , 'titulo3').setDepth(4)}, [escena]); 
+
+        //escena.time.delayedCall(15000, this.reiniciaJuego , [escena]); 
+
+
+        //si presiono en la pantalla, se reinicia el juego
+        escena.input.on('pointerdown', function (pointer) { escena.items4.reiniciaJuego(escena)})
+
+    }
+
+    crearConfeti(escena, centrarX, centrarY){
+
+
+
+        var confeti= escena.items4.confetis.get(centrarX, centrarY - 450); 
+
+        if (confeti){
+
+
+            confeti.setDepth(3)
+
+
+            // muevo el confeti con un timer, debido a que los metodos 'setVelocity', o 'moveTo' no me dan bola
+            escena.time.addEvent({
+                delay: 100,                
+                callback: moverConfeti,
+                args: [confeti],
+                repeat: -1
+            });
 
         }
 
-        function reiniciaJuego (escena){
+        function moverConfeti(confeti){  
 
-            escena.scene.start('intro' ,  { gameOver: 'true'})
+            var posy = confeti.y
+            posy = posy + 8
+            confeti.setPosition(centrarX, posy) //368
+        }
+
+        if (confeti.y > 700){
+            confeti.destroy()
         }
 
 
     }
+
+
+
+
+
+    reiniciaJuego (escena){
+
+        escena.scene.start('intro' ,  { gameOver: 'true'})
+    }
+
+
+
+
 
     cartelAdministrativo(escena){
 
         let centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
         let centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
 
-        this.cartel3 = this.create(centrarX, centrarY , 'cartelAdministrativo') . setScale(1.9).setDepth(3)
-        this.botonAceptar = this.create(centrarX, centrarY + 170 , 'aceptar') .setScale(1.9).setDepth(3)
+        this.cartel3 = this.create(centrarX, centrarY , 'cartelAdministrativo') . setScale(1.9 * escena.items4.escala).setDepth(3)
+        this.botonAceptar = this.create(centrarX, centrarY + 170 * escena.items4.escala , 'aceptar') .setScale(1.9 * escena.items4.escala).setDepth(3)
 
 
         this.botonAceptar.setInteractive().on("pointerdown",function() {  
@@ -225,5 +303,7 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
         escena.physics.pause()
 
     }
+
+
 
 }

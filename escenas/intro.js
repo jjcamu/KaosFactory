@@ -13,7 +13,7 @@ export default class intro extends Phaser.Scene {
 
         this.gameOver = data.gameOver   
 
-
+        this.escala = 0.5
     }
 
 
@@ -23,7 +23,7 @@ export default class intro extends Phaser.Scene {
         this.load.path = './multimedia/';
 
         this.load.image('pantalla1', 'imagenes/camusoft.jpg')  
-        this.load.image('pantalla2', 'imagenes/nivel1/nuevo-1.jpg')
+        this.load.video('videoPresentacion', 'presentacion/presentacion.mp4', true);
         this.load.image('pantalla3', 'imagenes/pantallaSeleccion.jpg')
 
 
@@ -45,28 +45,36 @@ export default class intro extends Phaser.Scene {
 
     crearPantalla1(escena){ //pantalla inicial 'Camusoft presenta...'
 
-    //escena.scale.resize(2200, 1100);
+
     escena.scale.stopFullscreen();
 
-        escena.pantalla1 = escena.add.image(escena.centrarX, escena.centrarY, 'pantalla1')
+        escena.pantalla1 = escena.add.image(escena.centrarX, escena.centrarY, 'pantalla1').setScale(0.5)
         escena.time.delayedCall(1000, escena.crearPantalla2, [escena]); //timer que llamará a la funcion 'crearPantalla2' dentro de X miliseg.
         // estaba en 3000 ms
     }
 
-    crearPantalla2(escena){ //presentacion del juego 'Fac Ass' ' Rebelion en la Fabrica'
+    crearPantalla2(escena){ //presentacion del juego 'Kaos Factory'
 
        
 
         escena.pantalla1.destroy()
-        escena.pantalla2 = escena.add.image(escena.centrarX, escena.centrarY, 'pantalla2').setScale(1.5)
-        escena.time.delayedCall(1000, escena.crearPantallaSeleccion, [escena]);
+        
+        escena.video = escena.add.video(escena.centrarX + 10, escena.centrarY -10, 'videoPresentacion');
+
+        escena.video.play(true).setLoop(false); //reproduzco el video y establezco que no se repita continuamente
+
+        //si presiono en la pantalla, pasa a la pantalla de seleccion.
+        escena.input.on('pointerdown', function (pointer) {escena.crearPantallaSeleccion(escena)})
+
+        //escena.time.delayedCall(2000, escena.crearPantallaSeleccion, [escena]);
 
     }
-
+ 
     crearPantallaSeleccion(escena){ //pantalla de seleccion, 'elige un operiario: '
 
-        escena.pantalla2.destroy()
-        escena.pantalla3 = escena.add.image(escena.centrarX, escena.centrarY , 'pantalla3') 
+        escena.input.off('pointerdown')  // elimino el oyente del evento 'pointerdown', antes de añadirlo nuevamente, para que no me de error.
+
+        escena.pantalla3 = escena.add.image(escena.centrarX + 5, escena.centrarY , 'pantalla3') .setScale(0.5)
 
         escena.jugadorElegido = 'ariel' // por defecto, el jugador elegido es Ariel
 
@@ -80,7 +88,7 @@ export default class intro extends Phaser.Scene {
 
             // verifico el area presionada 
 
-            if (pointer.downX > 115 && pointer.downX < 370 && pointer.downY > 365 && pointer.downY < 588){
+            if (pointer.downX > 115 * this.escala && pointer.downX < 370 * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('ariel')
 
@@ -89,24 +97,24 @@ export default class intro extends Phaser.Scene {
             }
 
 
-            if (pointer.downX > 480 && pointer.downX < 730 && pointer.downY > 365 && pointer.downY < 588){
+            if (pointer.downX > 480 * this.escala && pointer.downX < 730 * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('juan')
 
                 escena.jugadorElegido = 'juan'  //jugador elegido en el menu de seleccion
-
+  
             }
 
-            if (pointer.downX > 814 && pointer.downX < 1100 && pointer.downY > 365 && pointer.downY < 588){
+            if (pointer.downX > 814 * this.escala && pointer.downX < 1100 * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('nico')
 
                 escena.jugadorElegido = 'nico'  //jugador elegido en el menu de seleccion
-
+         
             }
 
 
-            if (pointer.downX > 1187 && pointer.downX < 1444 && pointer.downY > 365 && pointer.downY < 588){
+            if (pointer.downX > 1187 * this.escala && pointer.downX < 1444 * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('diego')
 
@@ -114,7 +122,7 @@ export default class intro extends Phaser.Scene {
 
             }
 
-            if (pointer.downX > 1525 && pointer.downX < 1800 && pointer.downY > 365 && pointer.downY < 588){
+            if (pointer.downX > 1525 * this.escala && pointer.downX < 1800  * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('ulises')
 
@@ -122,7 +130,7 @@ export default class intro extends Phaser.Scene {
 
             }
 
-            if (pointer.downX > 748 && pointer.downX < 1175 && pointer.downY > 692 && pointer.downY < 839){
+            if (pointer.downX > 748 * this.escala && pointer.downX < 1175 * this.escala && pointer.downY > 692 * this.escala && pointer.downY < 839 * this.escala){
                 //si presiono en el boton aceptar
 
                 if (escena.scale.isFullscreen == false) {
@@ -130,12 +138,12 @@ export default class intro extends Phaser.Scene {
                     escena.scale.startFullscreen(); //pasar a pantalla completa
                 } 
 
-                escena.scene.start('escena3', { jugadorElegido: escena.jugadorElegido })  
+                escena.scene.start('escena4', { jugadorElegido: escena.jugadorElegido })  
                 // inicio el siguiente escenario, y como 2do parametro transfiero a la nueva escena informacion sobre el jugador elegido 
     
 
             }
-
+  
 
         }, escena);
 

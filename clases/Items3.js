@@ -68,11 +68,13 @@ export default class Items3 extends Phaser.Physics.Arcade.Group {
         this.mesa2.setSize(this.mesa2.width -30, this.mesa2.height).setOffset(30,-20)
         this.mesa2.body.setImmovable(true)  
 
+
         this.mesa3 = this.create(2067, 918, 'mesa3').setOrigin(0,0).setScale(1.3)
         this.mesa3.setSize(this.mesa3.width -100,this.mesa3.height/3 ).setOffset(50,this.mesa3.height-(this.mesa3.height/3 + 30))
         this.mesa3.body.setImmovable(true)  
 
         this.mate = this.create(1262, 540, 'mate').setScale(0.3)
+        this.mate.setSize(this.mate.width -50,this.mate.height- 50 )
         this.sombra1 = this.create(1262, 672, 'sombra').setScale(1.7)
 
         this.caramelos = this.create(2731, 512, 'caramelos').setScale(0.5)
@@ -195,10 +197,10 @@ export default class Items3 extends Phaser.Physics.Arcade.Group {
 
 /// lanzamiento de la carreta ----------------------------------------------------------------------
 
-lanzaCarreta(escena){
+lanzaCarreta(escena){ 
 
 
-    escena.physics.moveToObject(escena.carreta, escena.jugador, 600);
+    escena.physics.moveToObject(escena.carreta, escena.jugador, 600 * escena.escala);
 
     escena.banderaCarreta = false
 
@@ -232,8 +234,8 @@ choqueCarreta(hitBoxCuerpo, carreta){
 
 mostrarLlave(escena){
 
-    this.llave = escena.physics.add.sprite(escena.jugador.x - 200, escena.jugador.y - 50 , 'llave') . setScale(0.5).setDepth(3).setSize(50,50) 
-    this.sombra = escena.physics.add.sprite(escena.jugador.x - 190, escena.jugador.y + 100, 'sombra')  . setScale(1.8).setDepth(1)
+    this.llave = escena.physics.add.sprite(escena.jugador.x - 200 * escena.escala, escena.jugador.y - 50 * escena.escala , 'llave') . setScale(0.5 * escena.escala).setDepth(3).setSize(50,50) 
+    this.sombra = escena.physics.add.sprite(escena.jugador.x - 190 * escena.escala, escena.jugador.y + 100 * escena.escala, 'sombra')  . setScale(1.8 * escena.escala).setDepth(1)
     // la llave y la sombra son añadidas directamente al escenario y no forma parte del grupo Items3, ya que no quiero que colisione
     // con mi jugador, pero si que lo atraviese (overlap)
 

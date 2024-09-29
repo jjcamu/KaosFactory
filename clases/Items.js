@@ -96,6 +96,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         this.cargarListener(this.bolsaBasura, this.porton);
        
     
+
     }
 
 
@@ -158,6 +159,33 @@ export default class Items extends Phaser.Physics.Arcade.Group {
     }
 
 
+
+    cartelInicial(escena){
+
+
+        this.centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
+        //a la posicion de la camara en el escenario (en el mundo del juego), le sumo el ancho de la camara 
+        //(osea lo que estoy viendo en pantalla) , dividido en 2, para que quede en el centro del eje x.
+        this.centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
+
+        this.cartel = this.create(this.centrarX, this.centrarY , 'cartelInicial') . setScale(2.3 * escena.escala).setDepth(3)
+        this.botonAceptar = this.create(this.centrarX, this.centrarY + 135 , 'aceptar') .setScale(2.3 * escena.escala, 1.1 ).setDepth(3)
+
+
+
+        this.botonAceptar.setInteractive().on("pointerdown",function() {  
+            
+            escena.items.cartel.destroy()      
+            escena.items.botonAceptar.destroy(); 
+            escena.physics.resume();
+
+
+        })
+
+        escena.physics.pause()
+
+
+    }
 
     golpe (objetoGolpeado, hitbox){
 
@@ -228,6 +256,23 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
     }
 
+    golpeaCaja(escena){
+
+        escena.jugador.vidas =  escena.jugador.vidas - 40 ;
+
+        if (escena.jugador.vidas <= 0) {  //si las vidas llegaron a cero
+            escena.jugador.vidas = 0  // para que 'jugador.vidas' no sea un valor negativo
+            escena.jugador.state = 'muerto'
+        }else{
+            escena.jugador.anims.play('heridoAlto',true); 
+            //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
+        }
+
+        escena.barrasVida.barraJugador.displayWidth = escena.jugador.vidas;
+
+
+    }
+
     
     cartelDesayuno(escena){
 
@@ -236,9 +281,9 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         //(osea lo que estoy viendo en pantalla) , dividido en 2, para que quede en el centro del eje x.
         this.centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
 
-        this.flecha = this.create(3944, 300 , 'flecha') .setAngle(-90). setScale(0.3)
-        this.cartel1 = this.create(this.centrarX, this.centrarY , 'cartel1') . setScale(2.3).setDepth(3)
-        this.botonAceptar = this.create(this.centrarX, this.centrarY + 170 , 'aceptar') .setScale(2.3).setDepth(3)
+        this.flecha = this.create(3944 * escena.escala, 300 * escena.escala , 'flecha') .setAngle(-90). setScale(0.3 * escena.escala)
+        this.cartel1 = this.create(this.centrarX, this.centrarY , 'cartel1') . setScale(2.3 * escena.escala).setDepth(3)
+        this.botonAceptar = this.create(this.centrarX, this.centrarY + 170 * escena.escala , 'aceptar') .setScale(2.3 * escena.escala).setDepth(3)
 
 
         this.flecha.anims.create({
@@ -273,29 +318,34 @@ export default class Items extends Phaser.Physics.Arcade.Group {
     compruebaLLaveNegocio(puerta, jugador){
 
 
-        if (this.llaveNegocio == true){ // si el jugador posee la llave del negocio, podra ingresar a la escena 4 (negocio)
+        if (this.llaveNegocio == true ){ 
+            // si el jugador posee la llave del negocio, se podra ingresar a la escena 4 (negocio)
 
-
-            this.scene.start('escena4', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key, jugadorElegido: this.jugadorElegido})
+            //pero antes debo reducir a los repositores...
+            if (this.banderaPasar == true) {this.scene.start('escena4', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key, jugadorElegido: this.jugadorElegido})}
 
         }else{  //si no, se muestra un cartel
         
+            if (this.banderaNegocio == true){  // para que aparezca el cartel solo una vez
+
+            this.banderaNegocio = false
+
             this.items.centrarX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
             this.items.centrarY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
             if (this.jugadorElegido == 'diego' ){ //si el jugador elegido es Diego, la llave del negocio la tendrá Nico.
                 //Osea mostraré el 'cartel3'
 
-                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel3') . setScale(2.3).setDepth(3)
+                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel3') . setScale(2.3 * this.escala).setDepth(3)
 
             }else{
 
-                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel2') . setScale(2.3).setDepth(3)
+                this.items.cartel2 = this.items.create(this.items.centrarX, this.items.centrarY , 'cartel2') . setScale(2.3 * this.escala).setDepth(3)
 
             }
 
 
-            this.items.botonAceptar2 = this.items.create(this.items.centrarX, this.items.centrarY + 170 , 'aceptar') .setScale(1.9).setDepth(3)
+            this.items.botonAceptar2 = this.items.create(this.items.centrarX, this.items.centrarY + 170 * this.escala, 'aceptar') .setScale(2.3 * this.escala).setDepth(3)
 
             this.items.botonAceptar2.setInteractive().on("pointerdown",function() {  
                 
@@ -307,7 +357,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
             this.physics.pause()
 
-
+            }
 
         }
 
@@ -317,7 +367,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
 
 
-    actualizarProfundidad(jugador){
+/*     actualizarProfundidad(jugador){
 
         if (this.costadoPorton.body.y > jugador.body.y){ this.costadoPorton.setDepth(1);} else { this.costadoPorton.setDepth(-1);}
         if (this.leche.body.y > jugador.body.y){ this.leche.setDepth(1);} else { this.leche.setDepth(-1);}
@@ -325,7 +375,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         
 
 
-    }
+    } */
 
 
 }

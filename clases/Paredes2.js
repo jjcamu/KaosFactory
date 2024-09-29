@@ -4,11 +4,13 @@ export default class Paredes2 extends Phaser.Physics.Arcade.StaticGroup {
 
         this.pared_arriba = this.create(9, 451); // posicion x , y
         this.pared_arriba.body.setSize(4160, 440, 0, 0); // ancho, alto , 0 , 0
+        this.pared_arriba.name = 'pepito'
 
         this.pared_arriba2 = this.create(4138, 330);
         this.pared_arriba2.body.setSize(1797, 385, 0, 0);
 
         this.pared_diagonal_1 = this.create(6022, 627);
+
         this.pared_diagonal_1.setSize(151, 180, 0, 0);
 
         this.pared_diagonal_2 = this.create(6188, 739);
