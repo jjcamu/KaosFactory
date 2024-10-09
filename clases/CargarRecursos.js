@@ -52,6 +52,16 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
                 //el primer parametro es un id que ya viene asignado,y el segundo es la ruta (url)donde se halla el plugin.
 
 
+        // sonidos comunes a todos los escenarios
+
+        escena.load.audio('golpePatada', 'audios/sonidos/patada.ogg', {instances: 3} )
+        escena.load.audio('golpePinia', 'audios/sonidos/pinia.ogg', {instances: 3} )
+        escena.load.audio('golpeAlto', 'audios/sonidos/golpeAlto.ogg', {instances: 3} )
+        escena.load.audio('golpeBajo', 'audios/sonidos/golpeBajo.ogg', {instances: 3} )
+        escena.load.audio('comer', 'audios/sonidos/comer.ogg', {instances: 3} )
+        escena.load.audio('explosion', 'audios/sonidos/explosion.ogg', {instances: 3} )
+        escena.load.audio('advertencia', 'audios/sonidos/advertencia.ogg' )
+
 
 
     }
@@ -168,10 +178,21 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
             escena.scene.stop(escena.escenaAnterior);  // la freno (creo que me ayuda a liberar memoria)
 
         }
+
+
+
+        // añadir sonidos a la escena
+
+/*         escena.sonidoPatada = escena.sound.add('golpePatada') 
+        escena.sonidoPinia = escena.sound.add('golpePinia') 
+        escena.sonidoGolpeAlto = escena.sound.add('golpeAlto') 
+        escena.sonidoGolpeBajo = escena.sound.add('golpeBajo') 
+        escena.sonidoComer = escena.sound.add('comer')  */
  
 
 
-        //
+
+        
     }
 
 

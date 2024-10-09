@@ -103,6 +103,17 @@ export default class escena3 extends Phaser.Scene {
         this.load.spritesheet('caramelos', 'animaciones/nivel3/caramelos-sheet400x500.png', { frameWidth: 400, frameHeight: 500 });
 
         this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
+
+        //audios del escenario
+
+        this.load.audio('musicaNivel12y3', 'audios/musicaNiveles/musicaNivel12y3.mp3' )
+        this.load.audio('tomaMate', 'audios/sonidos/tomaMate.ogg' )
+        this.load.audio('llave', 'audios/sonidos/llave.ogg' )
+        this.load.audio('golpeCarreta', 'audios/sonidos/golpeCarreta.ogg' )
+
+
+
+
     }
 
     create(){
@@ -138,6 +149,7 @@ export default class escena3 extends Phaser.Scene {
         //no atraviese las paredes (las areas de colision)
 
 
+        this.events.on('shutdown', () => { this.sound.stopAll() }) //frena la musica si se sale del escenario (para evitar errores de audio)
 
 
         ////// imagen de fondo del escenario
@@ -245,6 +257,8 @@ export default class escena3 extends Phaser.Scene {
         this.physics.add.overlap(this.carreta.body, [this.items3, this.paredes3] ,  (carreta, paredes) => {
             carreta.body.setEnable(false); 
             carreta.setVisible(false);
+            this.sound.play('explosion', { volume: 8 })
+
             // muestro la animacion de explosion .  
             this.explosion = this.add.sprite(carreta.x ,carreta.y  , 'explosion').setScale(1.8 * this.escala);
             this.explosion.anims.play("explosion");
@@ -273,6 +287,8 @@ export default class escena3 extends Phaser.Scene {
 
 
 
+        // reproduzco la musica del nivel
+        this.sound.play('musicaNivel12y3' , { volume: 0.5 , loop: true  })
 
 
         this.children.list.forEach(GameObject => {
@@ -402,7 +418,7 @@ export default class escena3 extends Phaser.Scene {
 
         if (this.items3.llave){
 
-            this.physics.world.overlap(this.jugador.hitboxCuerpo.body ,this.items3.llave ,  (jugador, llave) => {llave.destroy(); this.llaveNegocio = true; this.items3.sombra.destroy()});
+            this.physics.world.overlap(this.jugador.hitboxCuerpo.body ,this.items3.llave ,  (jugador, llave) => {llave.destroy(); this.llaveNegocio = true; this.sound.play('llave', { volume: 8 }); this.items3.sombra.destroy()});
         }
 
 
@@ -442,6 +458,8 @@ export default class escena3 extends Phaser.Scene {
         //vuelve a la escena 2 ------------------------------------------------------------------------    
 
         if (this.jugador.x < 450  * this.escala   ){
+
+            this.sound.stopAll()
 
             this.scene.start('escena2',  { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido, llaveNegocio: this.llaveNegocio })
 

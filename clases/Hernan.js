@@ -112,6 +112,16 @@ export default class Hernan extends Enemigo {
 
         }else {
 
+            if (this.state == 'muerto' && escena.banderaSonido4 == true){  //si Hernan muere, detengo la musica de 'boss Hernan'
+
+                escena.sound.stopAll() 
+                
+                // y reproduzco la musica normal del escenario
+                escena.sound.play('musicaNivel12y3' , { volume: 0.5 , loop: true  })
+
+                escena.banderaSonido4 = false
+            }
+
             this.generarTemblor(false, escena)
 
             this.oscurecer(false, escena)
@@ -134,6 +144,7 @@ export default class Hernan extends Enemigo {
             }else{
                 escena.jugador.anims.play('heridoBajo',true); 
                 //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
+                escena.sound.play('golpeFuego', { volume: 8 })
             }
     
             escena.barrasVida.barraJugador.displayWidth = escena.jugador.vidas;
@@ -143,9 +154,10 @@ export default class Hernan extends Enemigo {
         // destruyo la gota al colisionar con las paredes inferiores del escenario (para ahorrar memoria)
 
 
+
     }
 
-    lluviaDeFuego(escena) {
+    lluviaDeFuego(escena) { 
 
         if (this.gotaHabilitada){
 
@@ -183,6 +195,7 @@ export default class Hernan extends Enemigo {
     generarTemblor(activado, escena) {
 
 
+
         this.timerTemblor = escena.time.addEvent({
             delay: 50,                
             callback: temblor,
@@ -200,11 +213,32 @@ export default class Hernan extends Enemigo {
 
 
             }else{
+
+
                 escena.cameras.main.setFollowOffset(0, 0)  //no hay temblor
             }
 
         }
 
+
+        //sonido del temblor
+
+        if (activado == true){
+            if (escena.banderaSonido3 == true) {  // la primera vez, inicio el sonido con 'play'
+
+                escena.sound.play('sonidoTemblor', { volume: 10, loop: true });
+                escena.banderaSonido3 = false
+
+            }
+            escena.sound.get('sonidoTemblor').resume() // luego, lo 'des pauso' con resume
+        }else{
+
+            //si existe un 'sonidoTemblor' en la escena, que lo pause
+            if (escena.sound.get('sonidoTemblor') != null) { escena.sound.get('sonidoTemblor').pause() }
+
+
+
+        }
     }
 
 

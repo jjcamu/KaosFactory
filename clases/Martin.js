@@ -116,6 +116,7 @@ export default class Martin extends Enemigo {
                 
                 this.explosion = escena.add.sprite(sobre.x ,sobre.y  , 'explosion').setScale(1.8 * this.escala);
                 this.explosion.anims.play("explosion");
+                this.scene.sound.play('explosion' , { volume: 8 })
                 sobre.destroy()
 
             

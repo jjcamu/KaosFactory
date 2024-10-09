@@ -17,7 +17,7 @@ var config = {
 
 
 
-    type:Phaser.CANVAS, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
+    type:Phaser.WEBGL, //la propiedad 'type' indica el renderizador a utilizar, en este caso será 'Phaser.AUTO'
     //en mi notebook, funciona mejor Phaser.CANVAS   //existen Phaser.CANVAS, Phaser.WEBGL y Phaser.AUTO
     scale: {
         mode:Phaser.Scale. FIT , // escalar automaticamente adaptandose a la pantalla  (FIT)
@@ -37,6 +37,11 @@ var config = {
     input: {
         activePointers: 3  //para que el celu reconozca mas de un touch simultaneo
     },
+
+/*     audio: {
+        disableWebAudio: true,
+        noAudio: false
+    }, */
 
     //ESCENAS DEL JUEGO
     scene: [intro, escena1, escena2, escena3, escena4]  //añado las escenas importadas, por medio de un array con todas las escenas

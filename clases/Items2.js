@@ -153,7 +153,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
     // parametro el objeto individual 'pedo' con el cual hubo superposición.
     // Si quisiera destruir al grupo de pedos, deberia escribir : this.pedos.destroy()
         pedo.destroy()
-
+        this.sound.play('tos', { volume: 3 })
 
         this.jugador.vidas =  this.jugador.vidas - 60 ;
 

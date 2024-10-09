@@ -32,6 +32,8 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
 
         this.velocidad = 300 * this.escala;
 
+        this.banderaSonido = true
+
     }
 
     crearHitboxes(escena){
@@ -209,9 +211,20 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
 
         ////////// ANIMACION DEL ENEMIGO, en funcion de sus estados
 
-        if (this.state == 'heridoBajo') { this.anims.play('heridoBajo',true); }
+        if (this.state == 'heridoBajo') { 
 
-        else if  (this.state == 'heridoAlto') { this.anims.play('heridoAlto',true);}
+            this.anims.play('heridoBajo',true);
+            if (this.banderaSonido== true) {this.scene.sound.play('golpeBajo' , { volume: 5 }); this.banderaSonido = false}
+
+         }
+
+        else if  (this.state == 'heridoAlto') { 
+            
+            this.anims.play('heridoAlto',true);
+            if (this.banderaSonido== true) {this.scene.sound.play('golpeAlto' , { volume: 5 }); this.banderaSonido = false}
+
+        
+        }
 
 
         if ( (this.anims.currentAnim.key == 'heridoBajo' || this.anims.currentAnim.key == 'heridoAlto')  && 
@@ -223,19 +236,39 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
         }else{
 
 
-            if (this.state == 'pinia') {this.anims.play('piniaEnemigo',true); }
+            if (this.state == 'pinia') {
+                
+                this.anims.play('piniaEnemigo',true);
+                if (this.banderaSonido== true) {this.scene.sound.play('golpePinia' , { volume: 5 }); this.banderaSonido = false}
 
-            else if (this.state == 'patada') { this.anims.play('patadaEnemigo',true);}
+            
+            }
+
+            else if (this.state == 'patada') { 
+                
+                this.anims.play('patadaEnemigo',true);
+                if (this.banderaSonido== true) {this.scene.sound.play('golpePatada' , { volume: 5 }); this.banderaSonido = false}
+
+            
+            }
     
             else if (this.state == 'nada' && this.body.speed != 0) { 
         
                 this.anims.play("caminarEnemigo", true); 
+                this.banderaSonido = true
+
         
             }
         
             else{
         
-                if (this.scene.animacionAparicionHernan == false) {this.anims.play("paradoEnemigo", true);}
+                this.banderaSonido = true
+                if (this.scene.animacionAparicionHernan == false) {
+                    
+                    this.anims.play("paradoEnemigo", true);
+                    
+
+                }
 
              
         

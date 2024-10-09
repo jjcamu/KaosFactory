@@ -19,15 +19,18 @@ export default class intro extends Phaser.Scene {
 
     preload() {
 
-//path de referencia desde el cual llamo a los archivos
+        //path de referencia desde el cual llamo a los archivos
         this.load.path = './multimedia/';
 
+        //pantallas iniciales
         this.load.image('pantalla1', 'imagenes/camusoft.jpg')  
         this.load.video('videoPresentacion', 'presentacion/presentacion.mp4', true);
         this.load.image('pantalla3', 'imagenes/pantallaSeleccion.jpg')
 
 
+        // musica de la presentacion
 
+        this.load.audio('musicaSeleccion', 'audios/musicaNiveles/musicaSeleccion.mp3' )
 
 
         //posibles spritesheet del jugador
@@ -46,7 +49,9 @@ export default class intro extends Phaser.Scene {
     crearPantalla1(escena){ //pantalla inicial 'Camusoft presenta...'
 
 
-    escena.scale.stopFullscreen();
+        escena.scale.stopFullscreen();
+        escena.sound.stopAll()
+        //escena.sound.pauseOnBlur = false; // para que la musica no se detenga al perder el foco el juego
 
         escena.pantalla1 = escena.add.image(escena.centrarX, escena.centrarY, 'pantalla1').setScale(0.5)
         escena.time.delayedCall(1000, escena.crearPantalla2, [escena]); //timer que llamará a la funcion 'crearPantalla2' dentro de X miliseg.
@@ -58,6 +63,7 @@ export default class intro extends Phaser.Scene {
        
 
         escena.pantalla1.destroy()
+
         
         escena.video = escena.add.video(escena.centrarX + 10, escena.centrarY -10, 'videoPresentacion');
 
@@ -73,6 +79,8 @@ export default class intro extends Phaser.Scene {
     crearPantallaSeleccion(escena){ //pantalla de seleccion, 'elige un operiario: '
 
         escena.input.off('pointerdown')  // elimino el oyente del evento 'pointerdown', antes de añadirlo nuevamente, para que no me de error.
+
+        escena.sound.play('musicaSeleccion' , { volume: 1 })
 
         escena.pantalla3 = escena.add.image(escena.centrarX + 5, escena.centrarY , 'pantalla3') .setScale(0.5)
 
@@ -138,7 +146,10 @@ export default class intro extends Phaser.Scene {
                     escena.scale.startFullscreen(); //pasar a pantalla completa
                 } 
 
-                escena.scene.start('escena4', { jugadorElegido: escena.jugadorElegido })  
+                //detengo la musica de la presentacion
+                if (escena.sound.get()){escena.sound.get('musicaSeleccion').stop()}
+
+                escena.scene.start('escena1', { jugadorElegido: escena.jugadorElegido })  
                 // inicio el siguiente escenario, y como 2do parametro transfiero a la nueva escena informacion sobre el jugador elegido 
     
 

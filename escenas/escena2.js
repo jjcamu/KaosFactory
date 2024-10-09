@@ -107,6 +107,15 @@ export default class escena2 extends Phaser.Scene {
 
         this.load.spritesheet('hernan', 'animaciones/diego/diego293x272.png', { frameWidth: 293, frameHeight: 272 });
 
+        
+        //audios del escenario
+        this.load.audio('musicaNivel12y3', 'audios/musicaNiveles/musicaNivel12y3.mp3' )
+        this.load.audio('bossHernan', 'audios/musicaNiveles/bossHernan.mp3' )
+        this.load.audio('tos', 'audios/sonidos/tos.ogg' )
+        this.load.audio('sonidoTemblor', 'audios/sonidos/lluviaFuego.ogg' )
+        this.load.audio('golpeFuego', 'audios/sonidos/golpeFuego.ogg' )
+        this.load.audio('golpeObjeto', 'audios/sonidos/golpeObjeto.ogg' )
+
 
 
 
@@ -131,6 +140,8 @@ export default class escena2 extends Phaser.Scene {
         this.physics.world.setFPS(120);//establezco cuadros por segundo a 120 .
         //Esto, y ademas establecer un factor de rebote de 1 en el enemigo, sirve para asegurarme que el cuerpo del enemigo 
         //no atraviese las paredes (las areas de colision)
+
+        this.events.on('shutdown', () => { this.sound.stopAll() }) //frena la musica si se sale del escenario (para evitar errores de audio)
 
 
         ////// imagen de fondo del escenario
@@ -249,9 +260,18 @@ export default class escena2 extends Phaser.Scene {
 
         this.banderaPasar = true // similar a banderaVolver
 
+        this.banderaSonido2 = true // para no reproducir reiteradas veces un sonido 
+
+        this.banderaSonido3 = true
+
+        this.banderaSonido4 = true
+
+
 
         //let todosLosGameObjects = this.children.list.filter(x => x instanceof Phaser.GameObjects.GameObject);
 
+        // reproduzco la musica del nivel
+        this.sound.play('musicaNivel12y3' , { volume: 0.5 , loop: true  })
 
 
         this.children.list.forEach(GameObject => {
@@ -364,6 +384,20 @@ export default class escena2 extends Phaser.Scene {
                 this.banderaVolver = false // esta bandera obliga al jugador a matar a hernan y a facu si se desea ir al
                 //escenario1 habiendo superado del escenario3
 
+
+                
+                // reproduzco la musica del boss Hernan
+                if (this.banderaSonido2== true) {
+                    
+                    //detengo la musica del escenario
+                    this.sound.stopAll()
+
+                    this.sound.play('bossHernan' , { volume: 0.5 , loop: true  }); 
+                    this.banderaSonido2 = false
+
+                
+                }
+
                 this.items2.aparicionHernan(this)
                 
                 this.animacionAparicionHernan = true
@@ -444,7 +478,11 @@ export default class escena2 extends Phaser.Scene {
 
         if (this.pollo){
 
-            this.physics.world.overlap(this.jugador.hitboxCuerpo.body ,this.sombra,  (jugador, sombra) => {sombra.destroy();  this.jugador.vidas = this.jugador.vidas + 50; this.pollo.destroy()});
+            this.physics.world.overlap(this.jugador.hitboxCuerpo.body ,this.sombra,  (jugador, sombra) => {
+                sombra.destroy();  
+                this.sound.play('comer', { volume: 8 })
+                this.jugador.vidas = this.jugador.vidas + 50; 
+                this.pollo.destroy()});
         }
 
 
@@ -454,12 +492,16 @@ export default class escena2 extends Phaser.Scene {
 
         if (this.jugador.x > 6470 * this.escala && this.jugador.y < 1085 * this.escala  &&  this.banderaPasar == true  ){
             
+                           
+            this.sound.stopAll()
 
             this.scene.start('escena3', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido , llaveNegocio: this.llaveNegocio })    
 
         }
 
         if (this.jugador.x < 35 * this.escala  && this.banderaVolver == true  ){
+
+            this.sound.stopAll()
 
             this.scene.start('escena1', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido , llaveNegocio: this.llaveNegocio })
 

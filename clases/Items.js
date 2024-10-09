@@ -162,6 +162,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
     cartelInicial(escena){
 
+        escena.sound.play('advertencia', { volume: 8 })
 
         this.centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
         //a la posicion de la camara en el escenario (en el mundo del juego), le sumo el ancho de la camara 
@@ -200,9 +201,18 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
 
 
-                    if (objetoGolpeado.texture.key == 'bolsaBasura')  {this.items.bolsaBasura.anims.play("explosion", true); }
+                    if (objetoGolpeado.texture.key == 'bolsaBasura')  {
+                        
+                        this.items.bolsaBasura.anims.play("explosion", true); 
+                        this.sound.play('explosion', { volume: 8 })
 
-                    if (objetoGolpeado.texture.key == 'porton')  {this.items.porton.anims.play("portonRoto", true); }
+                    }
+
+                    if (objetoGolpeado.texture.key == 'porton')  {
+                        
+                        this.items.porton.anims.play("portonRoto", true); 
+                        this.sound.play('puertaRota', { volume: 15 })
+                    }
         
                     if (objetoGolpeado.texture.key == 'heladera' && this.items.leche.state == 'sin beber')  {
                         this.items.heladeraAbierta.setVisible(true)
@@ -239,6 +249,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
         this.items.leche.setVisible(false);
         sombra.setVisible(false);
         this.items.leche.state = 'bebida'
+        this.sound.play('comer', { volume: 5 })
         jugador.vidas = jugador.vidas + 50
 
         }
@@ -251,6 +262,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
         galletitas.destroy()
         this.items.sombra2.destroy()
+        this.sound.play('comer', { volume: 5 })
         this.jugador.vidas = this.jugador.vidas + 50
         
 
@@ -265,6 +277,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             escena.jugador.state = 'muerto'
         }else{
             escena.jugador.anims.play('heridoAlto',true); 
+            escena.sound.play('golpeAlto', { volume: 8 })
             //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
         }
 
@@ -275,6 +288,8 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
     
     cartelDesayuno(escena){
+
+        escena.sound.play('advertencia', { volume: 8 })
 
         this.centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
         //a la posicion de la camara en el escenario (en el mundo del juego), le sumo el ancho de la camara 
@@ -322,13 +337,23 @@ export default class Items extends Phaser.Physics.Arcade.Group {
             // si el jugador posee la llave del negocio, se podra ingresar a la escena 4 (negocio)
 
             //pero antes debo reducir a los repositores...
-            if (this.banderaPasar == true) {this.scene.start('escena4', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key, jugadorElegido: this.jugadorElegido})}
+            if (this.banderaPasar == true) {
+
+                //detengo la musica 
+                this.sound.stopAll()
+
+                this.scene.start('escena4', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key, jugadorElegido: this.jugadorElegido})
+            
+            
+            }
 
         }else{  //si no, se muestra un cartel
         
             if (this.banderaNegocio == true){  // para que aparezca el cartel solo una vez
 
             this.banderaNegocio = false
+
+            this.sound.play('advertencia', { volume: 8 })
 
             this.items.centrarX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
             this.items.centrarY = this.cameras.main.worldView.y + this.cameras.main.height / 2;

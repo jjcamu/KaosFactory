@@ -108,6 +108,13 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.load.spritesheet('caja', 'animaciones/nivel1/caja340x340.png', { frameWidth: 340, frameHeight: 340 });
         this.load.image('sombra', 'imagenes/nivel1/sombra.png')
 
+
+        //audios del escenario
+        this.load.audio('musicaNivel12y3', 'audios/musicaNiveles/musicaNivel12y3.mp3' )
+        this.load.audio('puertaRota', 'audios/sonidos/puertaRota.ogg' )
+        this.load.audio('arrojaCaja', 'audios/sonidos/arrojaCaja.ogg' )
+
+
     }
 
     create(){
@@ -115,6 +122,8 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.physics.world.setFPS(120);//establezco cuadros por segundo a 120 .
         //Esto, y ademas establecer un factor de rebote de 1 en el enemigo, sirve para asegurarme que el cuerpo del enemigo 
         //no atraviese las paredes (las areas de colision)
+
+        this.events.on('shutdown', () => { this.sound.stopAll() }) //frena la musica si se sale del escenario (para evitar errores de audio)
 
 
         ////// imagen de fondo del escenario
@@ -244,6 +253,13 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
 
 
+
+        // reproduzco la musica del nivel
+        this.sound.play('musicaNivel12y3' , { volume: 0.5 , loop: true  })
+
+
+
+
 //Escalo todo los gameObjects de la escena. Esto lo tuve que hacer para aumentar el rendimiento del juego.
 //Reduje la resolucion del juego , y por lo tanto debo tambien reducir las dimensiones y areas de colision de cada elemento del juego.
 //Mi error fue hacer el juego desde el principio con una resolucion innecesariamente alta.
@@ -310,6 +326,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         if (this.jugador.x > 5220 * this.escala ){
             
+            this.sound.stopAll()  //detengo el audio del juego antes de iniciar el proximo escenario para evitar errores 
 
             this.scene.start('escena2', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key , jugadorElegido: this.jugadorElegido , llaveNegocio: this.llaveNegocio })
             // al iniciar la escena2, transfiero a esta las vidas de mi personaje, el nombre de esta escena (que pasará a ser la escena anterior)

@@ -98,7 +98,7 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
             let centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
             let centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
     
-            escena.items4.cartelInicial = escena.items4.create(centrarX, centrarY , 'cartelInicial') . setScale(1.9 * escena.items4.escala).setDepth(3)
+            escena.items4.cartelInicial = escena.items4.create(centrarX, centrarY , 'cartelInicial2') . setScale(1.9 * escena.items4.escala).setDepth(3)
             escena.items4.botonAceptar = escena.items4.create(centrarX, centrarY + 170 * escena.items4.escala , 'aceptar') .setScale(1.9 * escena.items4.escala).setDepth(3)
     
             escena.items4.botonAceptar.setInteractive().on("pointerdown",function() {  
@@ -125,6 +125,12 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
         escena.enemigoMartin.anims.play("paradoEnemigo", true);
         escena.enemigoEsteban.anims.pause()
         escena.enemigoUlla.anims.pause()
+
+        //detengo la musica del escenario
+        escena.sound.get('musicaNivel4').stop()
+                
+        // reproduzco la musica de la victoria
+        escena.sound.play('musicaVictoria' , { volume: 0.5 , loop: true  })
 
         escena.physics.pause() // pauso las fisicas para impedir que se mueva el jugador y el enemigo
 
@@ -208,6 +214,11 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
     pantallaFinal(escena, centrarX, centrarY){
 
+                
+        escena.sound.get('musicaVictoria').stop()
+                
+        escena.sound.play('marchaPeroncha' , { volume: 0.5 , loop: true  })
+
         escena.items4.create(centrarX, centrarY , 'pantallaFinal').setDepth(3)
 
         escena.time.addEvent({
@@ -274,6 +285,8 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
 
     reiniciaJuego (escena){
+
+        escena.sound.get('marchaPeroncha').stop()
 
         escena.scene.start('intro' ,  { gameOver: 'true'})
     }

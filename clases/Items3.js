@@ -220,6 +220,7 @@ choqueCarreta(hitBoxCuerpo, carreta){
             this.jugador.state = 'muerto'
         }else{
             this.jugador.anims.play('heridoBajo',true); 
+            this.sound.play('golpeCarreta', { volume: 5 })
             //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
         }
     
@@ -266,6 +267,7 @@ tomaMate( mate, hitbox){
 
     mate.destroy()
     this.items3.sombra1.destroy()
+    this.sound.play('tomaMate', { volume: 8 })
     this.jugador.vidas = this.jugador.vidas + 50
     
 
@@ -274,6 +276,7 @@ comeCaramelos( caramelos, hitbox){
 
 
     caramelos.destroy()
+    this.sound.play('comer', { volume: 8 })
     this.jugador.vidas = this.jugador.vidas + 50
     
 

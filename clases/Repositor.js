@@ -13,8 +13,8 @@ export default class Repositor extends Enemigo {
 
         this.compRepo = {
 
-            pinia : [0,5] ,
-            patada : [6,10] 
+            pinia : [0,3] ,
+            patada : [6,8] 
         }
 
         this.numeroAleatorio = 0
@@ -111,7 +111,7 @@ export default class Repositor extends Enemigo {
 
         if (escena.caja) {
 
-
+            escena.sound.play('arrojaCaja', { volume: 10 })
 
             escena.caja.anims.create({  //creo la animacion
                 key: "caja",  //nombre de la animacion

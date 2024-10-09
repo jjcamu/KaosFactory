@@ -13,6 +13,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.crearHitboxes(escena)
         this.cargarListener();
         this.cargarAnimaciones();   
+
     }
 
     init(){
@@ -39,6 +40,9 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.escala = 0.5
 
         this.velocidad = 450 * this.escala;
+
+
+        this.banderaSonido = true
 
     }
 
@@ -127,6 +131,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.anims.currentAnim = 'parado'
 
     }
+
+
  
 
     actualizar(controlJoystick, controlTeclado, enemigos){
@@ -224,11 +230,22 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                 //con la siguiente logica de condiciones, estoy dando prioridad al estado 'heridoBajo' y 'heridoAlto',
                 //ya que toda animacion se verá interrumpida si recibo un golpe de mi enemigo
 
-        if (this.state == 'heridoBajo') { this.anims.play('heridoBajo',true); }
+        if (this.state == 'heridoBajo') { 
+            
+            this.anims.play('heridoBajo',true);
+        
+           if (this.banderaSonido== true) {this.scene.sound.play('golpeBajo', { volume: 5 }); this.banderaSonido = false}
+        
+        }
     
         
 
-        else if  (this.state == 'heridoAlto') { this.anims.play('heridoAlto',true); }
+        else if  (this.state == 'heridoAlto') { 
+            
+            this.anims.play('heridoAlto',true); 
+        
+           if (this.banderaSonido== true) {this.scene.sound.play('golpeAlto', { volume: 5 }); this.banderaSonido = false}
+        }
 
 
         if ( (this.anims.currentAnim.key == 'heridoBajo' || this.anims.currentAnim.key == 'heridoAlto')  && 
@@ -240,20 +257,33 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         }else{
 
 
-            if (this.state == 'pinia') {this.anims.play('pinia',true); }
+            if (this.state == 'pinia') {
+                
+                this.anims.play('pinia',true); 
 
-            else if (this.state == 'patada') { this.anims.play('patada',true);}
+                if (this.banderaSonido== true) {this.scene.sound.play('golpePinia', { volume: 5 }); this.banderaSonido = false}
+
+            }
+
+            else if (this.state == 'patada') { 
+                
+                this.anims.play('patada',true);
+
+                if (this.banderaSonido== true) {this.scene.sound.play('golpePatada', { volume: 5 }); this.banderaSonido = false}
+
+            }
     
             else if (this.state == 'nada' && this.body.speed != 0) { 
         
                 this.anims.play("caminar", true); 
+                this.banderaSonido = true
         
             }
         
             else{
         
                 this.anims.play("parado", true);
-        
+                this.banderaSonido = true
         
             }
 
@@ -414,7 +444,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             escena.time.delayedCall(4000, reiniciaJuego, [escena]);
 
             function reiniciaJuego (escena){ //reinicio el juego desde la intro
-        
+
+                escena.sound.stopAll()
                 escena.scene.start('intro' ,  { gameOver: 'true'})
 
             }
@@ -506,7 +537,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                     // muestro la animacion de explosion . Lo hago de esta manera porque sino la animacion se ve pequenia :(  
                     this.explosion = this.scene.add.sprite(objetoADestruir.x + objetoADestruir.displayWidth/2 ,objetoADestruir.y + objetoADestruir.displayHeight/2 , 'explosion2').setScale(1.5 * this.escala);
                     this.explosion.anims.play("explosion2");
-
+                    this.scene.sound.play('explosion', { volume: 8 })
 
                     objetoADestruir.setVisible(false) //desaparece el objeto destruido
                     objetoADestruir.body.setEnable(false) // para no seguir colisionando con el objeto destruido
@@ -533,6 +564,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                             this.state = 'muerto'
                         }else{
                             this.anims.play('heridoBajo',true); 
+                            this.scene.sound.play('tos', { volume: 3 })
+
                             //ejecuto directamente la animacion, en vez de cambiar el estado del jugador, porque cuando cambiaba el estado me daba error :P
                         }
                 
@@ -544,6 +577,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                     }
 
                 }else{
+ 
+                    this.scene.sound.play('golpeObjeto', { volume: 5 })
 
                     //efecto de movimiento que genero en el objeto golpeado
                     objetoADestruir.setPosition(objetoADestruir.x - 8 * this.escala, objetoADestruir.y - 8 * this.escala)

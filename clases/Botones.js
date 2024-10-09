@@ -55,6 +55,7 @@ export default class Botones extends Phaser.GameObjects.Group {
          
             botonA.anims.play("botonA-apretado", true); //botonA sombreado
             jugador.state = 'pinia'  //cambia estado del jugador 
+           
     
         })
         
@@ -69,6 +70,7 @@ export default class Botones extends Phaser.GameObjects.Group {
             
             botonB.anims.play("botonB-apretado", true);
             jugador.state = 'patada'
+            
         })
     
         botonB.setInteractive().on("pointerup",function() { 

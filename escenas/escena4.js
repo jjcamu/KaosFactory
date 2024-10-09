@@ -65,7 +65,7 @@ export default class escena4 extends Phaser.Scene {
         this.load.image('globo3a', 'imagenes/nivel4/globo3.png');
         this.load.image('globo4a', 'imagenes/nivel4/globo4.png');
 
-        this.load.image('cartelInicial', 'imagenes/nivel4/cartelInicial.png')
+        this.load.image('cartelInicial2', 'imagenes/nivel4/cartelInicial.png')
         this.load.image('cartelFinal', 'imagenes/nivel4/cartelFinal.png')
 
         this.load.image('pantallaFinal', 'imagenes/nivel4/pantallaFinal.png')
@@ -89,6 +89,13 @@ export default class escena4 extends Phaser.Scene {
         this.load.spritesheet('sobre', 'animaciones/nivel4/sobre-sheet500x500.png', { frameWidth: 500, frameHeight: 500 });  
         this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
 
+        // musica del escenario
+
+        this.load.audio('musicaNivel4', 'audios/musicaNiveles/musicaNivel4.mp3' )
+
+        this.load.audio('musicaVictoria', 'audios/musicaNiveles/musicaVictoria.mp3' )
+
+        this.load.audio('marchaPeroncha', 'audios/musicaNiveles/marchaPeroncha.mp3' )
 
 
     }
@@ -115,6 +122,7 @@ export default class escena4 extends Phaser.Scene {
         //Esto, y ademas establecer un factor de rebote de 1 en el enemigo, sirve para asegurarme que el cuerpo del enemigo 
         //no atraviese las paredes (las areas de colision)
   
+        this.events.on('shutdown', () => { this.sound.stopAll() }) //frena la musica si se sale del escenario (para evitar errores de audio)
 
 
         ////// imagen de fondo del escenario
@@ -194,6 +202,9 @@ export default class escena4 extends Phaser.Scene {
         this.banderaConfeti = false
 
 
+        this.sound.play('musicaNivel4' , { volume: 0.5 , loop: true })
+
+    
 
         this.children.list.forEach(GameObject => {
 
