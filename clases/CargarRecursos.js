@@ -54,12 +54,12 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
 
         // sonidos comunes a todos los escenarios
 
-        escena.load.audio('golpePatada', 'audios/sonidos/patada.ogg', {instances: 3} )
-        escena.load.audio('golpePinia', 'audios/sonidos/pinia.ogg', {instances: 3} )
-        escena.load.audio('golpeAlto', 'audios/sonidos/golpeAlto.ogg', {instances: 3} )
-        escena.load.audio('golpeBajo', 'audios/sonidos/golpeBajo.ogg', {instances: 3} )
-        escena.load.audio('comer', 'audios/sonidos/comer.ogg', {instances: 3} )
-        escena.load.audio('explosion', 'audios/sonidos/explosion.ogg', {instances: 3} )
+        escena.load.audio('golpePatada', 'audios/sonidos/patada.ogg', {instances: 2} )
+        escena.load.audio('golpePinia', 'audios/sonidos/pinia.ogg', {instances: 2} )
+        escena.load.audio('golpeAlto', 'audios/sonidos/golpeAlto.ogg', {instances: 2} )
+        escena.load.audio('golpeBajo', 'audios/sonidos/golpeBajo.ogg', {instances: 2} )
+        escena.load.audio('comer', 'audios/sonidos/comer.ogg', {instances: 2} )
+        escena.load.audio('explosion', 'audios/sonidos/explosion.ogg', {instances: 2} )
         escena.load.audio('advertencia', 'audios/sonidos/advertencia.ogg' )
 
 

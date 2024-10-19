@@ -147,7 +147,7 @@ export default class intro extends Phaser.Scene {
                 } 
 
                 //detengo la musica de la presentacion
-                if (escena.sound.get()){escena.sound.get('musicaSeleccion').stop()}
+                escena.sound.stopAll()
 
                 escena.scene.start('escena1', { jugadorElegido: escena.jugadorElegido })  
                 // inicio el siguiente escenario, y como 2do parametro transfiero a la nueva escena informacion sobre el jugador elegido 
@@ -177,7 +177,7 @@ export default class intro extends Phaser.Scene {
         }else{  // cuando se inicia el juego por primera vez , se muestra el cartel 'Camusoft' ;)   
             
             this.crearPantalla1(this)
-
+ 
         }
 
 

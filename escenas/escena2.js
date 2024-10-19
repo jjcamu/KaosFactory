@@ -65,7 +65,7 @@ export default class escena2 extends Phaser.Scene {
         this.load.path = './multimedia/';
 
         //imagen de fondo 
-        this.load.image('fondo2', 'imagenes/nivel2/escenario2.png');
+        this.load.image('fondo2', 'imagenes/nivel2/escenario2B.png');
 
 
         // sprites del escenario
@@ -111,7 +111,7 @@ export default class escena2 extends Phaser.Scene {
         //audios del escenario
         this.load.audio('musicaNivel12y3', 'audios/musicaNiveles/musicaNivel12y3.mp3' )
         this.load.audio('bossHernan', 'audios/musicaNiveles/bossHernan.mp3' )
-        this.load.audio('tos', 'audios/sonidos/tos.ogg' )
+        this.load.audio('tos', 'audios/sonidos/tos.ogg'   )
         this.load.audio('sonidoTemblor', 'audios/sonidos/lluviaFuego.ogg' )
         this.load.audio('golpeFuego', 'audios/sonidos/golpeFuego.ogg' )
         this.load.audio('golpeObjeto', 'audios/sonidos/golpeObjeto.ogg' )
@@ -147,7 +147,7 @@ export default class escena2 extends Phaser.Scene {
         ////// imagen de fondo del escenario
 
 
-        this.fondo = this.add.image(0, 0, 'fondo2').setOrigin(0, 0).setScale(2 , 1.7 ).setDepth(-2);
+        this.fondo = this.add.image(0, 0, 'fondo2').setOrigin(0, 0).setScale(4 , 3.4 ).setDepth(-2);
 
 
         ////// paredes del escenario
@@ -202,6 +202,8 @@ export default class escena2 extends Phaser.Scene {
             this.enemigo1.cargarTimerHernan(this) //cargo el timer desde el create() de la escena, para que se llame solo una vez
         
             this.enemigos = this.physics.add.group([this.enemigo1]) 
+
+
 
 
         }
@@ -266,6 +268,9 @@ export default class escena2 extends Phaser.Scene {
 
         this.banderaSonido4 = true
 
+        this.banderaLiberarMemoria = true
+
+
 
 
         //let todosLosGameObjects = this.children.list.filter(x => x instanceof Phaser.GameObjects.GameObject);
@@ -300,6 +305,14 @@ export default class escena2 extends Phaser.Scene {
 
         }
         })
+
+
+
+
+
+
+
+
 
     }
 
@@ -422,6 +435,23 @@ export default class escena2 extends Phaser.Scene {
 
 
                 this.enemigo1 = new Enemigo(this, 200 * this.escala, 1200 * this.escala, 'facu', 2);
+
+
+
+/*                 if (this.banderaLiberarMemoria == true){
+
+                    // elimino escenas que no voy a utilizar , para liberar memoria
+                    // lo hago en este momento, ya que supongo que el jugador no querrá volver al escenario3 
+
+                    this.scene.remove('intro') //elimino la intro del juego
+                    this.scene.remove('escena3')  //elimino el escenario3
+
+                    //console.dir(this.game.scene.scenes)
+
+                    this.banderaLiberarMemoria = false
+
+                } */
+
 
 
                 // escalo a facu

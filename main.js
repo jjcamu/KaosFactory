@@ -38,10 +38,10 @@ var config = {
         activePointers: 3  //para que el celu reconozca mas de un touch simultaneo
     },
 
-/*     audio: {
+/*       audio: {
         disableWebAudio: true,
         noAudio: false
-    }, */
+    },   */
 
     //ESCENAS DEL JUEGO
     scene: [intro, escena1, escena2, escena3, escena4]  //añado las escenas importadas, por medio de un array con todas las escenas

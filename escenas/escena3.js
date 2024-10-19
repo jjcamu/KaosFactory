@@ -52,7 +52,7 @@ export default class escena3 extends Phaser.Scene {
         this.load.path = './multimedia/';
 
         //imagen de fondo 
-        this.load.image('fondo3', 'imagenes/nivel3/escenario3.png');
+        this.load.image('fondo3', 'imagenes/nivel3/escenario3B.png');
 
 
         // sprites del escenario
@@ -155,7 +155,7 @@ export default class escena3 extends Phaser.Scene {
         ////// imagen de fondo del escenario
 
 
-        this.fondo = this.add.image(0, 0, 'fondo3').setOrigin(0, 0).setScale(1.3).setDepth(-2);
+        this.fondo = this.add.image(0, 0, 'fondo3').setOrigin(0, 0).setScale(2.6).setDepth(-2);
 
 
         ////// paredes del escenario
@@ -317,6 +317,7 @@ export default class escena3 extends Phaser.Scene {
 
         }
         })
+
 
     }
 

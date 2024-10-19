@@ -54,6 +54,8 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         this.escala = 0.5
 
+    
+
 
     }
 
@@ -76,7 +78,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.load.path = './multimedia/';
 
         //imagen de fondo 
-        this.load.image('fondo', 'imagenes/nivel1/fondo.png'); //cargo una imagen, y la asocio a la etiqueta 'fondo'
+        this.load.image('fondo', 'imagenes/nivel1/fondoB.png'); //cargo una imagen, y la asocio a la etiqueta 'fondo'
         //'this' hace referencia a la escena (objeto Scene)
     
         //sprites del escenario
@@ -128,7 +130,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         ////// imagen de fondo del escenario
 
-        this.fondo = this.add.image(0, 0, 'fondo').setOrigin(0, 0).setScale(2.2).setDepth(-2);
+        this.fondo = this.add.image(0, 0, 'fondo').setOrigin(0, 0).setScale(4.4).setDepth(-2);
         // 'this.add.image(0, 0, 'fondo') ' devuelve una imagen que estará ubicada en la coordenada 0,0 .
         //  Peeero en Phaser 3, las coordenadas 0,0 corresponde al centro de la imagen .
         // Con el metodo 'setOrigin()' puedo cambiar esto, y hacer que la coordenada 0,0 sea la esquina 
@@ -252,10 +254,62 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.sombra = this.physics.add.sprite(0, 0)
 
 
+        //borro del cache lo que no vuelvo a usar en el juego
+        this.cache.video.remove('videoPresentacion') //borro el video de presentacion de la memoria cache
+        this.cache.audio.remove('musicaSeleccion') 
+        // borro del texture manager, las imagenes que no vuelvo a utilizar
+        this.game.textures.remove("pantalla1")
+        this.game.textures.remove("pantalla3")
+
+
+
 
 
         // reproduzco la musica del nivel
         this.sound.play('musicaNivel12y3' , { volume: 0.5 , loop: true  })
+
+
+        // si estoy regresando desde el escenario 2, con la llave, 
+        //elimino del texture manager las texturas que no volveré a utilizar, para liberar memoria
+        if (this.llaveNegocio == true){
+
+            let texturasTotales = this.game.textures.getTextureKeys()
+
+            let texturasABorrar = ['pantalla1', 'pantalla3',  'globo1', 'globo2', 'globo3', 'globo4', 'globo5', 'globo6', 'tanque', 'moto', 'bici', 'carreta', 'tarima', 'tacho3',  'oscuridad',  'columna',  'herramientas', 'tacho2', 'tacho1', 'matafuego', 'zorra', 'mosquitero', 'cortina1', 'cortina2', 'puertaTaller', 'explosion2', 'pedo', 'gotaFuego', 'pollo',  'hernan', 'fondo2', 'paredB', 'vidrio1', 'mesa2', 'paredA', 'paredC', 'vidrio3', 'mezcladora', 'vidrio2', 'paredEnvasado2', 'mesa3', 'amasadora', 'cinta', 'enfriadora', 'molde', 'enroladora', 'envasadora', 'maquina1', 'maquina2', 'pailaCobre', 'tablero', 'tachoBasura', 'moledora', 'tarimaAzucar', 'tarimaEsencias', 'llave', 'caramelos',  'mate', 'fondo3']
+            
+            //como son muchas texturas a eliminar, utilizo bucles for
+            for(let i=0; i < texturasTotales.length; i++){
+
+                for(let j=0; j < texturasABorrar.length; j++){
+
+                    if (texturasABorrar[j] === texturasTotales[i]){
+                        this.game.textures.remove(texturasTotales[i])
+                    }
+                }
+            }
+
+            // ademas elimino audio que no vuelvo a usar
+
+            this.cache.audio.remove("bossHernan") 
+            this.cache.audio.remove("golpeObjeto") 
+            this.cache.audio.remove("sonidoTemblor") 
+            this.cache.audio.remove("golpeFuego") 
+            this.cache.audio.remove("tos") 
+            this.cache.audio.remove("comer") 
+            this.cache.audio.remove("puertaRota") 
+
+/*              console.log(this.cache.audio.getKeys())
+                console.log(this.game.textures.getTextureKeys()) */
+
+            // elimino escenas que no voy a utilizar , para liberar memoria
+            // lo hago en este momento, ya que supongo que el jugador no querrá volver al escenario3 
+
+            //this.scene.remove('intro') //elimino la intro del juego
+            //this.scene.remove('escena3')  //elimino el escenario3
+
+        }
+
+
 
 
 
@@ -290,7 +344,10 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         }
         })
-        
+        //this.llaveNegocio = true
+        //this.banderaPasar = true
+
+    
 
     }
 

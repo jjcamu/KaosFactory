@@ -34,9 +34,13 @@ export default class escena4 extends Phaser.Scene {
         this.jugadorElegido = data.jugadorElegido  
 
         this.escala = 0.5
+
+
     }
 
     preload(){
+
+
 
         this.recursos = new CargarRecursos (); 
 
@@ -51,7 +55,7 @@ export default class escena4 extends Phaser.Scene {
         this.load.path = './multimedia/';
 
         //imagen de fondo 
-        this.load.image('fondo4', 'imagenes/nivel4/escenario4.png');
+        this.load.image('fondo4', 'imagenes/nivel4/escenario4B.png');
 
 
         // sprites del escenario
@@ -93,15 +97,17 @@ export default class escena4 extends Phaser.Scene {
 
         this.load.audio('musicaNivel4', 'audios/musicaNiveles/musicaNivel4.mp3' )
 
-        this.load.audio('musicaVictoria', 'audios/musicaNiveles/musicaVictoria.mp3' )
+        //this.load.audio('musicaVictoria', 'audios/musicaNiveles/musicaVictoria.mp3' )
 
-        this.load.audio('marchaPeroncha', 'audios/musicaNiveles/marchaPeroncha.mp3' )
+        //this.load.audio('marchaPeroncha', 'audios/musicaNiveles/marchaPeroncha.mp3' )
 
 
     }
 
     create(){
         
+
+
 
 
         this.compUlla = {
@@ -124,11 +130,10 @@ export default class escena4 extends Phaser.Scene {
   
         this.events.on('shutdown', () => { this.sound.stopAll() }) //frena la musica si se sale del escenario (para evitar errores de audio)
 
-
         ////// imagen de fondo del escenario
 
 
-        this.fondo = this.add.image(0, 0, 'fondo4').setOrigin(0, 0).setScale(1.5).setDepth(-2);
+        this.fondo = this.add.image(0, 0, 'fondo4').setOrigin(0, 0).setScale(3).setDepth(-2);
 
         //paredes del escenario
         this.paredes4 = new Paredes4(this.physics.world, this);
@@ -205,6 +210,9 @@ export default class escena4 extends Phaser.Scene {
         this.sound.play('musicaNivel4' , { volume: 0.5 , loop: true })
 
     
+
+
+
 
         this.children.list.forEach(GameObject => {
 

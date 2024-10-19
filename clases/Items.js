@@ -342,6 +342,27 @@ export default class Items extends Phaser.Physics.Arcade.Group {
                 //detengo la musica 
                 this.sound.stopAll()
 
+
+
+                //elimino del texture manager las texturas que no volveré a utilizar, para liberar memoria
+
+/*                 this.game.textures.remove('bolsaBasura')
+                this.game.textures.remove('costadoPorton')
+                this.game.textures.remove('porton')
+                this.game.textures.remove('puertaNegocio')
+                this.game.textures.remove('fondo') */
+
+                // ademas elimino audio que no vuelvo a usar
+
+                this.cache.audio.remove('musicaNivel12y3')
+
+/*                 // elimino escenas que no voy a utilizar , para liberar memoria
+
+                this.scene.remove('escena2') //elimino la intro del juego
+                this.scene.remove('escena1')  //elimino el escenario3 */
+
+
+
                 this.scene.start('escena4', { vidas: this.jugador.vidas , escenaAnterior: this.scene.key, jugadorElegido: this.jugadorElegido})
             
             

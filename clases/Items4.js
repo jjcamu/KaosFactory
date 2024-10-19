@@ -34,6 +34,10 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
         this.confetis = escena.physics.add.group({defaultKey: 'confeti'})
 
+
+        this.banderaMusica1 = true
+        this.banderaMusica2 = true
+
     }
 
     dialogoInicial(escena){
@@ -128,9 +132,28 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
         //detengo la musica del escenario
         escena.sound.get('musicaNivel4').stop()
-                
-        // reproduzco la musica de la victoria
-        escena.sound.play('musicaVictoria' , { volume: 0.5 , loop: true  })
+
+        //la borro del caché
+        escena.cache.audio.remove("musicaNivel4") 
+
+        // cargo en caché y reproduzco la musica de la victoria
+ 
+        if (this.banderaMusica1 == true){
+
+            //creo un loader (cargador). Esto es necesario ya que estoy cargando un recurso desde fuera del metodo 'preload()'
+            this.musicaVictoria = escena.load.audio('musicaVictoria', 'audios/musicaNiveles/musicaVictoria.mp3' )
+
+            //creo un oyente. para que se inicie la musica una vez cargada en caché, y no antes (daría error)
+            this.musicaVictoria.on('filecomplete', () => escena.sound.add('musicaVictoria').play({ volume: 0.5 }))
+
+            this.musicaVictoria.start()
+
+            this.banderaMusica1 = false
+
+        }
+
+        
+
 
         escena.physics.pause() // pauso las fisicas para impedir que se mueva el jugador y el enemigo
 
@@ -215,9 +238,29 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
     pantallaFinal(escena, centrarX, centrarY){
 
                 
-        escena.sound.get('musicaVictoria').stop()
-                
-        escena.sound.play('marchaPeroncha' , { volume: 0.5 , loop: true  })
+        //detengo la musica de la victoria
+        escena.sound.stopAll() 
+
+        //elimino el oyente del cargador
+        this.musicaVictoria.removeListener('filecomplete')
+
+        //borro el audio del caché
+        escena.cache.audio.remove("musicaVictoria")
+
+        // cargo en caché y reproduzco la marcha peroncha
+        if (this.banderaMusica2 == true){
+
+            this.marchaPeroncha = escena.load.audio('marchaPeroncha', 'audios/musicaNiveles/marchaPeroncha.mp3' )
+
+            this.marchaPeroncha.on('filecomplete', () => escena.sound.add('marchaPeroncha').play({ volume: 0.5 }))
+
+            this.marchaPeroncha.start()
+
+            this.banderaMusica2 = false
+
+        }
+
+
 
         escena.items4.create(centrarX, centrarY , 'pantallaFinal').setDepth(3)
 
@@ -286,7 +329,14 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
     reiniciaJuego (escena){
 
-        escena.sound.get('marchaPeroncha').stop()
+
+        escena.sound.stopAll() 
+
+        this.marchaPeroncha.removeListener('filecomplete')
+
+        escena.cache.audio.remove("marchaPeroncha")
+
+
 
         escena.scene.start('intro' ,  { gameOver: 'true'})
     }
@@ -309,6 +359,8 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
             escena.items4.cartel3.destroy()      
             escena.items4.botonAceptar.destroy(); 
             escena.physics.resume();
+
+
 
 
         })
