@@ -149,7 +149,7 @@ export default class intro extends Phaser.Scene {
                 //detengo la musica de la presentacion
                 escena.sound.stopAll()
 
-                escena.scene.start('escena1', { jugadorElegido: escena.jugadorElegido })  
+                escena.scene.start('escena4', { jugadorElegido: escena.jugadorElegido })  
                 // inicio el siguiente escenario, y como 2do parametro transfiero a la nueva escena informacion sobre el jugador elegido 
     
 

@@ -25,6 +25,8 @@ export default class Martin extends Enemigo {
 
         this.sobreHabilitado = false
 
+        this.banderaLanza = true  // para que reproduzca solo una vez la animacion de lanzamiento sobre, por cada sobre lanzado.
+
         this.cargarAnimacionesMartin(spriteSheet);   //cargo las animaciones que solo corresponder a martin
 
 
@@ -35,7 +37,7 @@ export default class Martin extends Enemigo {
 
         this.anims.create({
             key: "lanzaSobre",
-            frames: this.anims.generateFrameNumbers(spriteSheet,{start:44,end:52}), 
+            frames: this.anims.generateFrameNumbers(spriteSheet,{start:98,end:103}), 
             frameRate:40, 
             repeat:0 
         });
@@ -94,16 +96,28 @@ export default class Martin extends Enemigo {
 
                 //if (this.anims.currentAnim.key != 'lanzaCaja') {this.anims.stop()}
     
-                this.anims.play("lanzaSobre", true); // animacion de Martin lanzando un sobre
+                if (this.banderaLanza == true){
+
+                    this.anims.play("lanzaSobre", true); // animacion de Martin lanzando un sobre
     
+                    this.banderaLanza = false
+                }
+
+
+                if (this.banderaLanza == false){  //cuando se ejecuta la animacion de lanzar sobre, creo el sobre
+
+                    this.crearSobre(true, escena)
+                }
     
-                this.crearSobre(true, escena)
+                
     
     
     
             }else {
     
                 this.crearSobre(false, escena)
+
+                this.banderaLanza = true
     
     
                 super.actualizar(escena.jugador, this.compMartin)
@@ -136,7 +150,13 @@ export default class Martin extends Enemigo {
                 escena.barrasVida.barraJugador.displayWidth = escena.jugador.vidas;
             }
     
-            if (escena.physics.overlap(this.sobres, escena.paredes4 , (sobre, pared) => {sobre.destroy()})){}
+            if (escena.physics.overlap(this.sobres, escena.paredes4 , (sobre, pared) => {
+                
+                this.explosion = escena.add.sprite(sobre.x ,sobre.y  , 'explosion').setScale(1.8 * this.escala);
+                this.explosion.anims.play("explosion");
+                this.scene.sound.play('explosion' , { volume: 8 })
+                
+                sobre.destroy()})){}
 
 
 
@@ -157,6 +177,8 @@ export default class Martin extends Enemigo {
             if (this.sobreLanzado && activado == true){  // lanza el sobre cada x segundos, siempre y cuando activado sea true
     
                 this.sobreLanzado = false
+
+                this.banderaLanza = true
     
                 var sobre= this.sobres.get(this.x, this.y + 40); // creo el objeto sprite
     

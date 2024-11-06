@@ -13,9 +13,17 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
     }
 
     init(){
-        this.setScale(1.32)
+        this.setScale(1.40)
+
+        if (this.name == 'nico') {this.setScale(1.55, 1.42)}
+        if (this.name == 'juan') {this.setScale(1.35, 1.34)}
+        if (this.name == 'diego') {this.setScale(1.40, 1.38)}
+
+        if (this.name == 'esteban') {this.setScale(1.32, 1.35)}
+
         this.setOffset(100,200)
-        this.body.setSize(this.width - 170, 40, 0, 0);
+        this.body.setSize(100, 40, 0, 0);
+        //this.body.setSize(this.width - 170, 40, 0, 0);
 
         this.body.setBounce(1); //establezco un factor de rebote , esto lo hago para asegurarme que el cuerpo del enemigo 
         //no atraviese las paredes (las areas de colision)

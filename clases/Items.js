@@ -162,7 +162,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
     cartelInicial(escena){
 
-        escena.sound.play('advertencia', { volume: 8 })
+        escena.sound.play('advertencia', { volume: 1 })
 
         this.centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
         //a la posicion de la camara en el escenario (en el mundo del juego), le sumo el ancho de la camara 
@@ -289,7 +289,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
     
     cartelDesayuno(escena){
 
-        escena.sound.play('advertencia', { volume: 8 })
+        escena.sound.play('advertencia', { volume: 1 })
 
         this.centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
         //a la posicion de la camara en el escenario (en el mundo del juego), le sumo el ancho de la camara 
@@ -374,7 +374,7 @@ export default class Items extends Phaser.Physics.Arcade.Group {
 
             this.banderaNegocio = false
 
-            this.sound.play('advertencia', { volume: 8 })
+            this.sound.play('advertencia', { volume: 1 })
 
             this.items.centrarX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
             this.items.centrarY = this.cameras.main.worldView.y + this.cameras.main.height / 2;

@@ -98,6 +98,7 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
         function cartelInicial(escena){
 
+            escena.sound.play('advertencia', { volume: 1 })
 
             let centrarX = escena.cameras.main.worldView.x + escena.cameras.main.width / 2;
             let centrarY = escena.cameras.main.worldView.y + escena.cameras.main.height / 2;
@@ -130,15 +131,17 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
         escena.enemigoEsteban.anims.pause()
         escena.enemigoUlla.anims.pause()
 
-        //detengo la musica del escenario
-        escena.sound.get('musicaNivel4').stop()
-
-        //la borro del caché
-        escena.cache.audio.remove("musicaNivel4") 
 
         // cargo en caché y reproduzco la musica de la victoria
  
         if (this.banderaMusica1 == true){
+
+            
+            //detengo la musica del escenario
+            escena.sound.stopAll()
+
+            //la borro del caché
+            escena.cache.audio.remove("musicaNivel4") 
 
             //creo un loader (cargador). Esto es necesario ya que estoy cargando un recurso desde fuera del metodo 'preload()'
             this.musicaVictoria = escena.load.audio('musicaVictoria', 'audios/musicaNiveles/musicaVictoria.mp3' )
@@ -271,14 +274,24 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
             repeat: -1
         });
 
-        escena.time.delayedCall(2000, () => {escena.add.sprite(centrarX, centrarY -148 , 'copa').setDepth(4)}, [escena]); //135 - 68 
+        escena.time.delayedCall(2000, () => {this.copa = escena.add.sprite(centrarX, centrarY -148 , 'copa').setDepth(4)}, [escena]); //135 - 68 
 
-        escena.time.delayedCall(3000, () => {escena.add.sprite(centrarX, centrarY - 75 , 'titulo1').setDepth(4)}, [escena]);
+        escena.time.delayedCall(3000, () => {this.titulo1 = escena.add.sprite(centrarX, centrarY - 75 , 'titulo1').setDepth(4)}, [escena]);
 
-        escena.time.delayedCall(7000, () => {escena.add.sprite(centrarX, centrarY - 5 , 'titulo2').setDepth(4)}, [escena]);
+        escena.time.delayedCall(7000, () => {this.titulo2 = escena.add.sprite(centrarX, centrarY - 5 , 'titulo2').setDepth(4)}, [escena]);
 
-        escena.time.delayedCall(13000, () => {escena.add.sprite(centrarX, centrarY + 30 , 'titulo3').setDepth(4)}, [escena]); 
+        escena.time.delayedCall(15000, () => {this.titulo3 = escena.add.sprite(centrarX, centrarY + 35 , 'titulo3').setDepth(4)}, [escena]); 
 
+        escena.time.delayedCall(19000, () => {
+            
+            this.copa.setVisible(false)
+            this.titulo1.setVisible(false)
+            this.titulo2.setVisible(false)
+            this.titulo3.setVisible(false)
+            escena.add.sprite(centrarX, centrarY -80 , 'creditos').setDepth(4)
+        
+        
+        }, [escena]); 
         //escena.time.delayedCall(15000, this.reiniciaJuego , [escena]); 
 
 

@@ -37,6 +37,9 @@ export default class Hernan extends Enemigo {
 
         this.vidas = 300  //sobreescribo las vidas de Hernan, para que tenga mas vidas que el enemigo comun
 
+
+        this.setScale(1.45, 1.50)
+
     }
 
 

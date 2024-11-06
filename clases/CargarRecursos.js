@@ -35,11 +35,11 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
 
         //posibles spritesheet del jugador
 
-        escena.load.spritesheet('juan', 'animaciones/ariel/ariel293x272.png', { frameWidth: 293, frameHeight: 272 });
-        escena.load.spritesheet('ariel', 'animaciones/ariel/ariel293x272.png', { frameWidth: 293, frameHeight: 272 });
-        escena.load.spritesheet('ulises', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
-        escena.load.spritesheet('diego', 'animaciones/diego/diego293x272.png', { frameWidth: 293, frameHeight: 272 });
-        escena.load.spritesheet('nico', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
+        escena.load.spritesheet('juan', 'animaciones/juan/juan293x273.png', { frameWidth: 293, frameHeight: 273 });
+        escena.load.spritesheet('ariel', 'animaciones/ariel/ariel290x269.png', { frameWidth: 290, frameHeight: 269 });
+        escena.load.spritesheet('ulises', 'animaciones/ulises/ulises291x266.png', { frameWidth: 291, frameHeight: 266 });
+        escena.load.spritesheet('diego', 'animaciones/diego/diego288x262.png', { frameWidth: 288, frameHeight: 262 });
+        escena.load.spritesheet('nico', 'animaciones/nico/nico289x267.png', { frameWidth: 289, frameHeight: 267 });
  
         //spritesheet de los nombres de los peleadores
         escena.load.spritesheet('nombresPeleadores', 'imagenes/nombres87x18.png', { frameWidth: 87, frameHeight: 18 });

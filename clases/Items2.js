@@ -265,7 +265,7 @@ export default class Items2 extends Phaser.Physics.Arcade.Group {
 
                 escena.enemigo1.anims.play("caminarEnemigo", true); 
 
-                escena.physics.moveTo(escena.enemigo1, 2590 * escena.items2.escala,  224 * escena.items2.escala, 150 * escena.items2.escala); // camina hernan hacia el costado
+                escena.physics.moveTo(escena.enemigo1, 2590 * escena.items2.escala,  105, 150 * escena.items2.escala); // camina hernan hacia el costado
 
             }else{
 

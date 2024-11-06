@@ -13,6 +13,17 @@ export default class Items3 extends Phaser.Physics.Arcade.Group {
 
 
 
+
+        // sala de envasado
+        this.maquina2 = this.create(3221, 340, 'maquina2').setOrigin(0,0).setScale(1.3)
+        this.maquina2.setSize(this.maquina2.width -200,this.maquina2.height/3 -40 ).setOffset(150,this.maquina2.height-(this.maquina2.height/3 -20))
+        this.maquina2.body.setImmovable(true) 
+
+        this.maquina1 = this.create( 3082,  582, 'maquina1').setOrigin(0,0).setScale(1.3)
+        this.maquina1.setSize((this.maquina1.width -100)/2,this.maquina1.height/2).setOffset(100,this.maquina1.height- this.maquina1.height/2)
+        this.maquina1.body.setImmovable(true) 
+
+
         // pared frontal sala de envasado 
 
         this.paredA = this.create(2083, 198, 'paredA').setOrigin(0,0).setScale(1.3).setDepth(-2) 
@@ -112,16 +123,6 @@ export default class Items3 extends Phaser.Physics.Arcade.Group {
         this.enroladora.setSize(this.enroladora.width -100,this.enroladora.height/3 -40 ).setOffset(50,this.enroladora.height-(this.enroladora.height/3 -20))
         this.enroladora.body.setImmovable(true) 
 
-        // sala de envasado
-        this.maquina2 = this.create(3221, 340, 'maquina2').setOrigin(0,0).setScale(1.3)
-        this.maquina2.setSize(this.maquina2.width -200,this.maquina2.height/3 -40 ).setOffset(150,this.maquina2.height-(this.maquina2.height/3 -20))
-        this.maquina2.body.setImmovable(true) 
-        this.envasadora = this.create(2678, 334, 'envasadora').setOrigin(0,0).setScale(1.3)
-        this.envasadora.setSize(this.envasadora.width -100,this.envasadora.height/3 -80 ).setOffset(150,this.envasadora.height-(this.envasadora.height/3 -20))
-        this.envasadora.body.setImmovable(true) 
-        this.maquina1 = this.create( 3082,  582, 'maquina1').setOrigin(0,0).setScale(1.3)
-        this.maquina1.setSize((this.maquina1.width -100)/2,this.maquina1.height/2).setOffset(100,this.maquina1.height- this.maquina1.height/2)
-        this.maquina1.body.setImmovable(true) 
 
 
         this.mate.anims.create({

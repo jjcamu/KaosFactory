@@ -27,6 +27,8 @@ export default class Repositor extends Enemigo {
 
         this.cajaHabilitada = true
 
+        this.banderaLanzaCaja = true
+
         this.cargarAnimacionesRepositor(spriteSheet);   //cargo las animaciones que solo corresponden a los repositores
 
 
@@ -37,7 +39,7 @@ export default class Repositor extends Enemigo {
 
         this.anims.create({
             key: "lanzaCaja",
-            frames: this.anims.generateFrameNumbers(spriteSheet,{start:44,end:52}), 
+            frames: this.anims.generateFrameNumbers(spriteSheet,{start:98,end:103}), 
             frameRate:40, 
             repeat:0 
         });
@@ -77,12 +79,17 @@ export default class Repositor extends Enemigo {
                 && this.state != 'muerto' && this.state != 'heridoAlto' && this.state != 'heridoBajo' ){
                 // si se cumple el Aleatorio, y si además, el repositor no esta muerto ni siendo golpeado, entonces arroja la caja.
 
+                if (this.banderaLanzaCaja == true){
 
-                this.anims.play("lanzaCaja", true); // animacion del repositor lanzando una caja
+                    this.anims.play("lanzaCaja", true); // animacion del repositor lanzando una caja
+
+                    this.banderaLanzaCaja = false
+
+                }
 
                 this.setVelocity(0)
 
-                if (this.cajaHabilitada == true) { 
+                if (this.cajaHabilitada == true && this.banderaLanzaCaja == false) { 
                     
                     this.cajaHabilitada = false
                     this.crearCaja(escena);
@@ -94,6 +101,8 @@ export default class Repositor extends Enemigo {
 
                 this.cajaHabilitada = true
 
+                this.banderaLanzaCaja = true
+
                 super.actualizar(escena.jugador, this.compRepo)
     
             }
@@ -104,6 +113,8 @@ export default class Repositor extends Enemigo {
 
     crearCaja(escena) {
 
+
+        this.banderaLanzaCaja = true
 
         escena.caja = this.cajas.get(this.x + 50, this.y ); // creo el objeto sprite en una variable de la escena
 

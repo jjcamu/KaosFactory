@@ -17,10 +17,15 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     }
 
     init(){
-        this.setScale(1.32)
+        this.setScale(1.40)
+
+        if (this.sprite == 'nico') {this.setScale(1.55, 1.42)} //correccion de las dimensiones de nico  :/
+        if (this.sprite == 'juan') {this.setScale(1.35, 1.34)}
+        if (this.sprite == 'diego') {this.setScale(1.40, 1.38)}
+
         this.setOffset(100,200)
         this.setDepth(0)
-        this.body.setSize(this.width - 170, 40, 0, 0);
+        this.body.setSize(100, 40, 0, 0);
 
 
         this.enemigoGolpeador = '';

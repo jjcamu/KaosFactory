@@ -44,7 +44,7 @@ export default class escena2 extends Phaser.Scene {
         this.llaveNegocio = data.llaveNegocio
         
         
-        //this.llaveNegocio = true
+        this.llaveNegocio = true
 
 
         this.escala = 0.5
@@ -99,13 +99,13 @@ export default class escena2 extends Phaser.Scene {
         
         this.load.spritesheet('explosion2', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
         this.load.spritesheet('ariel', 'animaciones/ariel/ariel293x272.png', { frameWidth: 293, frameHeight: 272 });
-        this.load.spritesheet('facu', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
+        this.load.spritesheet('facu', 'animaciones/facu/facu304x282.png', { frameWidth: 304, frameHeight: 282 });
         this.load.spritesheet('pedo', 'animaciones/nivel2/pedo0001-sheet.png', { frameWidth: 550, frameHeight: 400 });
         this.load.spritesheet('gotaFuego', 'animaciones/nivel2/fuego59x128-sheet.png', { frameWidth: 59, frameHeight: 128 });
         this.load.spritesheet('pollo', 'animaciones/nivel2/SpritePollo400x500.png', { frameWidth: 400, frameHeight: 500 });
         this.load.spritesheet('sombra', 'animaciones/nivel1/sombra0001-1-Sheet.png', { frameWidth: 72, frameHeight: 38 });
 
-        this.load.spritesheet('hernan', 'animaciones/diego/diego293x272.png', { frameWidth: 293, frameHeight: 272 });
+        this.load.spritesheet('hernan', 'animaciones/hernan/hernan288x281.png', { frameWidth: 288, frameHeight: 281 });
 
         
         //audios del escenario
@@ -196,7 +196,7 @@ export default class escena2 extends Phaser.Scene {
             //this.enemigoAriel.disableBody(true).setVisible(false).setPosition(8000,2000)
             //quito a Ariel de la escena
         
-            this.enemigo1 = new Hernan(this, 2193, 224, 'hernan', 2);
+            this.enemigo1 = new Hernan(this, 2193, 200, 'hernan', 2);
 
 
             this.enemigo1.cargarTimerHernan(this) //cargo el timer desde el create() de la escena, para que se llame solo una vez

@@ -103,9 +103,9 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.load.spritesheet('sombra', 'animaciones/nivel1/sombra0001-1-Sheet.png', { frameWidth: 72, frameHeight: 38 });
         this.load.spritesheet('flecha', 'animaciones/flecha-1-sheet800x500.png', { frameWidth: 800, frameHeight: 500 });
 
-        this.load.spritesheet('oso', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
-        this.load.spritesheet('flor', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
-        this.load.spritesheet('fede', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
+        //this.load.spritesheet('oso', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
+        this.load.spritesheet('flor', 'animaciones/flor/flor298x274.png', { frameWidth: 298, frameHeight: 274 });
+        this.load.spritesheet('fede', 'animaciones/fede/fede300x281.png', { frameWidth: 300, frameHeight: 281 });
 
         this.load.spritesheet('caja', 'animaciones/nivel1/caja340x340.png', { frameWidth: 340, frameHeight: 340 });
         this.load.image('sombra', 'imagenes/nivel1/sombra.png')
@@ -170,7 +170,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         this.enemigoFlor = new Enemigo(this, 0, -200, 'juan', 1)
 
-        this.enemigoOso = new Enemigo(this, 0, -200, 'juan', 1)
+        //this.enemigoOso = new Enemigo(this, 0, -200, 'juan', 1)
 
         this.enemigoFede = new Enemigo(this, 0, -200, 'juan', 1)
 
@@ -178,19 +178,19 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
             
             this.enemigoFlor = new Repositor(this, 3900, 600, 'flor', 2);
 
-            this.enemigoOso = new Repositor(this, 3600, 700, 'oso', 2);
+            //this.enemigoOso = new Repositor(this, 3600, 700, 'oso', 2);
 
             this.enemigoFede = new Repositor(this, 3400, 700, 'fede', 2);
 
             
             this.enemigoFlor.cargarTimerRepositor(this) //cargo el timer desde el create() de la escena, para que se llame solo una vez
             
-            this.enemigoOso.cargarTimerRepositor(this) 
+            //this.enemigoOso.cargarTimerRepositor(this) 
 
             this.enemigoFede.cargarTimerRepositor(this) 
         
         
-            this.enemigos = this.physics.add.group([this.enemigoFlor, this.enemigoOso, this.enemigoFede]) 
+            this.enemigos = this.physics.add.group([this.enemigoFlor,  this.enemigoFede]) 
      
 
         
@@ -381,7 +381,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         }
 
-        if (this.jugador.x > 5220 * this.escala ){
+        if (this.jugador.x > 5210 * this.escala ){
             
             this.sound.stopAll()  //detengo el audio del juego antes de iniciar el proximo escenario para evitar errores 
 
@@ -401,14 +401,14 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
             if (this.banderaPuedenArrojarCajas == true){
 
                 this.enemigoFlor.actualizarRepositor(this)
-                this.enemigoOso.actualizarRepositor(this)
+                //this.enemigoOso.actualizarRepositor(this)
                 this.enemigoFede.actualizarRepositor(this)
 
 
 
             }
 
-            if (this.enemigoFlor.state == "muerto" && this.enemigoOso.state == "muerto" && this.enemigoFede.state == "muerto"){
+            if (this.enemigoFlor.state == "muerto" && this.enemigoFede.state == "muerto"){
                 // si todos los repositores de este escenario murieron
     
                 this.banderaPasar = true  // se puede pasar al escenario 4
@@ -421,11 +421,11 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         // cajas
 
-        if (this.enemigoFlor.cajas || this.enemigoOso.cajas || this.enemigoFede.cajas){ 
+        if (this.enemigoFlor.cajas || this.enemigoFede.cajas){ 
 
 
-            if (this.physics.overlap(this.jugador.body, [this.enemigoFlor.cajas, this.enemigoOso.cajas, this.enemigoFede.cajas],  (jugador, caja) => {caja.destroy()}) == true){ this.items.golpeaCaja(this)}
-            if (this.physics.overlap(this.jugador.body, [this.enemigoFlor.sombras, this.enemigoOso.sombras, this.enemigoFede.sombras],  (jugador, sombra) => {sombra.destroy()}) == true){ }
+            if (this.physics.overlap(this.jugador.body, [this.enemigoFlor.cajas,  this.enemigoFede.cajas],  (jugador, caja) => {caja.destroy()}) == true){ this.items.golpeaCaja(this)}
+            if (this.physics.overlap(this.jugador.body, [this.enemigoFlor.sombras,  this.enemigoFede.sombras],  (jugador, sombra) => {sombra.destroy()}) == true){ }
 
 /*             if (this.physics.overlap(this.paredes, [this.enemigoFlor.cajas, this.enemigoOso.cajas, this.enemigoFede.cajas],  (pared, caja) => {caja.destroy()}) == true){ }
             if (this.physics.overlap(this.paredes, [this.enemigoFlor.sombras, this.enemigoOso.sombras, this.enemigoFede.sombras],  (pared, sombra) => {sombra.destroy()}) == true){ }
@@ -438,7 +438,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
 
         this.actualizarProfundidad(this.jugador, [this.items.costadoPorton, this.items.leche,  this.enemigoFlor,
-            this.enemigoOso, this.enemigoFede, this.caja , this.sombra,  this.items.puertaNegocio])
+             this.enemigoFede, this.caja , this.sombra,  this.items.puertaNegocio])
 
 
 //this.enemigoFlor.cajas, this.enemigoOso.cajas, this.enemigoFede.cajas

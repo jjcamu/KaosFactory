@@ -14,52 +14,64 @@ por ejemplo : Dirección IPv4..... 192.168.2.4  (es la identificacion de mi comp
 
 - en la url escribo 192.168.2.4:5500 , y listo!
 
+----------------------------------------------------------------------------------------------------------
+
+para acceder desde el celular tambien puedo hacer lo siguiente:
+
+- abro chrome, y escribo el nombre de la pc donde se aloja el servidor local (ej: juan-pc) seguido de ':' y del numero del puerto (ej: 5500)
+
+- osea escribo algo asi : 'juan-pc:5500' y listo
 
 
 
+-----------------------------------------------------------------------------------------------------------
 
-Para crear los spritesheets (con buena calidad de imagen) :
+Para crear los spritesheets  :
 
-- creo una nueva animacion en flash
+- creo la animacion en flash cs6
 
-- desde un nuevo documento de flash, importo esa nueva animacion, y desde la biblioteca (presionando
-  boton derecho del mouse), exporto la hoja de sprites con fondo blanco.
+- luego de terminar la animacion, creo un simbolo
 
-- junto con el spritesheet , se exporta un archivo con metadatos. Ahi se encuentra informacion sobre el ancho y el alto
-  de cada fotograma que compone el spritesheet. Esto es muy importante saberlo, a la hora de cargar el
-  el spritesheet en phaser (en la funcion preload()) 
+- selecciono las capas de la animacion, hago click derecho y elijo 'copiar capas'
 
-- en photoshop 7.0 le quito el fondo blanco para que quede transparente.
-(utilizo tolerancia 50, y destildo 'anti aliased' , destildo 'contiguous' y destildo 'use all layers')
+- dentro del simbolo creado, pego las capas, y ya tengo un simbolo con toda la animacion dentro
 
+- luego , en la biblioteca de la animacion, hago click derecho sobre el simbolo creado (el que contiene la animacion), y elijo 'crear secuencia PNG'
 
+- en libresprite, crear un nuevo archivo con fondo transparente, y alli arrastrar el primer png de la secuencia 
 
-Otra forma de crear spritesheets,  mas facil, pero de menor calidad :
+- luego exportar el spritesheet 
 
+- en photoshop, abrir el sprite sheet y recortar el fondo blanco con la herramienta 'varita magica' con la opcion 'contiguous' deseleccionada
 
-- creo una animacion en flash
+- listo.
 
-- exporto la pelicula como animacion gif con fondo blanco
-
-- en libresprite la convierto en sprite sheet , (que no supere los 8000 pixels de ancho o de alto, por las 
-  limitaciones del WEBGL) y le quito el fondo blanco, quedando transparente.
-
-
-//--------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
 
 
 
-
-- recordar que en celular supuestamente funciona mejor 'Phaser.AUTO' en el main.js
-
-- peroooo, al ir desarrollando y agrandando el juego, solo funciona Phaser.CANVAS, tanto en notebook como en celu, y tanto en Netlify como en APK, un poco trabado
-por momentos el flujo del juego.
-
-- url del juego en Netlify : https://facass-juanchosoft-276e91.netlify.app/
-- url para la gestion del juego : https://app.netlify.com/sites/facass-juanchosoft-276e91/overview
 
 - el ancho o el alto de los sprites o de los spritesheets, no debe superar los 3000 px. 
   Sino Phaser.AUTO o Phaser.WEBGL renderizaran un rectangulo negro.
+
+-----------------------------------------
+
+- si la reproduccion de un audio , da un error 'Error decoding audio' en consola, entonces abrir el audio que tiene problemas en el audacity 
+  y exportarlo con extension .mp3 . 
+  Ademas de eso, asegurarse que todos los sonidos sean 'parados' al abandonar una escena o el juego . con el metodo this.sound.stopAll()
+
+------------------------------------------
+
+- para una mejor fluidez del juego en celular, usar webgl.
+
+- para liberar memoria y que no se tilde el renderizado webgl, usar baja resolucion, sprites pequeños,  eliminar escenas que no vayan a ser utilizadas,
+  Y GUARDA CON EL TAMAÑO, LA CALIDAD Y LA CANTIDAD DE AUDIOS CARGADOS EN CACHE : eliminar del cache el audio que no se utilice, que los audios sean de baja calidad,
+y que la musica de fondo sea corta (1min aprox) , que sea mono y de 16 bits.
+
+
+--------------------------------------
+- html5 audio es una poronga 
+
 
 
 

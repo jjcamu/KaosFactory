@@ -163,6 +163,11 @@ export default class escena3 extends Phaser.Scene {
         this.paredes3.setDepth(-3)
 
 
+        // maquina envasadora (hago este mamarracho para solucionar rapidamente el problema de la envasadora que se dibujaba sobre los enemigos que estaban delante.
+        //Al crear el sprite antes que los enemigos, la envasadora se dibujará por detras de estos)
+        this.envasadora = this.physics.add.sprite(2678, 334, 'envasadora').setOrigin(0,0).setScale(1.3)
+        this.envasadora.setSize(this.envasadora.width -100,this.envasadora.height/3 -80 ).setOffset(150,this.envasadora.height-(this.envasadora.height/3 -20))
+        this.envasadora.body.setImmovable(true) 
 
         ////// enemigos 
 
@@ -184,7 +189,7 @@ export default class escena3 extends Phaser.Scene {
         if (!(this.jugadorElegido == 'ariel' || this.jugadorElegido == 'juan'))  {
             //si el jugador elegido NO es Ariel ni Juan , entonces agrego el enemigo Juan al escenario.
 
-            this.enemigoJuan = new Enemigo(this, 2710, 1400, 'juan', 1); // las coordenadas son las del centro del sprite
+            this.enemigoJuan = new Enemigo(this, 2700, 1400, 'juan', 1); // las coordenadas son las del centro del sprite
 
         }
 
@@ -192,15 +197,20 @@ export default class escena3 extends Phaser.Scene {
 
             this.enemigoUlises = new Enemigo(this, 2670, 800, 'ulises', 3);
 
+            
+
             if (this.jugadorElegido != 'nico'){
 
-                this.enemigoNico = new Enemigo(this, 3160, 927, 'nico', 3);
+                this.enemigoNico = new Enemigo(this, 3000, 727, 'nico', 3);
+
             }
 
         }else{  // si el jugador elegido es Ulises, entonces No agrego al enemigo Ulises, 
             //y el enemigo Nico reemplazará al enemigo Ulises (Nico será quien arroje la carreta)
 
             this.enemigoNico = new Enemigo(this, 2670, 800, 'nico', 3);
+            
+           
 
         }
 
@@ -217,6 +227,11 @@ export default class escena3 extends Phaser.Scene {
 
 
 
+        ////// items (elementos del escenario)
+
+        this.items3 = new Items3 (this.physics.world, this);
+
+
         /////// crear los elementos que son comunes a todos los escenarios del juego
 
         this.recursos = new CargarRecursos (); //instancio un objeto de esta clase, solo para usar su metodo 'crearElementosComunes'
@@ -227,10 +242,6 @@ export default class escena3 extends Phaser.Scene {
         this.jugador.vidas = this.vidasJugador
 
 
-
-        ////// items (elementos del escenario)
-
-        this.items3 = new Items3 (this.physics.world, this);
 
 
 
@@ -243,7 +254,7 @@ export default class escena3 extends Phaser.Scene {
         this.physics.add.collider(this.paredes3,  [this.jugador, this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego, this.items3.tachoBasura] );
 
         //entre los personajes
-        this.physics.add.collider(this.jugador, [this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego ] );
+        this.physics.add.collider(this.jugador, [this.enemigoJuan , this.enemigoUlises, this.enemigoNico, this.enemigoDiego,  this.envasadora ] );
         this.physics.add.collider(this.enemigoJuan,  [this.jugador , this.enemigoUlises, this.enemigoNico, this.enemigoDiego] );
         this.physics.add.collider(this.enemigoUlises,  [this.enemigoJuan , this.jugador, this.enemigoNico, this.enemigoDiego ] );
         this.physics.add.collider(this.enemigoNico,  [this.enemigoJuan , this.enemigoUlises, this.jugador, this.enemigoDiego] );
@@ -291,6 +302,7 @@ export default class escena3 extends Phaser.Scene {
         this.sound.play('musicaNivel12y3' , { volume: 0.5 , loop: true  })
 
 
+
         this.children.list.forEach(GameObject => {
 
 
@@ -322,8 +334,6 @@ export default class escena3 extends Phaser.Scene {
     }
 
     update (){ // ingreso el parametro 'time' , ya que voy a utilizarlo
-
-
 
 
 
@@ -436,11 +446,12 @@ export default class escena3 extends Phaser.Scene {
         //actualizar eje z de los personajes, para dar efecto de profundidad -----------------------------------------------
         //Pero esta vez, teniendo en cuenta la pared diagonal
 
-        this.actualizarProfundidad(this.jugador, [this.enemigoJuan, this.enemigoUlises, this.enemigoNico, this.enemigoDiego, 
+        this.actualizarProfundidad(this.jugador , 
+            [ this.enemigoJuan,  this.enemigoNico, this.enemigoDiego, this.enemigoUlises,
         this.items3.paredC, this.items3.paredEnvasado2, this.items3.vidrio1, this.items3.vidrio1b, this.items3.vidrio3, this.carreta,
         this.items3.mesa3, this.items3.amasadora, this.items3.tarimaAzucar , this.items3.cinta, this.items3.enfriadora, this.items3.molde
-        , this.items3.enroladora, this.items3.envasadora, this.items3.maquina1, this.items3.maquina2, this.items3.tarimaEsencias,
-        this.items3.tachoBasura
+        , this.items3.enroladora,  this.items3.maquina1, this.items3.maquina2, this.items3.tarimaEsencias, this.envasadora,
+        this.items3.tachoBasura, 
     ])
 
 
@@ -482,6 +493,7 @@ export default class escena3 extends Phaser.Scene {
     actualizarProfundidad(jugador, todosLosSprites){
 
 
+
         todosLosSprites.forEach((sprite) => {   // recorro todos los sprites
 
 
@@ -521,6 +533,8 @@ export default class escena3 extends Phaser.Scene {
 
 
         })
+
+    
 
     }
 

@@ -81,14 +81,15 @@ export default class escena4 extends Phaser.Scene {
         this.load.image('titulo1', 'imagenes/nivel4/titulo1.png');
         this.load.image('titulo2', 'imagenes/nivel4/titulo2.png');
         this.load.image('titulo3', 'imagenes/nivel4/titulo3.png');
+        this.load.image('creditos', 'imagenes/nivel4/creditos.png');
         this.load.image('confeti', 'imagenes/nivel4/confeti.png');
 
 
         //spritesheets
  
-        this.load.spritesheet('ulla', 'animaciones/ariel/ariel293x272.png', { frameWidth: 293, frameHeight: 272 });
-        this.load.spritesheet('esteban', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
-        this.load.spritesheet('martin', 'animaciones/facu/facu293x272.png', { frameWidth: 293, frameHeight: 272 });
+        this.load.spritesheet('ulla', 'animaciones/ulla/ulla303x295.png', { frameWidth: 303, frameHeight: 295 });
+        this.load.spritesheet('esteban', 'animaciones/esteban/esteban298x279.png', { frameWidth: 298, frameHeight: 279 });
+        this.load.spritesheet('martin', 'animaciones/martin/martin296x291.png', { frameWidth: 296, frameHeight: 291 });
 
         this.load.spritesheet('sobre', 'animaciones/nivel4/sobre-sheet500x500.png', { frameWidth: 500, frameHeight: 500 });  
         this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
@@ -280,12 +281,14 @@ export default class escena4 extends Phaser.Scene {
 
                 this.items4.cartelAdministrativo(this)  
 
+                this.sound.play('advertencia', { volume: 1 })
+
                 this.banderaCartel = false
 
             }
 
         }else{
-            this.banderaCartel = true
+            //this.banderaCartel = true   // Anulé esta linea para que no vuelva a imprimir el cartel en pantalla
         }
 
 
@@ -331,6 +334,7 @@ export default class escena4 extends Phaser.Scene {
     actualizarProfundidad(jugador, todosLosSprites){
 
 
+
         todosLosSprites.forEach((sprite) => {   // recorro todos los sprites
 
 
@@ -370,6 +374,8 @@ export default class escena4 extends Phaser.Scene {
 
 
         })
+
+    
 
     }
 
