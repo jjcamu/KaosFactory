@@ -276,7 +276,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
             let texturasTotales = this.game.textures.getTextureKeys()
 
-            let texturasABorrar = ['pantalla1', 'pantalla3',  'globo1', 'globo2', 'globo3', 'globo4', 'globo5', 'globo6', 'tanque', 'moto', 'bici', 'carreta', 'tarima', 'tacho3',  'oscuridad',  'columna',  'herramientas', 'tacho2', 'tacho1', 'matafuego', 'zorra', 'mosquitero', 'cortina1', 'cortina2', 'puertaTaller', 'explosion2', 'pedo', 'gotaFuego', 'pollo',  'hernan', 'fondo2', 'paredB', 'vidrio1', 'mesa2', 'paredA', 'paredC', 'vidrio3', 'mezcladora', 'vidrio2', 'paredEnvasado2', 'mesa3', 'amasadora', 'cinta', 'enfriadora', 'molde', 'enroladora', 'envasadora', 'maquina1', 'maquina2', 'pailaCobre', 'tablero', 'tachoBasura', 'moledora', 'tarimaAzucar', 'tarimaEsencias', 'llave', 'caramelos',  'mate', 'fondo3']
+            let texturasABorrar = ['pantalla1', 'pantalla3',  'globo1', 'globo2', 'globo3', 'globo4', 'globo5', 'globo6', 'tanque', 'moto', 'bici', 'carreta', 'tarima', 'tacho3',  'oscuridad',  'columna',  'herramientas', 'tacho2', 'tacho1', 'matafuego', 'zorra', 'mosquitero', 'cortina1', 'cortina2', 'puertaTaller', 'pedo', 'gotaFuego', 'pollo',  'hernan', 'fondo2', 'paredB', 'vidrio1', 'mesa2', 'paredA', 'paredC', 'vidrio3', 'mezcladora', 'vidrio2', 'paredEnvasado2', 'mesa3', 'amasadora', 'cinta', 'enfriadora', 'molde', 'enroladora', 'envasadora', 'maquina1', 'maquina2', 'pailaCobre', 'tablero', 'tachoBasura', 'moledora', 'tarimaAzucar', 'tarimaEsencias', 'llave', 'caramelos',  'mate', 'fondo3']
             
             //como son muchas texturas a eliminar, utilizo bucles for
             for(let i=0; i < texturasTotales.length; i++){

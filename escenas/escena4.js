@@ -95,7 +95,7 @@ export default class escena4 extends Phaser.Scene {
         //this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
 
         // musica del escenario
-      
+
         this.load.audio('musicaNivel4', 'audios/musicaNiveles/musicaNivel4.mp3' )
 
         //this.load.audio('musicaVictoria', 'audios/musicaNiveles/musicaVictoria.mp3' )
