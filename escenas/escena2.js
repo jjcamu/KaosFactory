@@ -44,7 +44,7 @@ export default class escena2 extends Phaser.Scene {
         this.llaveNegocio = data.llaveNegocio
         
         
-        this.llaveNegocio = true
+        //this.llaveNegocio = true
 
 
         this.escala = 0.5
@@ -65,7 +65,7 @@ export default class escena2 extends Phaser.Scene {
         this.load.path = './multimedia/';
 
         //imagen de fondo 
-        this.load.image('fondo2', 'imagenes/nivel2/escenario2B.png');
+        this.load.image('fondo2', 'imagenes/nivel2/escenario2Bb.png');
 
 
         // sprites del escenario
@@ -178,11 +178,11 @@ export default class escena2 extends Phaser.Scene {
             if (this.jugadorElegido == 'ariel') {  //si el jugador seleccionado es Ariel, entonces el enemigo será Juan 
                 // (para no repetir el personaje)
 
-                this.enemigo1 = new Enemigo(this, 5500, 1200, 'juan', 1);
+                this.enemigo1 = new Enemigo(this, 5500, 1200, 'juan', 2);
 
             }else{  //sino, el enemigo será Ariel
             
-            this.enemigo1 = new Enemigo(this, 5500, 1200, 'ariel', 2);
+            this.enemigo1 = new Enemigo(this, 5500, 1200, 'ariel', 1);
 
             }
 
@@ -196,7 +196,7 @@ export default class escena2 extends Phaser.Scene {
             //this.enemigoAriel.disableBody(true).setVisible(false).setPosition(8000,2000)
             //quito a Ariel de la escena
         
-            this.enemigo1 = new Hernan(this, 2193, 200, 'hernan', 2);
+            this.enemigo1 = new Hernan(this, 2193, 200, 'hernan', 6);
 
 
             this.enemigo1.cargarTimerHernan(this) //cargo el timer desde el create() de la escena, para que se llame solo una vez
@@ -434,7 +434,7 @@ export default class escena2 extends Phaser.Scene {
                 //cuando muere hernan aparece facu
 
 
-                this.enemigo1 = new Enemigo(this, 200 * this.escala, 1200 * this.escala, 'facu', 2);
+                this.enemigo1 = new Enemigo(this, 200 * this.escala, 1200 * this.escala, 'facu', 7);
 
 
 

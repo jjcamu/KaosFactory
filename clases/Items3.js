@@ -110,7 +110,7 @@ export default class Items3 extends Phaser.Physics.Arcade.Group {
         this.tarimaEsencias.body.setImmovable(true) 
 
 
-        this.cinta = this.create(4260, 1018, 'cinta').setOrigin(0,0).setScale(1.3).setDepth(2) 
+        this.cinta = this.create(4260, 1018, 'cinta').setOrigin(0,0).setScale(1.3).setDepth(3) 
         this.cinta.setSize(this.cinta.width -120,this.cinta.height-46).setOffset(100,106)
         this.cinta.body.setImmovable(true)
         this.enfriadora = this.create(3060, 595, 'enfriadora').setOrigin(0,0).setScale(1.3)

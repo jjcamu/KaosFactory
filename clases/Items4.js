@@ -280,9 +280,9 @@ export default class Items4 extends Phaser.Physics.Arcade.Group {
 
         escena.time.delayedCall(7000, () => {this.titulo2 = escena.add.sprite(centrarX, centrarY - 5 , 'titulo2').setDepth(4)}, [escena]);
 
-        escena.time.delayedCall(15000, () => {this.titulo3 = escena.add.sprite(centrarX, centrarY + 35 , 'titulo3').setDepth(4)}, [escena]); 
+        escena.time.delayedCall(16000, () => {this.titulo3 = escena.add.sprite(centrarX, centrarY + 35 , 'titulo3').setDepth(4)}, [escena]); 
 
-        escena.time.delayedCall(19000, () => {
+        escena.time.delayedCall(22000, () => {
             
             this.copa.setVisible(false)
             this.titulo1.setVisible(false)

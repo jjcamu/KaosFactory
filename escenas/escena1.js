@@ -93,6 +93,7 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
         this.load.image('cartel2', 'imagenes/nivel1/nuevo-2.jpg')
         this.load.image('cartel3', 'imagenes/nivel1/nuevo-3.jpg')
         this.load.image('aceptar', 'imagenes/Untitled-2 copy.png')
+        this.load.image('nada', 'imagenes/nada.png')
 
     
         //animaciones (hojas de sprite)
@@ -176,11 +177,11 @@ export default class escena1 extends Phaser.Scene { //defino una clase exportabl
 
         if (this.escenaAnterior == 'escena2' && this.llaveNegocio == true){  
             
-            this.enemigoFlor = new Repositor(this, 3900, 600, 'flor', 2);
+            this.enemigoFlor = new Repositor(this, 3900, 600, 'flor', 8);
 
             //this.enemigoOso = new Repositor(this, 3600, 700, 'oso', 2);
 
-            this.enemigoFede = new Repositor(this, 3400, 700, 'fede', 2);
+            this.enemigoFede = new Repositor(this, 3400, 700, 'fede', 9);
 
             
             this.enemigoFlor.cargarTimerRepositor(this) //cargo el timer desde el create() de la escena, para que se llame solo una vez

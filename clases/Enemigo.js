@@ -19,6 +19,8 @@ export default class Enemigo extends Phaser.Physics.Arcade.Sprite {
         if (this.name == 'juan') {this.setScale(1.35, 1.34)}
         if (this.name == 'diego') {this.setScale(1.40, 1.38)}
 
+        if (this.name == 'facu') {this.setScale(1.28, 1.35)}
+        if (this.name == 'flor') {this.setScale(1.35, 1.30)}
         if (this.name == 'esteban') {this.setScale(1.32, 1.35)}
 
         this.setOffset(100,200)

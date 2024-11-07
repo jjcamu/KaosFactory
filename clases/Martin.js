@@ -128,8 +128,8 @@ export default class Martin extends Enemigo {
             //colision de los sobres con el jugador
             if (escena.physics.overlap(this.sobres, escena.jugador.hitboxCuerpo, (jugador,sobre) => {
                 
-                this.explosion = escena.add.sprite(sobre.x ,sobre.y  , 'explosion').setScale(1.8 * this.escala);
-                this.explosion.anims.play("explosion");
+                this.explosion = escena.add.sprite(sobre.x ,sobre.y  , 'explosion2').setScale(1.8 * this.escala);
+                this.explosion.anims.play("explosion2");
                 this.scene.sound.play('explosion' , { volume: 8 })
                 sobre.destroy()
 
@@ -152,8 +152,8 @@ export default class Martin extends Enemigo {
     
             if (escena.physics.overlap(this.sobres, escena.paredes4 , (sobre, pared) => {
                 
-                this.explosion = escena.add.sprite(sobre.x ,sobre.y  , 'explosion').setScale(1.8 * this.escala);
-                this.explosion.anims.play("explosion");
+                this.explosion = escena.add.sprite(sobre.x ,sobre.y  , 'explosion2').setScale(1.8 * this.escala);
+                this.explosion.anims.play("explosion2");
                 this.scene.sound.play('explosion' , { volume: 8 })
                 
                 sobre.destroy()})){}

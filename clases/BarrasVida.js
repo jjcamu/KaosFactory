@@ -6,13 +6,13 @@ export default class BarrasVida extends Phaser.GameObjects.Group {
                 
         this.nombreJugador = this.create(50, 50)
             .setOrigin(0, 0)
-            .setScale(3)
+            .setScale(4)
             .setDepth(3)
             .setScrollFactor(0) 
 
         this.nombreEnemigos = this.create(1310, 50)
             .setOrigin(0, 0)
-            .setScale(3)
+            .setScale(4)
             .setDepth(3)
             .setScrollFactor(0) 
 
@@ -42,14 +42,14 @@ export default class BarrasVida extends Phaser.GameObjects.Group {
 
         this.nombreJugador.anims.create({
             key: "nombresPeleadores",
-            frames: this.nombreJugador.anims.generateFrameNumbers('nombresPeleadores', { start: 0, end: 3 }),
+            frames: this.nombreJugador.anims.generateFrameNumbers('nombresPeleadores', { start: 0, end: 12 }),
             frameRate: 15,
             repeat: 0
         });
 
         this.nombreEnemigos.anims.create({
             key: "nombresPeleadores",
-            frames: this.nombreEnemigos.anims.generateFrameNumbers('nombresPeleadores', { start: 0, end: 3 }),
+            frames: this.nombreEnemigos.anims.generateFrameNumbers('nombresPeleadores', { start: 0, end: 12 }),
             frameRate: 15,
             repeat: 0
         });

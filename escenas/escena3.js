@@ -102,7 +102,7 @@ export default class escena3 extends Phaser.Scene {
         this.load.spritesheet('mate', 'animaciones/nivel3/mate-sheet500x800.png', { frameWidth: 500, frameHeight: 800 });
         this.load.spritesheet('caramelos', 'animaciones/nivel3/caramelos-sheet400x500.png', { frameWidth: 400, frameHeight: 500 });
 
-        this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
+        //this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
 
         //audios del escenario
 
@@ -189,13 +189,13 @@ export default class escena3 extends Phaser.Scene {
         if (!(this.jugadorElegido == 'ariel' || this.jugadorElegido == 'juan'))  {
             //si el jugador elegido NO es Ariel ni Juan , entonces agrego el enemigo Juan al escenario.
 
-            this.enemigoJuan = new Enemigo(this, 2700, 1400, 'juan', 1); // las coordenadas son las del centro del sprite
+            this.enemigoJuan = new Enemigo(this, 2700, 1400, 'juan', 2); // las coordenadas son las del centro del sprite
 
         }
 
         if (this.jugadorElegido != 'ulises'){
 
-            this.enemigoUlises = new Enemigo(this, 2670, 800, 'ulises', 3);
+            this.enemigoUlises = new Enemigo(this, 2670, 800, 'ulises', 5);
 
             
 
@@ -217,7 +217,7 @@ export default class escena3 extends Phaser.Scene {
 
         if (this.jugadorElegido != 'diego'){
 
-            this.enemigoDiego = new Enemigo(this, 3759, 560, 'diego', 3);
+            this.enemigoDiego = new Enemigo(this, 3759, 560, 'diego', 4);
 
         }
 
@@ -271,8 +271,8 @@ export default class escena3 extends Phaser.Scene {
             this.sound.play('explosion', { volume: 8 })
 
             // muestro la animacion de explosion .  
-            this.explosion = this.add.sprite(carreta.x ,carreta.y  , 'explosion').setScale(1.8 * this.escala);
-            this.explosion.anims.play("explosion");
+            this.explosion = this.add.sprite(carreta.x ,carreta.y  , 'explosion2').setScale(1.8 * this.escala);
+            this.explosion.anims.play("explosion2");
        
         });
 

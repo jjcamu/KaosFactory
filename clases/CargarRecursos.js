@@ -42,7 +42,7 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
         escena.load.spritesheet('nico', 'animaciones/nico/nico289x267.png', { frameWidth: 289, frameHeight: 267 });
  
         //spritesheet de los nombres de los peleadores
-        escena.load.spritesheet('nombresPeleadores', 'imagenes/nombres87x18.png', { frameWidth: 87, frameHeight: 18 });
+        escena.load.spritesheet('nombresPeleadores', 'imagenes/nombres122x20.png', { frameWidth: 122, frameHeight: 20 });
 
         //barra de energia
         escena.load.image('barra', 'imagenes/vidas.png')
@@ -134,20 +134,41 @@ export default class CargarRecursos  {  // cargo los recursos comunes a todos lo
 
 
         switch (spriteSheet) {
-            case "juan":
+            case "ariel":
                 this.indice = 1
                 break;
-            case "ariel":
+            case "juan":
                 this.indice = 2
                 break;
-            case "ulises":
+            case "nico":
                 this.indice = 3
                 break;
             case "diego":
-                this.indice = 3
+                this.indice = 4
                 break;
-            case "nico":
-                this.indice = 2
+            case "ulises":
+                this.indice = 5
+                break;
+            case "hernan":
+                this.indice = 6
+                break;
+            case "facu":
+                this.indice = 7
+                break;
+            case "flor":
+                this.indice = 8
+                break;
+            case "fede":
+                this.indice = 9
+                break;
+            case "esteban":
+                this.indice = 10
+                break;
+            case "ulla":
+                this.indice = 11
+                break;
+            case "martin":
+                this.indice = 12
                 break;
         }
 

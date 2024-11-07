@@ -92,10 +92,10 @@ export default class escena4 extends Phaser.Scene {
         this.load.spritesheet('martin', 'animaciones/martin/martin296x291.png', { frameWidth: 296, frameHeight: 291 });
 
         this.load.spritesheet('sobre', 'animaciones/nivel4/sobre-sheet500x500.png', { frameWidth: 500, frameHeight: 500 });  
-        this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
+        //this.load.spritesheet('explosion', 'animaciones/nivel2/explosion200x200.png', { frameWidth: 200, frameHeight: 200 });
 
         // musica del escenario
-
+      
         this.load.audio('musicaNivel4', 'audios/musicaNiveles/musicaNivel4.mp3' )
 
         //this.load.audio('musicaVictoria', 'audios/musicaNiveles/musicaVictoria.mp3' )
@@ -144,11 +144,11 @@ export default class escena4 extends Phaser.Scene {
 
         ////// enemigos 
 
-        this.enemigoUlla = new Enemigo(this, 400, 500, 'ulla', 2); // las coordenadas del sprite son las del centro del sprite
+        this.enemigoUlla = new Enemigo(this, 400, 500, 'ulla', 11); // las coordenadas del sprite son las del centro del sprite
 
-        this.enemigoEsteban = new Enemigo(this, 1000, 440, 'esteban', 3);
+        this.enemigoEsteban = new Enemigo(this, 1000, 440, 'esteban', 10);
 
-        this.enemigoMartin = new Martin(this, 800, 400, 'martin', 3);
+        this.enemigoMartin = new Martin(this, 800, 400, 'martin', 12);
 
 
         this.enemigoMartin.cargarTimerMartin(this) //cargo el timer desde el create() de la escena, para que se llame solo una vez

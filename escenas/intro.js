@@ -27,6 +27,11 @@ export default class intro extends Phaser.Scene {
         this.load.video('videoPresentacion', 'presentacion/presentacion.mp4', true);
         this.load.image('pantalla3', 'imagenes/pantallaSeleccion.jpg')
 
+        this.load.image('seleccionAry', 'imagenes/seleccionAry.png')
+        this.load.image('seleccionJuan', 'imagenes/seleccionJuan.png')
+        this.load.image('seleccionNico', 'imagenes/seleccionNico.png')
+        this.load.image('seleccionDiego', 'imagenes/seleccionDiego.png')
+        this.load.image('seleccionUli', 'imagenes/seleccionUli.png')
 
         // musica de la presentacion
 
@@ -92,13 +97,18 @@ export default class intro extends Phaser.Scene {
 
             //console.log(pointer.downX, pointer.downY) //muestro coordenadas en pantalla
             
-
+         
+           
 
             // verifico el area presionada 
 
             if (pointer.downX > 115 * this.escala && pointer.downX < 370 * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('ariel')
+
+                if (this.elegido) {this.elegido.destroy()}  // borro la imagen del jugador que se haya seleccinado
+
+                this.elegido = escena.add.image(131, 240 , 'seleccionAry').setScale(0.5)
 
                 escena.jugadorElegido = 'ariel'  //jugador elegido en el menu de seleccion
 
@@ -109,6 +119,10 @@ export default class intro extends Phaser.Scene {
 
                 console.log('juan')
 
+                if (this.elegido) {this.elegido.destroy()}
+
+                this.elegido = escena.add.image(308, 240 , 'seleccionJuan').setScale(0.5)
+
                 escena.jugadorElegido = 'juan'  //jugador elegido en el menu de seleccion
   
             }
@@ -116,6 +130,10 @@ export default class intro extends Phaser.Scene {
             if (pointer.downX > 814 * this.escala && pointer.downX < 1100 * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('nico')
+
+                if (this.elegido) {this.elegido.destroy()}
+
+                this.elegido = escena.add.image(485, 240 , 'seleccionNico').setScale(0.5)
 
                 escena.jugadorElegido = 'nico'  //jugador elegido en el menu de seleccion
          
@@ -126,6 +144,10 @@ export default class intro extends Phaser.Scene {
 
                 console.log('diego')
 
+                if (this.elegido) {this.elegido.destroy()}
+
+                this.elegido = escena.add.image(662, 240 , 'seleccionDiego').setScale(0.5)
+
                 escena.jugadorElegido = 'diego'  //jugador elegido en el menu de seleccion
 
             }
@@ -133,6 +155,10 @@ export default class intro extends Phaser.Scene {
             if (pointer.downX > 1525 * this.escala && pointer.downX < 1800  * this.escala && pointer.downY > 365 * this.escala && pointer.downY < 588 * this.escala){
 
                 console.log('ulises')
+
+                if (this.elegido) {this.elegido.destroy()}
+
+                this.elegido = escena.add.image(839, 240 , 'seleccionUli').setScale(0.5)
 
                 escena.jugadorElegido = 'ulises'  //jugador elegido en el menu de seleccion
 
@@ -149,7 +175,7 @@ export default class intro extends Phaser.Scene {
                 //detengo la musica de la presentacion
                 escena.sound.stopAll()
 
-                escena.scene.start('escena4', { jugadorElegido: escena.jugadorElegido })  
+                escena.scene.start('escena1', { jugadorElegido: escena.jugadorElegido })  
                 // inicio el siguiente escenario, y como 2do parametro transfiero a la nueva escena informacion sobre el jugador elegido 
     
 
@@ -199,7 +225,10 @@ export default class intro extends Phaser.Scene {
 
     update() {
 
-
+/*         if(this.game.input.activePointer.isDown){
+            console.log(this.input.mousePointer.worldX);
+            console.log(this.input.mousePointer.worldY);
+            } */
 
 
   
