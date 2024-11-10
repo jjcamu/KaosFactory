@@ -24,6 +24,7 @@ var config = {
         autoCenter:Phaser.Scale.CENTER_BOTH, // centrar automaticamente en la pantalla
         width:960, // ancho de pantalla  1920  960   
         height:450,// alto de pantalla    900  450  
+        //orientation: 'landscape'
     },
 
     physics : {
